@@ -1,0 +1,72 @@
+:root{
+  /* Color Scheme */
+  --color-white:#F4EAE6;
+  --color-teal: #4297A0;
+  --color-pink: #E57F84;
+  --color-dark-blue: #2F5061;
+  --color-offwhite: #F3E1C8;
+  --color-burgundy: #9B6A6C;
+  --color-grey-blue: #6D7993;
+  /* Border Radius */
+  --border-radius-box: 0.375rem;
+  --border-radius-round: 30px;
+  /* box-shadow */
+  --box-shadow: 4px 4px 0px black;
+  /* box-outline */
+  --box-outline: 2px solid black;
+}
+
+/* Fonts */
+
+@font-face {
+    font-family: 'nunito-italic';
+    src: url('src/assets/fonts/Nunito-Italic.woff') format('woff');
+         /* url('src/assets/fonts/nunito-italic-variablefont_wght-webfont.woff') format('woff2'); */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'nunito-bold';
+    src: url('src/assets/fonts/Nunito-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'nunito-italic';
+    src: url('src/assets/fonts/Nunito-BoldItalic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'nunito-medium';
+    src: url('src/assets/fonts/Nunito-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'nunito-medium-italic';
+    src: url('src/assets/fonts/Nunito-MediumItalic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'nunito-regular';
+    src: url('src/assets/fonts/Nunito-Regular.woff') format('woff');
+         /* url('src/assets/fonts/nunito-variablefont_wght-webfont.woff') format('woff'); */
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+html{
+  font-family: 'nunito-regular',Arial, Helvetica, sans-serif;
+}
+
+h1,h2,h3,h4{
+  font-family: "nunito-bold",Arial, Helvetica, sans-serif;
+}
