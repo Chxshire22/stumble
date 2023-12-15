@@ -70,3 +70,8 @@ html{
 h1,h2,h3,h4{
   font-family: "nunito-bold",Arial, Helvetica, sans-serif;
 }
+
+/* bg color for all pages */
+body{
+  background-color: var(--color-offwhite);
+}
