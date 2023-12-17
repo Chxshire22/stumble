@@ -5,6 +5,7 @@ import Home from './components/Home'
 import CreatePost from './components/CreatePost'
 import FullPost from './components/FullPost'
 import Profile from './components/Profile'
+import Playground from './components/Playground'
 
 function App() {
 
@@ -30,6 +31,11 @@ const router = createBrowserRouter([
     path: "/profile",
     //will need the unique ID of profile
     element: <Profile />,
+  },
+  {
+    path: "/playground",
+    //will need the unique ID of profile
+    element: <Playground />,
   },
 ]);
   return (
