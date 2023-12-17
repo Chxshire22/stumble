@@ -1,11 +1,11 @@
 import { RouterProvider,createBrowserRouter } from 'react-router-dom'
-import './App.css'
 import LoginSignout from './components/LoginSignout'
 import Home from './components/Home'
 import CreatePost from './components/CreatePost'
 import FullPost from './components/FullPost'
 import Profile from './components/Profile'
 import Playground from './components/Playground'
+import './App.css'
 
 function App() {
 
@@ -34,7 +34,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/playground",
-    //will need the unique ID of profile
+    //purely for building and debugging
     element: <Playground />,
   },
 ]);
