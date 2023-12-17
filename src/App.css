@@ -81,6 +81,19 @@ p{
   margin: 0;
 }
 
+.flex-center-col{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-center-row{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* card-style post in feed  */
 
 /* TODO: font responsiveness. do breakpoints for 768px (tablets) and 350px (mobiles) */
@@ -212,11 +225,34 @@ p{
 }
 
 /* Auth Page */
+
+.authentication{
+  gap: 8rem;
+  height: 100vh;
+}
+
+.auth-header{
+  display: flex;
+  gap: 2rem;
+}
+
 .auth-page-header{
+  margin-bottom: 1rem;
   font-size: 5rem;
   color: var(--color-dark-blue);
 }
+
+.auth-form{
+  gap: 1rem;
+}
+
+.auth-page-btns{
+  width: 100%;
+  justify-content: space-between;
+}
+
 .tagline{
+  text-align: center;
   font-family: 'nunito-bold';
   color: var(--color-dark-blue);
   font-size: 1.3rem;

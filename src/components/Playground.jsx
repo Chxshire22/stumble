@@ -7,7 +7,7 @@ function Playground() {
   const [password, setPassword] = useState("")
 
   return (
-    <div className="authentication">
+    <div className="authentication flex-center-col">
       <header className="auth-header">
         <div className="auth-header-logo">
           <img
@@ -21,7 +21,7 @@ function Playground() {
           <p className="tagline"> explore with us</p>
         </div>
       </header>
-      <form>
+      <form className="auth-form flex-center-col">
         <input
           autoFocus
           placeholder="Email"
@@ -35,8 +35,10 @@ function Playground() {
           type="password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button className="btn-base auth-page-btn">Sign Up</button>
-        <button className="btn-base auth-page-btn">Login</button>
+        <div className="auth-page-btns flex-center-row">
+          <button className="btn-base auth-page-btn">Sign Up</button>
+          <button className="btn-base auth-page-btn">Login</button>
+        </div>
       </form>
       <div className="login-image">
         <img src="src/assets/images/flamenco-camping.webp" alt="" />
