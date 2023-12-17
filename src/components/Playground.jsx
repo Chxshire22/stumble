@@ -6,6 +6,14 @@ function Playground() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
+  const handleSubmit= (e) =>{
+    e.preventDefault()
+    console.log('email: ', email)
+    console.log('password: ', password)
+    setEmail("")
+    setPassword("")
+  }
+
   return (
     <div className="authentication flex-center-col">
       <header className="auth-header">
@@ -21,8 +29,9 @@ function Playground() {
           <p className="tagline"> explore with us</p>
         </div>
       </header>
-      <form className="auth-form flex-center-col">
+      <form onSubmit={handleSubmit} className="auth-form flex-center-col">
         <input
+        value={email}
           autoFocus
           placeholder="Email"
           className="auth-page-input"
@@ -30,6 +39,7 @@ function Playground() {
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
+          value={password}
           placeholder="Password"
           className="auth-page-input"
           type="password"
@@ -37,7 +47,7 @@ function Playground() {
         />
         <div className="auth-page-btns flex-center-row">
           <button className="btn-base auth-page-btn">Sign Up</button>
-          <button className="btn-base auth-page-btn">Login</button>
+          <button type="submit" className="btn-base auth-page-btn">Login</button>
         </div>
       </form>
       <div className="login-image">
