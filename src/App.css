@@ -82,15 +82,21 @@ p{
 
 /* card-style post in feed  */
 
+/* TODO: font responsiveness. do breakpoints for 768px (tablets) and 350px (mobiles) */
+
 .card{
   overflow: hidden;
 }
 
-.card-header, .post-details{
+.card-header{
   padding: 1rem;
   outline: none;
   border: none;
   background-color: var(--color-white);
+}
+
+.card-header>.row{
+  align-items: center;
 }
 
 .username, .comment-username{
@@ -117,25 +123,46 @@ p{
   background-color: var(--color-white);
   border-radius: var(--border-radius-box);
   outline: 1px solid black;
-  transition: box-shadow 0.2s;
+  transition: box-shadow 0.35s;
 }
 
 .feed-post:hover{
   box-shadow: var(--box-shadow);
   cursor: pointer;
 }
-
-.post-img-container{
-  outline: 2px solid black;
-  /* box-shadow: var(--box-shadow); */
-  box-sizing: border-box;
-}
-
 .post-img{
   width: 100%;
+  box-sizing: border-box;
+  outline: 2px solid black;
+}
+
+.post-interactions>.row{
+  align-items: center;
+}
+
+.post-interactions{
+  padding: 1rem;
+}
+
+.likes{
+  margin-left: auto;
+}
+.likes-count{
+  font-family: 'nunito-bold';
+  font-size: 0.85rem;
+  margin-left: 1rem;
+  display: inline-block;
 }
 
 .map-pin{
   fill: var(--color-pink);
   margin-bottom: 8px;
+}
+.chat-icon{
+  fill: var(--color-pink);
+  transform: scale(1.5);
+}
+
+.heart-like{
+  fill:var(--color-pink);
 }
