@@ -7,8 +7,11 @@ import FullPost from './components/FullPost'
 import Profile from './components/Profile'
 import Playground from './components/Playground'
 import './App.css'
+import { useState } from 'react'
 
 function App() {
+
+const [user, setUser] = useState({});
 
 const router = createBrowserRouter([
   {
@@ -17,7 +20,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/welcome",
-    element: <LoginSignout />,
+    element: <LoginSignout setUser={setUser} user={user}/>,
   },
   {
     path: "/create-post",
