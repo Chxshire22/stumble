@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
@@ -9,44 +9,42 @@ import {
 import { auth } from "./firebase";
 
 function LoginSignout(props) {
-	
-	let {setUser, user} = props
+	let { setUser, user } = props;
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-
-	useEffect(()=>{
-		onAuthStateChanged(auth, (currentUser)=>setUser(currentUser))
-	},[])
+	useEffect(() => {
+		onAuthStateChanged(auth, (currentUser) => setUser(currentUser));
+	}, []);
 
 	const navigate = useNavigate();
 
 	const register = async (e) => {
-		e.preventDefault()
+		e.preventDefault();
 		try {
 			const user = await createUserWithEmailAndPassword(auth, email, password);
 			console.log(user);
 			console.log(auth);
 			setEmail("");
 			setPassword("");
-			navigate('/set-profile')
+			navigate("/set-profile");
 		} catch (error) {
 			console.log(error.message);
 		}
 	};
 
 	const login = async (e) => {
-		e.preventDefault()
+		e.preventDefault();
 		try {
 			const user = await signInWithEmailAndPassword(auth, email, password);
 			console.log(user);
 			console.log(auth);
 			setEmail("");
 			setPassword("");
-			navigate("/")
+			navigate("/");
 		} catch (error) {
-			console.log(error.message)
+			console.log(error.message);
 		}
 	};
 
@@ -67,8 +65,10 @@ function LoginSignout(props) {
 				</div>
 				<div className="auth-header-content">
 					<h1 className="auth-page-header">Stumble</h1>
-					<p className="tagline">{user?.email? user?.email : `explore with us!`}</p>
-					{ /*<p className="tagline">{user?.email}</p>*/ }
+					<p className="tagline">
+						{user?.email ? user?.email : `explore with us!`}
+					</p>
+					{/*<p className="tagline">{user?.email}</p>*/}
 				</div>
 			</header>
 			<form className="auth-form flex-center-col">
@@ -99,7 +99,6 @@ function LoginSignout(props) {
 						Login
 					</button>
 				</div>
-
 			</form>
 			<div className="login-image">
 				<img src="src/assets/images/flamenco-camping.webp" alt="" />
@@ -109,4 +108,3 @@ function LoginSignout(props) {
 }
 
 export default LoginSignout;
-
