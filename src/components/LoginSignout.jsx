@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-// import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
@@ -20,7 +20,7 @@ function LoginSignout(props) {
 		onAuthStateChanged(auth, (currentUser)=>setUser(currentUser))
 	},[])
 
-	// const navigate = useNavigate();
+	const navigate = useNavigate();
 
 	const register = async (e) => {
 		e.preventDefault()
@@ -30,6 +30,7 @@ function LoginSignout(props) {
 			console.log(auth);
 			setEmail("");
 			setPassword("");
+			navigate('/set-profile')
 		} catch (error) {
 			console.log(error.message);
 		}
@@ -43,6 +44,7 @@ function LoginSignout(props) {
 			console.log(auth);
 			setEmail("");
 			setPassword("");
+			navigate("/")
 		} catch (error) {
 			console.log(error.message)
 		}

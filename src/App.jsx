@@ -6,6 +6,7 @@ import CreatePost from './components/CreatePost'
 import FullPost from './components/FullPost'
 import Profile from './components/Profile'
 import Playground from './components/Playground'
+import SetProfile from './components/SetProfile'
 import './App.css'
 import { useState } from 'react'
 
@@ -35,6 +36,11 @@ const router = createBrowserRouter([
     path: "/profile",
     //will need the unique ID of profile
     element: <Profile />,
+  },
+  {
+    path: "/set-profile",
+    //purely for building and debugging
+    element: <SetProfile />,
   },
   {
     path: "/playground",
