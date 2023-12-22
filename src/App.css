@@ -4,12 +4,13 @@
   --color-teal: #4297A0;
   --color-pink: #E57F84;
   --color-dark-blue: #2F5061;
+  --color-dark-blue-hover: #213844;
   --color-offwhite: #F3E1C8;
   --color-burgundy: #9B6A6C;
   --color-grey-blue: #6D7993;
   /* Border Radius */
   --border-radius-box: 15px;
-  --border-radius-round: 30px;
+  --border-radius-round: 24px;
   /* box-shadow */
   --box-shadow: 4px 4px 0px black;
   /* box-outline */
@@ -78,6 +79,19 @@ body{
 
 p{
   margin: 0;
+}
+
+.flex-center-col{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-center-row{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* card-style post in feed  */
@@ -165,4 +179,87 @@ p{
 
 .heart-like{
   fill:var(--color-pink);
+}
+
+/* Buttons */
+
+.btn-base{
+  outline: none;
+  border: 1px solid black;
+  color: var(--color-white);
+  border-radius: var(--border-radius-round);
+  width: 9rem;
+  height: 3.2rem;
+  font-family: 'nunito-bold';
+}
+.btn-base:hover{
+  box-shadow: var(--box-shadow);
+}
+
+.auth-page-btn{
+  background-color: var(--color-dark-blue);
+  transition: background-color 0.35s box-shadow 0.35s;
+}
+.auth-page-btn:hover{
+  background-color: var(--color-dark-blue-hover);
+}
+
+/* form input */
+.auth-page-input{
+  font-family: 'nunito-bold';
+  width: 20rem;
+  color: var(--color-white);
+  text-align: center;
+  display: block;
+  background-color: var(--color-pink);
+  border-radius: var(--border-radius-box);
+  padding: 0.8rem;
+  border: none;
+}
+.auth-page-input::placeholder{
+  opacity: 1;
+  color: var(--color-white);
+}
+.auth-page-input:focus{
+  outline: none;
+}
+
+/* Auth Page */
+
+/* TODO: resize header for tablet and mobile */
+
+.authentication{
+  gap: 8rem;
+  height: 100vh;
+}
+
+.auth-header{
+  display: flex;
+  gap: 2rem;
+}
+
+.auth-page-header{
+  margin-bottom: 1rem;
+  font-size: 5rem;
+  color: var(--color-dark-blue);
+}
+
+.auth-form{
+  gap: 1rem;
+}
+
+.auth-page-btns{
+  width: 100%;
+  justify-content: space-between;
+}
+
+.tagline{
+  text-align: center;
+  font-family: 'nunito-bold';
+  color: var(--color-dark-blue);
+  font-size: 1.3rem;
+}
+
+.logo-earth{
+  width:15rem;
 }
