@@ -1,89 +1,113 @@
-import { Container, Row, Col } from "react-bootstrap";
+import { useEffect, useState } from "react";
+// import {useNavigate} from "react-router-dom";
+import {
+	createUserWithEmailAndPassword,
+	signInWithEmailAndPassword,
+	onAuthStateChanged,
+	signOut,
+} from "firebase/auth";
+import { auth } from "./firebase";
 
 function Playground() {
-  return (
-    <article className="card feed-post">
-      <Container className="card-header">
-        <Row>
-          <Col>
-            <p className="username">@mariotey</p>
-          </Col>
-          <Col xs={6}>
-            <p className="feed-post__content">Cappadocia was AMAZING</p>
-          </Col>
-          <Col>
-            <Row>
-              <p className="feed-post__date">12 Dec 2023</p>
-            </Row>
-            <Row>
-              <p className="feed-post__location">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-geo-alt-fill map-pin"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
-                </svg>
-                Cappadocia, Turkey
-              </p>
-            </Row>
-          </Col>
-        </Row>
-      </Container>
-      <div className="post-img-container">
-        <img
-          className="post-img"
-          src="https://images.unsplash.com/photo-1631152282084-b8f1b380ccab?q=80&w=2573&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="hot air balloons"
-        />
-      </div>
-      <Container className="post-interactions">
-        <Row>
-          <Col>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              className="bi bi-chat-fill chat-icon"
-              viewBox="0 0 16 16"
-            >
-              <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15" />
-            </svg>
-          </Col>
-          <Col xs={7} className="post-details comments">
-            <p className="comment-username">@chxshire22</p>
-            <p className="comment-content">
-              wow i cannot wait to go there end of this month!
-            </p>
-          </Col>
-          <Col>
-              <div className="likes">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-heart-fill heart-like"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"
-                  />
-                </svg>
-                            <p className="likes-count">
-                102 likes
-                            </p>
-              </div>
-          </Col>
-        </Row>
-      </Container>
-    </article>
-  );
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+
+	const [user, setUser] = useState({});
+
+	useEffect(()=>{
+		onAuthStateChanged(auth, (currentUser)=>setUser(currentUser))
+	},[])
+
+	// const navigate = useNavigate();
+
+	const register = async (e) => {
+		e.preventDefault()
+		try {
+			const user = await createUserWithEmailAndPassword(auth, email, password);
+			console.log(user);
+			console.log(auth);
+			setEmail("");
+			setPassword("");
+		} catch (error) {
+			console.log(error.message);
+		}
+	};
+
+	const login = async (e) => {
+		e.preventDefault()
+		try {
+			const user = await signInWithEmailAndPassword(auth, email, password);
+			console.log(user);
+			console.log(auth);
+			setEmail("");
+			setPassword("");
+		} catch (error) {
+			console.log(error.message);
+		}
+	};
+
+	const logout = async(e) => {
+		e.preventDefault()
+		signOut(auth)
+	}
+
+	return (
+		<div className="authentication flex-center-col">
+			<header className="auth-header">
+				<div className="auth-header-logo">
+					<img
+						className="logo-earth"
+						src="src/assets/images/flamenco-134.webp"
+						alt=""
+					/>
+				</div>
+				<div className="auth-header-content">
+					<h1 className="auth-page-header">Stumble</h1>
+					{/*<p className="tagline"> explore with us</p>*/}
+					<p className="tagline">{user?.email}</p>
+				</div>
+			</header>
+			<form className="auth-form flex-center-col">
+				<input
+					value={email}
+					autoFocus
+					placeholder="Email"
+					className="auth-page-input"
+					type="email"
+					onChange={(e) => {
+						setEmail(e.target.value);
+					}}
+				/>
+				<input
+					value={password}
+					placeholder="Password"
+					className="auth-page-input"
+					type="password"
+					onChange={(e) => {
+						setPassword(e.target.value);
+					}}
+				/>
+				<div className="auth-page-btns flex-center-row">
+					<button onClick={register} className="btn-base auth-page-btn">
+						Sign Up
+					</button>
+					<button onClick={login} className="btn-base auth-page-btn">
+						Login
+					</button>
+				</div>
+
+				<button
+					onClick={logout}
+					className="btn-base auth-page-btn"
+				>
+					Logout
+				</button>
+			</form>
+			<div className="login-image">
+				<img src="src/assets/images/flamenco-camping.webp" alt="" />
+			</div>
+		</div>
+	);
 }
 
 export default Playground;
