@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { Form, Image } from "react-bootstrap";
 import { auth, storage } from "./firebase";
-import { onAuthStateChanged, updateProfile } from "firebase/auth";
+import {
+  onAuthStateChanged,
+  updateProfile,
+} from "firebase/auth";
 import {
   ref as storageRef,
   uploadBytes,
@@ -50,23 +53,23 @@ export default function SetProfile() {
   const saveProfile = (e) => {
     e.preventDefault();
     if (selectedImage) {
-			//comment only for my learning btw
-			// this function is to make a reference/link to the image in storage. takes in 2 args, storage from firebase and the key+image.name to make it unique
+      //comment only for my learning btw
+      // this function is to make a reference/link to the image in storage. takes in 2 args, storage from firebase and the key+image.name to make it unique
       const storageRefInstance = storageRef(
         storage,
-        DB_STORAGE_KEY + selectedImage.name
+        DB_STORAGE_KEY + "/" + auth.currentUser.uid
       );
-			//this uploads the image with the reference 
-			uploadBytes(storageRefInstance, selectedImage).then(() =>{
-				getDownloadURL(storageRefInstance).then((url) =>{
-					//updates the profile with username, pfp, bio(if any)
-					updateProfile(auth.currentUser,{
-						displayName:username,
-						photoURL:url,
-						bio
-					})
-				})
-			})
+      //this uploads the image with the reference
+      uploadBytes(storageRefInstance, selectedImage).then(() => {
+        getDownloadURL(storageRefInstance).then((url) => {
+          //updates the profile with username, pfp, bio(if any)
+          updateProfile(auth.currentUser, {
+            displayName: username,
+            photoURL: url,
+            bio,
+          });
+        });
+      });
     }
   };
 
@@ -101,7 +104,7 @@ export default function SetProfile() {
             size="10"
             minLength={4}
             className="form-input"
-            maxLength={8}
+            maxLength={15}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
