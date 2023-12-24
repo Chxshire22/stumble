@@ -12,7 +12,7 @@ import { ref, set, onValue, query, orderByChild, equalTo, child, orderByValue} f
 export default function SetProfile() {
   const DB_STORAGE_KEY = "profile-img/";
   const DB_USER_KEY = "users/";
-	const usersRef = ref(db, DB_USER_KEY)
+	const DB_UNIQUE_ARRAY_KEY = "uid"
 
   // set preview of selected pfp
   const [selectedImage, setSelectedImage] = useState(null);
@@ -86,6 +86,9 @@ export default function SetProfile() {
             displayPic: url,
             email: auth.currentUser.email,
           });
+					// set(ref(db, DB_UNIQUE_ARRAY_KEY),{
+//TODO: make an array of usernames. if submitted username is in array, throw error. 
+					// })
         });
       });
     } else {
