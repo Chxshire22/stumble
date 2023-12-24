@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import { Form, Image } from "react-bootstrap";
-import { auth, storage } from "./firebase";
-import {
-  onAuthStateChanged,
-  updateProfile,
-} from "firebase/auth";
+import { auth, storage, db } from "./firebase";
+import { onAuthStateChanged, updateProfile } from "firebase/auth";
 import {
   ref as storageRef,
   uploadBytes,
   getDownloadURL,
 } from "firebase/storage";
+import { ref, set, onValue, query, orderByChild, equalTo, child, orderByValue} from "firebase/database";
 
 export default function SetProfile() {
-  const DB_STORAGE_KEY = "profile-img";
+  const DB_STORAGE_KEY = "profile-img/";
+  const DB_USER_KEY = "users/";
+	const usersRef = ref(db, DB_USER_KEY)
 
   // set preview of selected pfp
   const [selectedImage, setSelectedImage] = useState(null);
@@ -40,12 +40,22 @@ export default function SetProfile() {
     setSelectedImage(e.target.files[0]);
   };
 
+
+
+
+	//display user info
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async(user) => {
       if (user) {
-				setPreview(user.photoURL)
-				setUsername(user.displayName)
+        setPreview(user.photoURL);
+        setUsername(user.displayName);
         console.log(user);
+				//retrieve bio
+				const bioRef = ref(db, DB_USER_KEY+auth.currentUser.uid);
+				onValue(bioRef, (snapshot) => {
+					setBio(snapshot.val().bio)
+					console.log(snapshot.val().bio)
+				})
       } else {
         console.log("loading user");
       }
@@ -59,26 +69,36 @@ export default function SetProfile() {
       // this function is to make a reference/link to the image in storage. takes in 2 args, storage from firebase and the key+image.name to make it unique
       const storageRefInstance = storageRef(
         storage,
-        DB_STORAGE_KEY + "/" + auth.currentUser.uid
+        DB_STORAGE_KEY + auth.currentUser.uid
       );
       //this uploads the image with the reference
       uploadBytes(storageRefInstance, selectedImage).then(() => {
         getDownloadURL(storageRefInstance).then((url) => {
-          //updates the profile with username, pfp, bio(if any)
+          //updates the FIREBASE profile with username, pfp
           updateProfile(auth.currentUser, {
             photoURL: url,
-						displayName:username,
-						bio
+            displayName: username,
+          });
+					// update my own user DB
+          set(ref(db, DB_USER_KEY + auth.currentUser.uid), {
+            bio,
+            username,
+            displayPic: url,
+            email: auth.currentUser.email,
           });
         });
       });
+    } else {
+      set(ref(db, DB_USER_KEY + auth.currentUser.uid), {
+				displayPic: auth.currentUser.photoURL,
+				username,
+        bio,
+				email:auth.currentUser.email
+      });
+      updateProfile(auth.currentUser, {
+        displayName: username,
+      });
     }
-		else{
-			updateProfile(auth.currentUser,{
-				displayName:username,
-				bio
-			})
-		}
   };
 
   return (
