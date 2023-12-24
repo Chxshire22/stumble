@@ -1,33 +1,73 @@
 import { useEffect, useState } from "react";
 import { Form, Image } from "react-bootstrap";
+import { auth, storage } from "./firebase";
+import { onAuthStateChanged, updateProfile } from "firebase/auth";
+import {
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
 
-export default function SetProfile() {
-	// set preview of selected pfp
-	const [selectedImage, setSelectedImage] = useState(null);
-	const [preview, setPreview] = useState(null);
+export default function SetProfile(props) {
+  const DB_STORAGE_KEY = "profile-img";
 
-	// change image container when selected image is changed
-	useEffect(() => {
-		if (!selectedImage) {
-			setPreview(undefined);
-			return;
-		}
-		const localUrl = URL.createObjectURL(selectedImage);
-		setPreview(localUrl);
-	}, [selectedImage]);
+  let { user } = props;
 
-	const handleImageChange = (e) => {
-		console.log(e.target.files);
-		if (!e.target.files || e.target.files.length === 0) {
-			setSelectedImage(null);
-			return;
-		}
-		setSelectedImage(e.target.files[0]);
-	};
+  // set preview of selected pfp
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [preview, setPreview] = useState(null);
+  //user profile addition
+  const [username, setUsername] = useState("");
+  const [bio, setBio] = useState("");
 
-	
+  // change image container when selected image is changed
+  useEffect(() => {
+    if (!selectedImage) {
+      setPreview(undefined);
+      return;
+    }
+    const localUrl = URL.createObjectURL(selectedImage);
+    setPreview(localUrl);
+  }, [selectedImage]);
 
-	return (
+  const handleImageChange = (e) => {
+    console.log(e.target.files);
+    if (!e.target.files || e.target.files.length === 0) {
+      setSelectedImage(null);
+      return;
+    }
+    setSelectedImage(e.target.files[0]);
+  };
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log(user);
+      } else {
+        console.log("loading user");
+      }
+    });
+  }, [auth]);
+
+  // updateProfile(auth.currentUser, {
+  //   displayName: username,
+  // });
+
+  const saveProfile = (e) => {
+    e.preventDefault();
+    if (selectedImage) {
+			//comment only for my learning btw
+			// this function is to make a reference/link to the image in storage. takes in 2 args, storage from firebase and the key+image.name to make it unique
+      const storageRefInstance = storageRef(
+        storage,
+        DB_STORAGE_KEY + selectedImage.name
+      );
+			//this uploads the image with the reference 
+			uploadBytes(storageRefInstance, selectedImage)
+    }
+  };
+
+  return (
     <div className="flex-center-col container set-profile-page">
       <Image
         className="pfp-container"
@@ -60,14 +100,25 @@ export default function SetProfile() {
             minLength={4}
             className="form-input"
             maxLength={8}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </Form.Group>
         <Form.Group className="mb-3 flex-center-row">
           <label>Bio</label>
-          <textarea className="form-input" rows={3} cols={50} maxLength={140} />
+          <textarea
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+            className="form-input"
+            rows={3}
+            cols={50}
+            maxLength={140}
+          />
         </Form.Group>
       </Form>
-      <button className="btn-base">Next</button>
+      <button onClick={saveProfile} className="btn-base">
+        Next
+      </button>
     </div>
   );
 }

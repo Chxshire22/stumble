@@ -8,11 +8,15 @@ import Profile from './components/Profile'
 import Playground from './components/Playground'
 import SetProfile from './components/SetProfile'
 import './App.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 function App() {
 
 const [user, setUser] = useState({});
+
+useEffect(() =>{
+  console.log(user)
+},[])
 
 const router = createBrowserRouter([
   {
@@ -40,7 +44,7 @@ const router = createBrowserRouter([
   {
     path: "/set-profile",
     //purely for building and debugging
-    element: <SetProfile />,
+    element: <SetProfile user={user} setUser={setUser}/>,
   },
   {
     path: "/playground",

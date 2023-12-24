@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
 	createUserWithEmailAndPassword,
@@ -16,6 +16,7 @@ function LoginSignout(props) {
 
 	useEffect(() => {
 		onAuthStateChanged(auth, (currentUser) => setUser(currentUser));
+		console.log(user)
 	}, []);
 
 	const navigate = useNavigate();

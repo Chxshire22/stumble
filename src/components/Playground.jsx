@@ -16,6 +16,7 @@ function Playground() {
 
 	useEffect(()=>{
 		onAuthStateChanged(auth, (currentUser)=>setUser(currentUser))
+		console.log(user)
 	},[])
 
 	// const navigate = useNavigate();
