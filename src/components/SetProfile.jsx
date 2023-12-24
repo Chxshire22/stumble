@@ -3,17 +3,12 @@ import { Form, Image } from "react-bootstrap";
 
 export default function SetProfile() {
 
+
+	// set preview of selected pfp
 	const [selectedImage, setSelectedImage] = useState(null)
 	const [preview, setPreview] = useState(null)
 
-	// const handleImageChange = (e) =>{
-	// 	const [file] = e.files;
-	// 	if (file) {
-	// 		setSelectedImage(URL.createObjectURL(file))
-	// 	}
-	// }
-	//
-	
+	// change image container when selected image is changed
 		useEffect(() => {
 			if (!selectedImage){
 				setPreview(undefined)
@@ -53,3 +48,5 @@ export default function SetProfile() {
 		</div>
 );
 }
+
+// TODO: change so that createUserWithEmailAndPassword is executed upon the submission of this page

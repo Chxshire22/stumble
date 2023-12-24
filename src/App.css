@@ -285,5 +285,7 @@ label{
 	height: 10vw;
 	width: 10vw;
 	background-color: black; /*temporary*/
+	object-position: center;
+	object-fit: cover;
 }
 
