@@ -43,6 +43,8 @@ export default function SetProfile() {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
+				setPreview(user.photoURL)
+				setUsername(user.displayName)
         console.log(user);
       } else {
         console.log("loading user");
@@ -64,13 +66,19 @@ export default function SetProfile() {
         getDownloadURL(storageRefInstance).then((url) => {
           //updates the profile with username, pfp, bio(if any)
           updateProfile(auth.currentUser, {
-            displayName: username,
             photoURL: url,
-            bio,
+						displayName:username,
+						bio
           });
         });
       });
     }
+		else{
+			updateProfile(auth.currentUser,{
+				displayName:username,
+				bio
+			})
+		}
   };
 
   return (
