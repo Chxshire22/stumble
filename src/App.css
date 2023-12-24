@@ -191,18 +191,14 @@ p{
   width: 9rem;
   height: 3.2rem;
   font-family: 'nunito-bold';
-}
-.btn-base:hover{
-  box-shadow: var(--box-shadow);
-}
-
-.auth-page-btn{
   background-color: var(--color-dark-blue);
   transition: background-color 0.35s box-shadow 0.35s;
 }
-.auth-page-btn:hover{
+.btn-base:hover{
+  box-shadow: var(--box-shadow);
   background-color: var(--color-dark-blue-hover);
 }
+
 
 /* form input */
 .auth-page-input{
@@ -263,3 +259,13 @@ p{
 .logo-earth{
   width:15rem;
 }
+
+/* pfp */
+
+.pfp-container{
+	width: 5vw;
+	height: 5vw;
+	background-color: black; /*temporary*/
+	border-radius: 100%;
+}
+
