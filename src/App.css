@@ -89,7 +89,6 @@ p{
 
 
 .flex-center-col{
-	width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -214,7 +213,7 @@ p{
 }
 
 /* form input */
-.auth-page-input{
+.form-input{
   font-family: 'nunito-bold';
   width: 20rem;
   color: var(--color-white);
@@ -225,17 +224,13 @@ p{
   padding: 0.8rem;
   border: none;
 }
-.auth-page-input::placeholder{
+.form-input::placeholder{
   opacity: 1;
   color: var(--color-white);
 }
-.auth-page-input:focus{
+.form-input:focus{
   outline: none;
 }
-
-/* Auth Page */
-
-/* TODO: resize header for tablet and mobile */
 
 
 textarea{
@@ -246,6 +241,11 @@ label{
 	width: 50%;
 	font-family: 'nunito-bold';
 }
+/* Auth Page */
+
+/* TODO: resize header for tablet and mobile */
+
+
 
 .authentication{
   gap: 8rem;
@@ -284,7 +284,7 @@ label{
 .pfp-container{
 	height: 10vw;
 	width: 10vw;
-	background-color: black; /*temporary*/
+	background-color: var(--color-offwhite); /*temporary*/
 	object-position: center;
 	object-fit: cover;
 }

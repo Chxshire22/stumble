@@ -76,7 +76,7 @@ function LoginSignout(props) {
 					value={email}
 					autoFocus
 					placeholder="Email"
-					className="auth-page-input"
+					className="form-input"
 					type="email"
 					onChange={(e) => {
 						setEmail(e.target.value);
@@ -85,7 +85,7 @@ function LoginSignout(props) {
 				<input
 					value={password}
 					placeholder="Password"
-					className="auth-page-input"
+					className="form-input"
 					type="password"
 					onChange={(e) => {
 						setPassword(e.target.value);
