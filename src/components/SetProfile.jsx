@@ -63,7 +63,16 @@ export default function SetProfile(props) {
         DB_STORAGE_KEY + selectedImage.name
       );
 			//this uploads the image with the reference 
-			uploadBytes(storageRefInstance, selectedImage)
+			uploadBytes(storageRefInstance, selectedImage).then(() =>{
+				getDownloadURL(storageRefInstance).then((url) =>{
+					//updates the profile with username, pfp, bio(if any)
+					updateProfile(auth.currentUser,{
+						displayName:username,
+						photoURL:url,
+						bio
+					})
+				})
+			})
     }
   };
 
