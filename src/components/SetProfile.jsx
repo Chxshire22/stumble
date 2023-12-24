@@ -8,10 +8,8 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 
-export default function SetProfile(props) {
+export default function SetProfile() {
   const DB_STORAGE_KEY = "profile-img";
-
-  let { user } = props;
 
   // set preview of selected pfp
   const [selectedImage, setSelectedImage] = useState(null);
@@ -49,10 +47,6 @@ export default function SetProfile(props) {
     });
   }, [auth]);
 
-  // updateProfile(auth.currentUser, {
-  //   displayName: username,
-  // });
-
   const saveProfile = (e) => {
     e.preventDefault();
     if (selectedImage) {
@@ -81,7 +75,6 @@ export default function SetProfile(props) {
       <Image
         className="pfp-container"
         src={preview ? preview : "src/assets/images/default-pfp.png"}
-        // src="src/assets/images/default-pfp.png"
         id="pfp-preview"
         roundedCircle
         fluid
