@@ -45,7 +45,7 @@ export default function SetProfile() {
 
   //display user info
   useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
+    onAuthStateChanged(auth,  (user) => {
       if (user) {
         setPreview(user.photoURL);
         setUsername(user.displayName);
