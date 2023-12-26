@@ -17,15 +17,14 @@ function App() {
   const [currentUid, setCurrentUid] = useState("");
 
   useEffect(() =>{
-    const unmount = onAuthStateChanged(auth,(currentUser)=>{
+    onAuthStateChanged(auth,(currentUser)=>{
       if(currentUser){
         setCurrentUid(currentUser.uid);
-        console.log(currentUser)
+        console.log(currentUser.uid)
+        console.log(currentUid);
       }
     }) 
-    return () => 
-      unmount()
-  },[])
+  },[currentUid])
 
   const router = createBrowserRouter([
     {
@@ -46,14 +45,14 @@ function App() {
       element: <FullPost />,
     },
     {
-      path: "/profile",
+      path: `/profile/:uid`,
       //will need the unique ID of profile
-      element: <CurrentUserProfile currentUid={currentUid}/>,
+      element: <CurrentUserProfile currentUid={currentUid} />,
     },
     {
       path: "/set-profile",
       //purely for building and debugging
-      element: <SetProfile/>,
+      element: <SetProfile currentUid={currentUid} />,
     },
     {
       path: "/playground",

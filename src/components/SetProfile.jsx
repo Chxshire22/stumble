@@ -8,9 +8,12 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { ref, set, onValue } from "firebase/database";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export default function SetProfile() {
+export default function SetProfile(props) {
+
+  let {currentUid} = props;
+
   //firebase folders
   const DB_STORAGE_KEY = "profile-img/";
   const DB_USER_KEY = "users/";
@@ -22,7 +25,7 @@ export default function SetProfile() {
   const [username, setUsername] = useState("");
   const [bio, setBio] = useState("");
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // change image container when selected image is changed
   useEffect(() => {
@@ -45,7 +48,7 @@ export default function SetProfile() {
 
   //display user info
   useEffect(() => {
-    onAuthStateChanged(auth,  (user) => {
+    onAuthStateChanged(auth, (user) => {
       if (user) {
         setPreview(user.photoURL);
         setUsername(user.displayName);
@@ -75,20 +78,22 @@ export default function SetProfile() {
         );
         //this uploads the image with the reference
         uploadBytes(storageRefInstance, selectedImage).then(() => {
-          getDownloadURL(storageRefInstance).then((url) => {
-            //updates the FIREBASE profile with username, pfp
-            updateProfile(auth.currentUser, {
-              photoURL: url,
-              displayName: username,
-            });
-            // update my own user DB
-            set(ref(db, DB_USER_KEY + auth.currentUser.uid), {
-              bio,
-              username,
-              displayPic: url,
-              email: auth.currentUser.email,
-            });
-          });
+          getDownloadURL(storageRefInstance)
+            .then((url) => {
+              //updates the FIREBASE profile with username, pfp
+              updateProfile(auth.currentUser, {
+                photoURL: url,
+                displayName: username,
+              });
+              // update my own user DB
+              set(ref(db, DB_USER_KEY + auth.currentUser.uid), {
+                bio,
+                username,
+                displayPic: url,
+                email: auth.currentUser.email,
+              });
+            })
+            .then(() => navigate(`/profile/${currentUid}`));
         });
       } else {
         updateProfile(auth.currentUser, {
@@ -101,7 +106,7 @@ export default function SetProfile() {
             bio,
             email: auth.currentUser.email,
           });
-        });
+        }).then(()=>navigate(`/profile/${currentUid}`));
       }
     }
   };
