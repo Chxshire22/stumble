@@ -135,11 +135,13 @@ export default function SetProfile() {
             maxLength={15}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+						spellCheck={false}
           />
         </Form.Group>
         <Form.Group className="mb-3 flex-center-row">
           <label>Bio</label>
           <textarea
+						spellCheck={false}
             value={bio}
             onChange={(e) => setBio(e.target.value)}
             className="form-input"
