@@ -8,7 +8,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { ref, set, onValue } from "firebase/database";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 export default function SetProfile() {
   //firebase folders
@@ -22,7 +22,7 @@ export default function SetProfile() {
   const [username, setUsername] = useState("");
   const [bio, setBio] = useState("");
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // change image container when selected image is changed
   useEffect(() => {
@@ -112,7 +112,7 @@ export default function SetProfile() {
         <Image
           className="stumble-logo"
           src="src/assets/images/stumble-logo.png"
-          onClick={() => navigate("/")}
+          // onClick={() => navigate("/")}
         />
       </div>
       <Image
