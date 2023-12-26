@@ -60,7 +60,7 @@ export default function SetProfile() {
         console.log("loading user");
       }
     });
-  }, [auth]);
+  }, []);
 
   const saveProfile = (e) => {
     e.preventDefault();
