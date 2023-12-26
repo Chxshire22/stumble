@@ -8,11 +8,12 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { ref, set, onValue } from "firebase/database";
+import { useNavigate } from "react-router-dom";
 
 export default function SetProfile() {
+  //firebase folders
   const DB_STORAGE_KEY = "profile-img/";
   const DB_USER_KEY = "users/";
-
 
   // set preview of selected pfp
   const [selectedImage, setSelectedImage] = useState(null);
@@ -20,6 +21,8 @@ export default function SetProfile() {
   //user profile addition
   const [username, setUsername] = useState("");
   const [bio, setBio] = useState("");
+
+  const navigate = useNavigate();
 
   // change image container when selected image is changed
   useEffect(() => {
@@ -86,7 +89,7 @@ export default function SetProfile() {
             displayPic: url,
             email: auth.currentUser.email,
           });
-        });
+        }).then(() => navigate("/"));
       });
     } else {
       set(ref(db, DB_USER_KEY + auth.currentUser.uid), {
@@ -98,11 +101,19 @@ export default function SetProfile() {
       updateProfile(auth.currentUser, {
         displayName: username,
       });
+      navigate("/");
     }
   };
 
   return (
-    <div className="flex-center-col container set-profile-page">
+    <div className="flex-center-col block set-profile-page">
+      <div className="logo-container">
+        <Image
+          className="stumble-logo"
+          src="src/assets/images/stumble-logo.png"
+          onClick={()=>navigate("/")}
+        />
+      </div>
       <Image
         className="pfp-container"
         src={preview ? preview : "src/assets/images/default-pfp.png"}
@@ -135,13 +146,13 @@ export default function SetProfile() {
             maxLength={15}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-						spellCheck={false}
+            spellCheck={false}
           />
         </Form.Group>
         <Form.Group className="mb-3 flex-center-row">
           <label>Bio</label>
           <textarea
-						spellCheck={false}
+            spellCheck={false}
             value={bio}
             onChange={(e) => setBio(e.target.value)}
             className="form-input"
@@ -152,7 +163,7 @@ export default function SetProfile() {
         </Form.Group>
       </Form>
       <button onClick={saveProfile} className="btn-base">
-        Next
+        Save & Exit
       </button>
     </div>
   );
