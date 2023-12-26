@@ -35,7 +35,7 @@ export default function SetProfile() {
   }, [selectedImage]);
 
   const handleImageChange = (e) => {
-    console.log(e.target.files);
+    console.log(e.target.files[0]);
     if (!e.target.files || e.target.files.length === 0) {
       setSelectedImage(null);
       return;
@@ -43,22 +43,19 @@ export default function SetProfile() {
     setSelectedImage(e.target.files[0]);
   };
 
-
-
-
-	//display user info
+  //display user info
   useEffect(() => {
-    onAuthStateChanged(auth, async(user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
         setPreview(user.photoURL);
         setUsername(user.displayName);
         console.log(user);
-				//retrieve bio
-				const bioRef = ref(db, DB_USER_KEY+auth.currentUser.uid);
-				onValue(bioRef, (snapshot) => {
-					setBio(snapshot.val().bio)
-					console.log(snapshot.val().bio)
-				})
+        //retrieve bio
+        const bioRef = ref(db, DB_USER_KEY + auth.currentUser.uid);
+        onValue(bioRef, (snapshot) => {
+          setBio(snapshot.val().bio);
+          console.log(snapshot.val().bio);
+        });
       } else {
         console.log("loading user");
       }
@@ -67,41 +64,45 @@ export default function SetProfile() {
 
   const saveProfile = (e) => {
     e.preventDefault();
-    if (selectedImage) {
-      //comment only for my learning btw
-      // this function is to make a reference/link to the image in storage. takes in 2 args, storage from firebase and the key+image.name to make it unique
-      const storageRefInstance = storageRef(
-        storage,
-        DB_STORAGE_KEY + auth.currentUser.uid
-      );
-      //this uploads the image with the reference
-      uploadBytes(storageRefInstance, selectedImage).then(() => {
-        getDownloadURL(storageRefInstance).then((url) => {
-          //updates the FIREBASE profile with username, pfp
-          updateProfile(auth.currentUser, {
-            photoURL: url,
-            displayName: username,
+    //why doesnt input validation required={true} not work? 
+    if (username && username.length>=4) {
+      if (selectedImage) {
+        //comment only for my learning btw
+        // this function is to make a reference/link to the image in storage. takes in 2 args, storage from firebase and the key+image.name to make it unique
+        const storageRefInstance = storageRef(
+          storage,
+          DB_STORAGE_KEY + auth.currentUser.uid
+        );
+        //this uploads the image with the reference
+        uploadBytes(storageRefInstance, selectedImage).then(() => {
+          getDownloadURL(storageRefInstance).then((url) => {
+            //updates the FIREBASE profile with username, pfp
+            updateProfile(auth.currentUser, {
+              photoURL: url,
+              displayName: username,
+            });
+            // update my own user DB
+            set(ref(db, DB_USER_KEY + auth.currentUser.uid), {
+              bio,
+              username,
+              displayPic: url,
+              email: auth.currentUser.email,
+            });
           });
-					// update my own user DB
+        });
+      } else {
+        updateProfile(auth.currentUser, {
+          photoURL: auth.currentUser.photoURL? auth.currentUser.photoURL:"https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/profile-img%2Fdefault-pfp.png?alt=media&token=bdbbf587-5f3e-43a5-a4c6-e7bf44d983a7",
+          displayName: username,
+        }).then(() => {
           set(ref(db, DB_USER_KEY + auth.currentUser.uid), {
-            bio,
+            displayPic: auth.currentUser.photoURL,
             username,
-            displayPic: url,
+            bio,
             email: auth.currentUser.email,
           });
-        }).then(() => navigate("/"));
-      });
-    } else {
-      set(ref(db, DB_USER_KEY + auth.currentUser.uid), {
-				displayPic: auth.currentUser.photoURL,
-				username,
-        bio,
-				email:auth.currentUser.email
-      });
-      updateProfile(auth.currentUser, {
-        displayName: username,
-      });
-      navigate("/");
+        });
+      }
     }
   };
 
@@ -111,7 +112,7 @@ export default function SetProfile() {
         <Image
           className="stumble-logo"
           src="src/assets/images/stumble-logo.png"
-          onClick={()=>navigate("/")}
+          onClick={() => navigate("/")}
         />
       </div>
       <Image
@@ -139,7 +140,7 @@ export default function SetProfile() {
 
           <input
             type="text"
-            required
+            required={true}
             size="10"
             minLength={4}
             className="form-input"
@@ -161,10 +162,10 @@ export default function SetProfile() {
             maxLength={140}
           />
         </Form.Group>
+        <button type="submit" onClick={saveProfile} className="btn-base">
+          Save & Exit
+        </button>
       </Form>
-      <button onClick={saveProfile} className="btn-base">
-        Save & Exit
-      </button>
     </div>
   );
 }
