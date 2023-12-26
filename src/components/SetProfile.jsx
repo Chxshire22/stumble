@@ -11,19 +11,21 @@ import { ref, set, onValue } from "firebase/database";
 import { useNavigate } from "react-router-dom";
 
 export default function SetProfile(props) {
-
-  let {currentUid} = props;
+  let {
+    // profileUid,
+    username,
+    setUsername,
+    bio,
+    setBio,
+    selectedImage,
+    setSelectedImage,
+  } = props;
 
   //firebase folders
   const DB_STORAGE_KEY = "profile-img/";
   const DB_USER_KEY = "users/";
 
-  // set preview of selected pfp
-  const [selectedImage, setSelectedImage] = useState(null);
   const [preview, setPreview] = useState(null);
-  //user profile addition
-  const [username, setUsername] = useState("");
-  const [bio, setBio] = useState("");
 
   const navigate = useNavigate();
 
@@ -67,8 +69,8 @@ export default function SetProfile(props) {
 
   const saveProfile = (e) => {
     e.preventDefault();
-    //why doesnt input validation required={true} not work? 
-    if (username && username.length>=4) {
+    //why doesnt input validation required={true} not work?
+    if (username && username.length >= 4) {
       if (selectedImage) {
         //comment only for my learning btw
         // this function is to make a reference/link to the image in storage. takes in 2 args, storage from firebase and the key+image.name to make it unique
@@ -93,20 +95,24 @@ export default function SetProfile(props) {
                 email: auth.currentUser.email,
               });
             })
-            .then(() => navigate(`/profile/${currentUid}`));
+            .then(() => navigate(`/profile/${auth.currentUser.uid}`));
         });
       } else {
         updateProfile(auth.currentUser, {
-          photoURL: auth.currentUser.photoURL? auth.currentUser.photoURL:"https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/profile-img%2Fdefault-pfp.png?alt=media&token=bdbbf587-5f3e-43a5-a4c6-e7bf44d983a7",
+          photoURL: auth.currentUser.photoURL
+            ? auth.currentUser.photoURL
+            : "https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/profile-img%2Fdefault-pfp.png?alt=media&token=bdbbf587-5f3e-43a5-a4c6-e7bf44d983a7",
           displayName: username,
-        }).then(() => {
-          set(ref(db, DB_USER_KEY + auth.currentUser.uid), {
-            displayPic: auth.currentUser.photoURL,
-            username,
-            bio,
-            email: auth.currentUser.email,
-          });
-        }).then(()=>navigate(`/profile/${currentUid}`));
+        })
+          .then(() => {
+            set(ref(db, DB_USER_KEY + auth.currentUser.uid), {
+              displayPic: auth.currentUser.photoURL,
+              username,
+              bio,
+              email: auth.currentUser.email,
+            });
+          })
+          .then(() => navigate(`/profile/${auth.currentUser.uid}`));
       }
     }
   };

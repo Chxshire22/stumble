@@ -3,28 +3,34 @@ import LoginSignout from "./components/LoginSignout";
 import Home from "./components/Home";
 import CreatePost from "./components/CreatePost";
 import FullPost from "./components/FullPost";
-import CurrentUserProfile from "./components/CurrentUserProfile";
+import Profile from "./components/Profile";
 import Playground from "./components/Playground";
 import SetProfile from "./components/SetProfile";
 import "./App.css";
-import { useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import {auth} from './components/firebase'
+import { useState } from "react";
+// import { onAuthStateChanged } from "firebase/auth";
+// import {auth} from './components/firebase'
 
 
 function App() {
   const [user, setUser] = useState({});
-  const [currentUid, setCurrentUid] = useState("");
+  const [profileUid, setProfileUid] = useState("");
 
-  useEffect(() =>{
-    onAuthStateChanged(auth,(currentUser)=>{
-      if(currentUser){
-        setCurrentUid(currentUser.uid);
-        console.log(currentUser.uid)
-        console.log(currentUid);
-      }
-    }) 
-  },[currentUid])
+  // set preview of selected pfp
+  const [selectedImage, setSelectedImage] = useState(null);
+  //user profile addition
+  const [username, setUsername] = useState("");
+  const [bio, setBio] = useState("");
+
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (currentUser) => {
+  //     if (currentUser) {
+  //       setProfileUid(currentUser.uid);
+  //       console.log(currentUser.uid);
+  //       console.log(profileUid);
+  //     }
+  //   });
+  // }, [profileUid]);
 
   const router = createBrowserRouter([
     {
@@ -40,19 +46,36 @@ function App() {
       element: <CreatePost />,
     },
     {
-      path: "/post",
+      path: "/post/:postUid",
       //will need the unique ID of post
       element: <FullPost />,
     },
     {
       path: `/profile/:uid`,
       //will need the unique ID of profile
-      element: <CurrentUserProfile currentUid={currentUid} />,
+      element: (
+        <Profile
+          profileUid={profileUid}
+          displayPic={selectedImage}
+          username={username}
+          bio={bio}
+        />
+      ),
     },
     {
       path: "/set-profile",
       //purely for building and debugging
-      element: <SetProfile currentUid={currentUid} />,
+      element: (
+        <SetProfile
+          // profileUid={profileUid}
+          selectedImage={selectedImage}
+          setSelectedImage={setSelectedImage}
+          username={username}
+          setUsername={setUsername}
+          bio={bio}
+          setBio={setBio}
+        />
+      ),
     },
     {
       path: "/playground",
