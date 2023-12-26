@@ -4,7 +4,6 @@ import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	onAuthStateChanged,
-	signOut,
 } from "firebase/auth";
 import { auth } from "./firebase";
 
@@ -49,10 +48,6 @@ function LoginSignout(props) {
 		}
 	};
 
-	// const logout = async(e) => {
-	// 	e.preventDefault()
-	// 	signOut(auth)
-	// }
 
 	return (
 		<div className="authentication flex-center-col">
