@@ -27,16 +27,6 @@ function App() {
     }
   }, [profileUid]);
 
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, (currentUser) => {
-  //     if (currentUser) {
-  //       setProfileUid(currentUser.uid);
-  //       console.log(currentUser.uid);
-  //       console.log(profileUid);
-  //     }
-  //   });
-  // }, [profileUid]);
-
   const router = createBrowserRouter([
     {
       path: "/",
@@ -63,8 +53,6 @@ function App() {
           path: ":uid",
           element: (
             <Profile
-              profileUid={profileUid}
-              displayPic={selectedImage}
               username={username}
               bio={bio}
             />
