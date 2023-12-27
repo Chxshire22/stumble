@@ -61,6 +61,7 @@ export default function SetProfile(props) {
         console.log("loading user");
       }
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const saveProfile = (e) => {

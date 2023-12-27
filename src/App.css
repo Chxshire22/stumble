@@ -19,57 +19,13 @@
 
 /* Fonts */
 
-@font-face {
-    font-family: 'nunito-italic';
-    src: url('src/assets/fonts/Nunito-Italic.woff') format('woff');
-         /* url('src/assets/fonts/nunito-italic-variablefont_wght-webfont.woff') format('woff2'); */
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'nunito-bold';
-    src: url('src/assets/fonts/Nunito-Bold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'nunito-italic';
-    src: url('src/assets/fonts/Nunito-BoldItalic.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'nunito-medium';
-    src: url('src/assets/fonts/Nunito-Medium.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'nunito-medium-italic';
-    src: url('src/assets/fonts/Nunito-MediumItalic.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'nunito-regular';
-    src: url('src/assets/fonts/Nunito-Regular.woff') format('woff');
-         /* url('src/assets/fonts/nunito-variablefont_wght-webfont.woff') format('woff'); */
-    font-weight: normal;
-    font-style: normal;
-
-}
-
 body{
-  font-family: 'nunito-regular',Arial, Helvetica, sans-serif;
+  font-family: 'Nunito',sans-serif,Arial, Helvetica, sans-serif;
 }
 
 h1,h2,h3,h4{
-  font-family: "nunito-bold",Arial, Helvetica, sans-serif;
+  font-family: "Nunito",Arial, Helvetica, sans-serif;
+  font-weight: 700;
 }
 
 /* bg color for all pages */
@@ -122,7 +78,8 @@ p{
 }
 
 .username, .comment-username{
-  font-family: "nunito-bold";
+  font-family: "Nunito";
+  font-weight: 700;
   margin-block: auto;
 }
 
@@ -132,12 +89,13 @@ p{
 
 .comment-content{
   font-size: 0.85rem;
-  font-family: 'nunito-medium';
+  font-family: 'Nunito';
 }
 
 .feed-post__date, .feed-post__location{
   text-align: end;
-  font-family: 'nunito-bold';
+  font-family: 'Nunito';
+  font-weight: 700;
 }
 
 .feed-post{
@@ -170,7 +128,8 @@ p{
   margin-left: auto;
 }
 .likes-count{
-  font-family: 'nunito-bold';
+  font-family: 'Nunito';
+  font-weight: 700;
   font-size: 0.85rem;
   margin-left: 1rem;
   display: inline-block;
@@ -198,7 +157,8 @@ p{
   border-radius: var(--border-radius-round);
   width: 9rem;
   height: 3.2rem;
-  font-family: 'nunito-bold';
+  font-family: 'Nunito';
+  font-weight: 700;
   background-color: var(--color-dark-blue);
   transition: background-color 0.35s box-shadow 0.35s;
 }
@@ -221,7 +181,8 @@ p{
 
 /* form input */
 .form-input{
-  font-family: 'nunito-bold';
+  font-family: 'Nunito';
+  font-weight: 700;
   width: 20rem;
   color: var(--color-white);
   text-align: center;
@@ -247,7 +208,8 @@ textarea{
 
 label{
 	width: 50%;
-	font-family: 'nunito-bold';
+	font-family: 'Nunito';
+  font-weight: 700;
 }
 
 
@@ -279,7 +241,8 @@ label{
 
 .tagline{
   text-align: center;
-  font-family: 'nunito-bold';
+  font-family: 'Nunito';
+  font-weight: 700;
   color: var(--color-dark-blue);
   font-size: 1.3rem;
 }
