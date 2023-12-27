@@ -28,11 +28,15 @@ export default function SetProfile(props) {
   // change image container when selected image is changed
   useEffect(() => {
     if (!selectedImage) {
-      setPreview(undefined);
+      setPreview(
+        "https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/profile-img%2Fdefault-pfp.png?alt=media&token=bdbbf587-5f3e-43a5-a4c6-e7bf44d983a7"
+      );
       return;
     }
-    const localUrl = URL.createObjectURL(selectedImage);
-    setPreview(localUrl);
+    else{
+      const localUrl = URL.createObjectURL(selectedImage);
+      setPreview(localUrl);
+    }
   }, [selectedImage]);
 
   const handleImageChange = (e) => {
@@ -48,7 +52,9 @@ export default function SetProfile(props) {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setPreview(user.photoURL);
+        if(user.photoURL){
+          setPreview(user.photoURL);
+        }
         setUsername(user.displayName);
         console.log(user);
         //retrieve bio
