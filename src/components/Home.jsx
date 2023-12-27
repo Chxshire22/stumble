@@ -18,7 +18,9 @@ function Home() {
           <Modal openModal={openModal} setOpenModal={setOpenModal} />
         )}
       </div>
+
       <FeedPostCard />
+
     </div>
   );
 }
