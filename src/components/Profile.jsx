@@ -1,11 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Image } from "react-bootstrap";
-import { db } from "./firebase";
-import { ref, onValue } from "firebase/database";
+import { userRef } from "./firebase";
+import { ref, get, child, } from "firebase/database";
 import { useParams } from "react-router-dom";
 
 function Profile(props) {
-  let { profileUid } = props;
   // user can edit posts? if uid == auth.currentUser.uid
 
   const {uid} = useParams();
@@ -16,11 +15,19 @@ function Profile(props) {
     }
   },[uid])
 
-  // const profileRef = ref(db, profileUid);
-  // onValue(profileRef, (snapshot) => {
-  //   const data = snapshot.val();
-  //   console.log(data);
-  // });
+  get(child(userRef, `/${uid}`))
+  .then((snapshot) => {
+    if (snapshot.exists()) {
+      console.log(snapshot.val());
+    } else {
+      console.log("No data available");
+    }
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+  
+
 
   return (
     <div>
