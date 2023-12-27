@@ -22,6 +22,7 @@ function Modal(props) {
     );
     uploadBytes(imageRef, fileInput).then(() => {
       getDownloadURL(imageRef).then((url) => {
+        const postListRef = databaseRef(db, POSTS_FOLDER_NAME);
         const postListRef = databaseRef(database, POSTS_FOLDER_NAME);
         const newPostRef = push(postListRef);
         set(newPostRef, {
