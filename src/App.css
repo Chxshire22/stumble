@@ -37,6 +37,19 @@ p{
   margin: 0;
 }
 
+.bio{
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.profile-page-user{
+  font-size: 64px;
+}
+
+.blue{
+  color: var(--color-dark-blue);
+}
+
 /* formatting */
 
 .block{
@@ -253,17 +266,54 @@ label{
 
 /* pfp */
 
-.pfp-container{
-	height: 20vw;
-	width: 20vw;
+.pfp{
 	background-color: var(--color-offwhite); /*temporary*/
 	object-position: center;
 	object-fit: cover;
   margin-block: 2rem;
 }
 
+.pfp-container{
+	height: 20vw;
+	width: 20vw;
+}
+
+
 /* set profile page */
 .set-profile-page{
   height: 100vh;
-  justify-content: space-around;
+  justify-content: flex-start;
+}
+
+/* profile page */
+.profile-page-header{
+  display: grid;
+  height: 20vh;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+.pfp-profile-page{
+  margin-left: 3rem;
+  height: 10rem;
+  width: 10rem;
+  grid-area: 1 / 6 / 7 / 8;
+}
+.profile-page-bio{
+  text-align: right;
+  grid-area: 4 / 2 / 7 / 6;
+}
+
+.profile-page-user{
+  text-align: right;
+  grid-area: 1 / 2 / 4 / 6;
+
+}
+
+.stumble-logo{
+  margin-top: 4rem;
+  cursor: pointer;
+  grid-area: 1 / 1 / 7 / 2;
 }

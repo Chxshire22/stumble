@@ -133,7 +133,7 @@ export default function SetProfile(props) {
         />
       </div>
       <Image
-        className="pfp-container"
+        className="pfp pfp-container"
         src={preview ? preview : "src/assets/images/default-pfp.png"}
         id="pfp-preview"
         roundedCircle
