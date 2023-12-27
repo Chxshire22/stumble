@@ -4,7 +4,6 @@ import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	onAuthStateChanged,
-	signOut,
 } from "firebase/auth";
 import { auth } from "./firebase";
 
@@ -16,6 +15,7 @@ function LoginSignout(props) {
 
 	useEffect(() => {
 		onAuthStateChanged(auth, (currentUser) => setUser(currentUser));
+		console.log(user)
 	}, []);
 
 	const navigate = useNavigate();
@@ -48,10 +48,6 @@ function LoginSignout(props) {
 		}
 	};
 
-	// const logout = async(e) => {
-	// 	e.preventDefault()
-	// 	signOut(auth)
-	// }
 
 	return (
 		<div className="authentication flex-center-col">
@@ -76,7 +72,7 @@ function LoginSignout(props) {
 					value={email}
 					autoFocus
 					placeholder="Email"
-					className="auth-page-input"
+					className="form-input"
 					type="email"
 					onChange={(e) => {
 						setEmail(e.target.value);
@@ -85,7 +81,7 @@ function LoginSignout(props) {
 				<input
 					value={password}
 					placeholder="Password"
-					className="auth-page-input"
+					className="form-input"
 					type="password"
 					onChange={(e) => {
 						setPassword(e.target.value);
