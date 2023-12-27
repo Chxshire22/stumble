@@ -7,10 +7,9 @@ import Profile from "./components/Profile";
 import Playground from "./components/Playground";
 import SetProfile from "./components/SetProfile";
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import { onAuthStateChanged } from "firebase/auth";
 // import {auth} from './components/firebase'
-
 
 function App() {
   const [user, setUser] = useState({});
@@ -21,6 +20,12 @@ function App() {
   //user profile addition
   const [username, setUsername] = useState("");
   const [bio, setBio] = useState("");
+
+  useEffect(() => {
+    if (profileUid) {
+      console.log(profileUid);
+    }
+  }, [profileUid]);
 
   // useEffect(() => {
   //   onAuthStateChanged(auth, (currentUser) => {
@@ -51,16 +56,21 @@ function App() {
       element: <FullPost />,
     },
     {
-      path: `/profile/:uid`,
+      path: `/profile/`,
       //will need the unique ID of profile
-      element: (
-        <Profile
-          profileUid={profileUid}
-          displayPic={selectedImage}
-          username={username}
-          bio={bio}
-        />
-      ),
+      children: [
+        {
+          path: ":uid",
+          element: (
+            <Profile
+              profileUid={profileUid}
+              displayPic={selectedImage}
+              username={username}
+              bio={bio}
+            />
+          ),
+        },
+      ],
     },
     {
       path: "/set-profile",
@@ -80,7 +90,9 @@ function App() {
     {
       path: "/playground",
       //purely for building and debugging
-      element: <Playground setProfileUid={setProfileUid} profileUid={profileUid}/>,
+      element: (
+        <Playground setProfileUid={setProfileUid} profileUid={profileUid} />
+      ),
     },
   ]);
   return (

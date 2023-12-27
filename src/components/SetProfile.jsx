@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Form, Image } from "react-bootstrap";
-import { auth, storage, db } from "./firebase";
+import { auth, storage, db, DB_STORAGE_PFP_KEY,DB_USER_KEY } from "./firebase";
 import { onAuthStateChanged, updateProfile } from "firebase/auth";
 import {
   ref as storageRef,
@@ -20,10 +20,6 @@ export default function SetProfile(props) {
     selectedImage,
     setSelectedImage,
   } = props;
-
-  //firebase folders
-  const DB_STORAGE_KEY = "profile-img/";
-  const DB_USER_KEY = "users/";
 
   const [preview, setPreview] = useState(null);
 
@@ -76,7 +72,7 @@ export default function SetProfile(props) {
         // this function is to make a reference/link to the image in storage. takes in 2 args, storage from firebase and the key+image.name to make it unique
         const storageRefInstance = storageRef(
           storage,
-          DB_STORAGE_KEY + auth.currentUser.uid
+          DB_STORAGE_PFP_KEY + auth.currentUser.uid
         );
         //this uploads the image with the reference
         uploadBytes(storageRefInstance, selectedImage).then(() => {

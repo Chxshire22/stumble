@@ -1,20 +1,11 @@
 import { useEffect, useState } from "react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
-} from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./firebase";
 
 function Playground(props) {
-
-	let {profileUid, setProfileUid} = props;
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  let { profileUid, setProfileUid } = props;
 
   const [user, setUser] = useState({});
 
@@ -23,21 +14,24 @@ function Playground(props) {
     console.log(user);
   }, []);
 
-	const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const logout = async (e) => {
     e.preventDefault();
     signOut(auth);
   };
 
-	const user1uid = 'jD42x63WiQa7maeM6ZmAJ0JLBXe2'
+  const user1uid = "jD42x63WiQa7maeM6ZmAJ0JLBXe2";
 
-	const handleClick = () =>{
-		setProfileUid(user1uid)
-		if (profileUid){
-			navigate(`/profile/${profileUid}`)
-		}
-	}
+  const handleClick = () => {
+    setProfileUid(user1uid)
+		navigate(`/profile/${profileUid}`);
+  };
+
+	useEffect(()=>{
+		const path = window.location.pathname;
+		console.log(path)
+	},[])
 
   return (
     <div className="authentication flex-center-col">
@@ -55,12 +49,12 @@ function Playground(props) {
           <p className="tagline">{user?.email}</p>
         </div>
       </header>
-      
-			<button onClick={handleClick}>user1</button>
 
-        <button onClick={logout} className="btn-base auth-page-btn">
-          Logout
-        </button>
+      <button onClick={handleClick}>user1</button>
+
+      <button onClick={logout} className="btn-base auth-page-btn">
+        Logout
+      </button>
       <div className="login-image">
         <img src="src/assets/images/flamenco-camping.webp" alt="" />
       </div>
