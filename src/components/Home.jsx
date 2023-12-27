@@ -1,4 +1,5 @@
-import { Modal } from "./Modal";
+import Modal from "./Modal";
+import FeedPostCard from "./FeedPostCard";
 import { useState } from "react";
 
 function Home() {
@@ -17,6 +18,7 @@ function Home() {
           <Modal openModal={openModal} setOpenModal={setOpenModal} />
         )}
       </div>
+      <FeedPostCard />
     </div>
   );
 }
