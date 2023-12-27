@@ -90,6 +90,8 @@ export default function SetProfile(props) {
                 displayPic: url,
                 email: auth.currentUser.email,
                 uid: auth.currentUser.uid,
+                posts: [],
+                savedPosts: [],
               });
             })
             .then(() => SetProfileUid(auth.currentUser.uid))
@@ -110,6 +112,8 @@ export default function SetProfile(props) {
               bio,
               email: auth.currentUser.email,
               uid: auth.currentUser.uid,
+              posts: [],
+              savedPosts: [],
             });
           })
           .then(() => SetProfileUid(auth.currentUser.uid))

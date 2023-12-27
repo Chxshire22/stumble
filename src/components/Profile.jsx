@@ -29,7 +29,6 @@ function Profile() {
     .catch((error) => {
       console.error(error);
     });
-
   },[uid])
 
 
@@ -37,7 +36,7 @@ function Profile() {
     <div>
       <h1>Profile</h1>
       <h1>{profile.username}</h1> 
-      <Image src={profile.displayPic}/>
+      <Image className="pfp-container" src={profile.displayPic} roundedCircle fluid/>
       <p>{profile.bio}</p>
     </div>
   );
