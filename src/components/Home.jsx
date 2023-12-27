@@ -1,5 +1,6 @@
 import Modal from "./Modal";
 import FeedPostCard from "./FeedPostCard";
+import Modal from "./Modal";
 import { useState } from "react";
 
 function Home() {
