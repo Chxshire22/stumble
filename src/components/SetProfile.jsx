@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function SetProfile(props) {
   let {
-    // profileUid,
+    SetProfileUid,
     username,
     setUsername,
     bio,
@@ -93,12 +93,15 @@ export default function SetProfile(props) {
                 username,
                 displayPic: url,
                 email: auth.currentUser.email,
+                uid: auth.currentUser.uid,
               });
             })
+            .then(() => SetProfileUid(auth.currentUser.uid))
             .then(() => navigate(`/profile/${auth.currentUser.uid}`));
         });
       } else {
         updateProfile(auth.currentUser, {
+          //if pfp exists, select that. if not, use default pfp url
           photoURL: auth.currentUser.photoURL
             ? auth.currentUser.photoURL
             : "https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/profile-img%2Fdefault-pfp.png?alt=media&token=bdbbf587-5f3e-43a5-a4c6-e7bf44d983a7",
@@ -110,8 +113,10 @@ export default function SetProfile(props) {
               username,
               bio,
               email: auth.currentUser.email,
+              uid: auth.currentUser.uid,
             });
           })
+          .then(() => SetProfileUid(auth.currentUser.uid))
           .then(() => navigate(`/profile/${auth.currentUser.uid}`));
       }
     }

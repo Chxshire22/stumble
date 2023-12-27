@@ -67,7 +67,7 @@ function App() {
       //purely for building and debugging
       element: (
         <SetProfile
-          // profileUid={profileUid}
+          SetProfileUid={setProfileUid}
           selectedImage={selectedImage}
           setSelectedImage={setSelectedImage}
           username={username}
@@ -80,7 +80,7 @@ function App() {
     {
       path: "/playground",
       //purely for building and debugging
-      element: <Playground />,
+      element: <Playground setProfileUid={setProfileUid} profileUid={profileUid}/>,
     },
   ]);
   return (

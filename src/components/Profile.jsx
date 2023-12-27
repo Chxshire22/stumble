@@ -3,10 +3,14 @@ import { Image } from "react-bootstrap";
 import { db } from "./firebase";
 import {ref, onValue} from 'firebase/database'
 
-function Profile() {
+function Profile(props) {
 
+  let {profileUid} =props;
   // user can edit posts? if uid == auth.currentUser.uid
 
+  useEffect(() =>{
+    console.log(profileUid)
+  },[profileUid])
 
   return ( 
   <div>

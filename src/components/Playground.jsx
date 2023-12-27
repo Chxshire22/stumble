@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-// import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 import {
   createUserWithEmailAndPassword,
@@ -9,7 +9,10 @@ import {
 } from "firebase/auth";
 import { auth } from "./firebase";
 
-function Playground() {
+function Playground(props) {
+
+	let {profileUid, setProfileUid} = props;
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,38 +23,21 @@ function Playground() {
     console.log(user);
   }, []);
 
-  // const navigate = useNavigate();
-
-  const register = async (e) => {
-    e.preventDefault();
-    try {
-      const user = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(user);
-      console.log(auth);
-      setEmail("");
-      setPassword("");
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  const login = async (e) => {
-    e.preventDefault();
-    try {
-      const user = await signInWithEmailAndPassword(auth, email, password);
-      console.log(user);
-      console.log(auth);
-      setEmail("");
-      setPassword("");
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+	const navigate = useNavigate()
 
   const logout = async (e) => {
     e.preventDefault();
     signOut(auth);
   };
+
+	const user1uid = 'jD42x63WiQa7maeM6ZmAJ0JLBXe2'
+
+	const handleClick = () =>{
+		setProfileUid(user1uid)
+		if (profileUid){
+			navigate(`/profile/${profileUid}`)
+		}
+	}
 
   return (
     <div className="authentication flex-center-col">
@@ -69,39 +55,12 @@ function Playground() {
           <p className="tagline">{user?.email}</p>
         </div>
       </header>
-      <form className="auth-form flex-center-col">
-        <input
-          value={email}
-          autoFocus
-          placeholder="Email"
-          className="auth-page-input"
-          type="email"
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
-        <input
-          value={password}
-          placeholder="Password"
-          className="auth-page-input"
-          type="password"
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        />
-        <div className="auth-page-btns flex-center-row">
-          <button onClick={register} className="btn-base auth-page-btn">
-            Sign Up
-          </button>
-          <button onClick={login} className="btn-base auth-page-btn">
-            Login
-          </button>
-        </div>
+      
+			<button onClick={handleClick}>user1</button>
 
         <button onClick={logout} className="btn-base auth-page-btn">
           Logout
         </button>
-      </form>
       <div className="login-image">
         <img src="src/assets/images/flamenco-camping.webp" alt="" />
       </div>
