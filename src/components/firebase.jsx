@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getDatabase } from "firebase/database";
+import { getDatabase, ref } from "firebase/database";
 import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -23,3 +23,11 @@ const app = initializeApp(firebaseConfig);
 export const db = getDatabase(app);
 export const auth = getAuth(app);
 export const storage = getStorage(app);
+
+// Database keys
+export const DB_STORAGE_PFP_KEY = "profile-img/";
+export const DB_USER_KEY = "users/";
+
+// Database refs
+export const pfpRef = ref(db, DB_STORAGE_PFP_KEY)
+export const userRef = ref(db, DB_USER_KEY)

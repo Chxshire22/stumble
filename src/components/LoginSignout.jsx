@@ -8,7 +8,7 @@ import {
 import { auth } from "./firebase";
 
 function LoginSignout(props) {
-	let { setUser, user } = props;
+	let { setUser, user, } = props;
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -16,7 +16,7 @@ function LoginSignout(props) {
 	useEffect(() => {
 		onAuthStateChanged(auth, (currentUser) => setUser(currentUser));
 		console.log(user)
-	}, []);
+	}, [user]);
 
 	const navigate = useNavigate();
 
