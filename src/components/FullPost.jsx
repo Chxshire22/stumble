@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { db } from "./firebase";
-import { push, ref as databaseRef, set } from "firebase/database";
+import { onChildAdded, push, ref as databaseRef, set } from "firebase/database";
 
 const COMMENTS_FOLDER_NAME = "comments";
 
@@ -14,7 +14,7 @@ function FullPost() {
     onChildAdded(commentRef, (data) => {
       setComments((prevState) => [
         ...prevState,
-        { username: data.username, val: data.val() },
+        { username: data.username, val: data.val(), key: data.key },
       ]);
     });
   });
@@ -28,7 +28,7 @@ function FullPost() {
   };
 
   let commentListItems = comments.map((comment) => (
-    <div>
+    <div key={comment.key}>
       <Row>{comment.username}</Row>
       <Row>{comment.val}</Row>
     </div>
@@ -91,9 +91,7 @@ function FullPost() {
         </form>
       </div>
       <p className="username">@mariotey</p>
-      <div>
-        <commentListItems />
-      </div>
+      <div>{commentListItems}</div>
     </div>
   );
 }
