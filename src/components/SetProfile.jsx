@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function SetProfile(props) {
   let {
-    SetProfileUid,
+    setProfileUid,
     username,
     setUsername,
     bio,
@@ -101,7 +101,7 @@ export default function SetProfile(props) {
                 savedPosts: [],
               });
             })
-            .then(() => SetProfileUid(auth.currentUser.uid))
+            .then(() => setProfileUid(auth.currentUser.uid))
             .then(() => navigate(`/profile/${auth.currentUser.uid}`));
         });
       } else {
@@ -123,7 +123,7 @@ export default function SetProfile(props) {
               savedPosts: [],
             });
           })
-          .then(() => SetProfileUid(auth.currentUser.uid))
+          .then(() => setProfileUid(auth.currentUser.uid))
           .then(() => navigate(`/profile/${auth.currentUser.uid}`));
       }
     }
