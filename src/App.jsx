@@ -1,15 +1,13 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import LoginSignout from "./components/LoginSignout";
 import Home from "./components/Home";
-import CreatePost from "./components/CreatePost";
+import ModalCreatePost from "./components/ModalCreatePost";
 import FullPost from "./components/FullPost";
 import Profile from "./components/Profile";
 import Playground from "./components/Playground";
 import SetProfile from "./components/SetProfile";
 import "./App.css";
-import { useEffect, useState } from "react";
-// import { onAuthStateChanged } from "firebase/auth";
-// import {auth} from './components/firebase'
+import { useState } from "react";
 
 function App() {
   const [user, setUser] = useState({});
@@ -38,7 +36,7 @@ function App() {
     },
     {
       path: "/create-post",
-      element: <CreatePost />,
+      element: <ModalCreatePost />,
     },
     {
       path: "/post/:postUid",
@@ -63,17 +61,7 @@ function App() {
     {
       path: "/set-profile",
       //purely for building and debugging
-      element: (
-        <SetProfile
-          SetProfileUid={setProfileUid}
-          selectedImage={selectedImage}
-          setSelectedImage={setSelectedImage}
-          username={username}
-          setUsername={setUsername}
-          bio={bio}
-          setBio={setBio}
-        />
-      ),
+      element: <SetProfile/>,
     },
     {
       path: "/playground",

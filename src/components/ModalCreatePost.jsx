@@ -6,10 +6,15 @@ import {
   ref as storageRef,
   uploadBytes,
 } from "firebase/storage";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import { getAuth } from "firebase/auth";
+
 const IMAGES_FOLDER_NAME = "images";
 const POSTS_FOLDER_NAME = "posts";
+const auth = getAuth();
 
-function Modal(props) {
+function ModalCreatePost(props) {
   const [textInput, setTextInput] = useState("");
   const [location, setLocation] = useState("");
   const [fileInput, setFileInput] = useState(null);
@@ -29,8 +34,14 @@ function Modal(props) {
           imageLink: url,
           text: textInput,
           location: location,
+          uid: auth.currentUser.uid,
+          username: auth.currentUser.displayName,
+          date: new Date().toLocaleTimeString(navigator.language, {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
         });
-        setFileInputFile(null);
+        setFileInput(null);
         setTextInput("");
         setLocation("");
       });
@@ -38,9 +49,18 @@ function Modal(props) {
   };
 
   return (
-    <div>
-      <dialog className="modal">
-        <h3>Create a Post</h3>
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Create a Post
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
         <form onSubmit={writeData}>
           <input
             type="text"
@@ -58,17 +78,16 @@ function Modal(props) {
             type="file"
             onChange={(e) => setFileInput(e.target.files[0])}
           />
-          <button
-            type="submit"
-            disabled={!textInputValue}
-            onClick={() => props.setOpenModal(false)}
-          >
+          <button type="submit" disabled={!textInput}>
             Post
           </button>
         </form>
-      </dialog>
-    </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.onHide}>Close</Button>
+      </Modal.Footer>
+    </Modal>
   );
 }
 
-export default Modal;
+export default ModalCreatePost;
