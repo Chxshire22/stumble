@@ -57,7 +57,7 @@ function FeedPostCard() {
           <Col xs={7} className="post-details comments">
             <p className="comment-username">@chxshire22</p>
             <p className="comment-content">
-              wow can't wait to go there end of this month!
+              wow can&apos;t wait to go there end of this month!
             </p>
           </Col>
           <Col>
