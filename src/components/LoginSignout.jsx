@@ -16,7 +16,7 @@ function LoginSignout(props) {
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => setUser(currentUser));
     console.log(user);
-  }, []);
+  }, [user]);
 
   const navigate = useNavigate();
 

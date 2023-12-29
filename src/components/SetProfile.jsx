@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Form, Image } from "react-bootstrap";
-import { auth, storage, db } from "./firebase";
+import { auth, storage, db, DB_STORAGE_PFP_KEY, DB_USER_KEY } from "./firebase";
 import { onAuthStateChanged, updateProfile } from "firebase/auth";
 import {
   ref as storageRef,
@@ -8,30 +8,34 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { ref, set, onValue } from "firebase/database";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export default function SetProfile() {
-  //firebase folders
-  const DB_STORAGE_KEY = "profile-img/";
-  const DB_USER_KEY = "users/";
+export default function SetProfile(props) {
+  let {
+    setProfileUid,
+    username,
+    setUsername,
+    bio,
+    setBio,
+    selectedImage,
+    setSelectedImage,
+  } = props;
 
-  // set preview of selected pfp
-  const [selectedImage, setSelectedImage] = useState(null);
   const [preview, setPreview] = useState(null);
-  //user profile addition
-  const [username, setUsername] = useState("");
-  const [bio, setBio] = useState("");
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // change image container when selected image is changed
   useEffect(() => {
     if (!selectedImage) {
-      setPreview(undefined);
+      setPreview(
+        "https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/profile-img%2Fdefault-pfp.png?alt=media&token=bdbbf587-5f3e-43a5-a4c6-e7bf44d983a7"
+      );
       return;
+    } else {
+      const localUrl = URL.createObjectURL(selectedImage);
+      setPreview(localUrl);
     }
-    const localUrl = URL.createObjectURL(selectedImage);
-    setPreview(localUrl);
   }, [selectedImage]);
 
   const handleImageChange = (e) => {
@@ -45,9 +49,11 @@ export default function SetProfile() {
 
   //display user info
   useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
+    onAuthStateChanged(auth, (user) => {
       if (user) {
-        setPreview(user.photoURL);
+        if (user.photoURL) {
+          setPreview(user.photoURL);
+        }
         setUsername(user.displayName);
         console.log(user);
         //retrieve bio
@@ -60,6 +66,7 @@ export default function SetProfile() {
         console.log("loading user");
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const saveProfile = (e) => {
@@ -71,39 +78,52 @@ export default function SetProfile() {
         // this function is to make a reference/link to the image in storage. takes in 2 args, storage from firebase and the key+image.name to make it unique
         const storageRefInstance = storageRef(
           storage,
-          DB_STORAGE_KEY + auth.currentUser.uid
+          DB_STORAGE_PFP_KEY + auth.currentUser.uid
         );
         //this uploads the image with the reference
         uploadBytes(storageRefInstance, selectedImage).then(() => {
-          getDownloadURL(storageRefInstance).then((url) => {
-            //updates the FIREBASE profile with username, pfp
-            updateProfile(auth.currentUser, {
-              photoURL: url,
-              displayName: username,
-            });
-            // update my own user DB
-            set(ref(db, DB_USER_KEY + auth.currentUser.uid), {
-              bio,
-              username,
-              displayPic: url,
-              email: auth.currentUser.email,
-            });
-          });
+          getDownloadURL(storageRefInstance)
+            .then((url) => {
+              //updates the FIREBASE profile with username, pfp
+              updateProfile(auth.currentUser, {
+                photoURL: url,
+                displayName: username,
+              });
+              // update my own user DB
+              set(ref(db, DB_USER_KEY + auth.currentUser.uid), {
+                bio,
+                username,
+                displayPic: url,
+                email: auth.currentUser.email,
+                uid: auth.currentUser.uid,
+                posts: [],
+                savedPosts: [],
+              });
+            })
+            .then(() => setProfileUid(auth.currentUser.uid))
+            .then(() => navigate(`/profile/${auth.currentUser.uid}`));
         });
       } else {
         updateProfile(auth.currentUser, {
+          //if pfp exists, select that. if not, use default pfp url
           photoURL: auth.currentUser.photoURL
             ? auth.currentUser.photoURL
             : "https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/profile-img%2Fdefault-pfp.png?alt=media&token=bdbbf587-5f3e-43a5-a4c6-e7bf44d983a7",
           displayName: username,
-        }).then(() => {
-          set(ref(db, DB_USER_KEY + auth.currentUser.uid), {
-            displayPic: auth.currentUser.photoURL,
-            username,
-            bio,
-            email: auth.currentUser.email,
-          });
-        });
+        })
+          .then(() => {
+            set(ref(db, DB_USER_KEY + auth.currentUser.uid), {
+              displayPic: auth.currentUser.photoURL,
+              username,
+              bio,
+              email: auth.currentUser.email,
+              uid: auth.currentUser.uid,
+              posts: [],
+              savedPosts: [],
+            });
+          })
+          .then(() => setProfileUid(auth.currentUser.uid))
+          .then(() => navigate(`/profile/${auth.currentUser.uid}`));
       }
     }
   };
@@ -118,7 +138,7 @@ export default function SetProfile() {
         />
       </div>
       <Image
-        className="pfp-container"
+        className="pfp pfp-container"
         src={preview ? preview : "src/assets/images/default-pfp.png"}
         id="pfp-preview"
         roundedCircle

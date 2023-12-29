@@ -19,59 +19,16 @@
 
 /* Fonts */
 
-@font-face {
-  font-family: "nunito-italic";
-  src: url("src/assets/fonts/Nunito-Italic.woff") format("woff");
-  /* url('src/assets/fonts/nunito-italic-variablefont_wght-webfont.woff') format('woff2'); */
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "nunito-bold";
-  src: url("src/assets/fonts/Nunito-Bold.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "nunito-italic";
-  src: url("src/assets/fonts/Nunito-BoldItalic.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "nunito-medium";
-  src: url("src/assets/fonts/Nunito-Medium.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "nunito-medium-italic";
-  src: url("src/assets/fonts/Nunito-MediumItalic.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "nunito-regular";
-  src: url("src/assets/fonts/Nunito-Regular.woff") format("woff");
-  /* url('src/assets/fonts/nunito-variablefont_wght-webfont.woff') format('woff'); */
-  font-weight: normal;
-  font-style: normal;
-}
-
 body {
-  font-family: "nunito-regular", Arial, Helvetica, sans-serif;
+  font-family: "Nunito", sans-serif, Arial, Helvetica, sans-serif;
 }
 
 h1,
 h2,
 h3,
 h4 {
-  font-family: "nunito-bold", Arial, Helvetica, sans-serif;
+  font-family: "Nunito", Arial, Helvetica, sans-serif;
+  font-weight: 700;
 }
 
 /* bg color for all pages */
@@ -81,6 +38,19 @@ body {
 
 p {
   margin: 0;
+}
+
+.bio {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.profile-page-user {
+  font-size: 64px;
+}
+
+.blue {
+  color: var(--color-dark-blue);
 }
 
 /* formatting */
@@ -124,7 +94,8 @@ p {
 
 .username,
 .comment-username {
-  font-family: "nunito-bold";
+  font-family: "Nunito";
+  font-weight: 700;
   margin-block: auto;
 }
 
@@ -140,7 +111,8 @@ p {
 .feed-post__date,
 .feed-post__location {
   text-align: end;
-  font-family: "nunito-bold";
+  font-family: "Nunito";
+  font-weight: 700;
 }
 
 .feed-post {
@@ -173,7 +145,8 @@ p {
   margin-left: auto;
 }
 .likes-count {
-  font-family: "nunito-bold";
+  font-family: "Nunito";
+  font-weight: 700;
   font-size: 0.85rem;
   margin-left: 1rem;
   display: inline-block;
@@ -201,7 +174,8 @@ p {
   border-radius: var(--border-radius-round);
   width: 9rem;
   height: 3.2rem;
-  font-family: "nunito-bold";
+  font-family: "Nunito";
+  font-weight: 700;
   background-color: var(--color-dark-blue);
   transition: background-color 0.35s box-shadow 0.35s;
 }
@@ -224,7 +198,8 @@ p {
 
 /* form input */
 .form-input {
-  font-family: "nunito-bold";
+  font-family: "Nunito";
+  font-weight: 700;
   width: 20rem;
   color: var(--color-white);
   text-align: center;
@@ -249,7 +224,8 @@ textarea {
 
 label {
   width: 50%;
-  font-family: "nunito-bold";
+  font-family: "Nunito";
+  font-weight: 700;
 }
 
 /* Auth Page */
@@ -278,7 +254,8 @@ label {
 
 .tagline {
   text-align: center;
-  font-family: "nunito-bold";
+  font-family: "Nunito";
+  font-weight: 700;
   color: var(--color-dark-blue);
   font-size: 1.3rem;
 }
@@ -298,8 +275,45 @@ label {
   margin-block: 2rem;
 }
 
+.pfp-container {
+  height: 20vw;
+  width: 20vw;
+}
+
 /* set profile page */
 .set-profile-page {
   height: 100vh;
-  justify-content: space-around;
+  justify-content: flex-start;
+}
+
+/* profile page */
+.profile-page-header {
+  display: grid;
+  height: 20vh;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+.pfp-profile-page {
+  margin-left: 3rem;
+  height: 10rem;
+  width: 10rem;
+  grid-area: 1 / 6 / 7 / 8;
+}
+.profile-page-bio {
+  text-align: right;
+  grid-area: 4 / 2 / 7 / 6;
+}
+
+.profile-page-user {
+  text-align: right;
+  grid-area: 1 / 2 / 4 / 6;
+}
+
+.stumble-logo {
+  margin-top: 4rem;
+  cursor: pointer;
+  grid-area: 1 / 1 / 7 / 2;
 }
