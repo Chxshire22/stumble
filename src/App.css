@@ -189,6 +189,7 @@ p {
 	height: 2.5rem;
 }
 
+
 .btn-base:hover {
   box-shadow: var(--box-shadow);
   background-color: var(--color-dark-blue-hover);
