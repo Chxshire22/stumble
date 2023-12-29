@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Image } from "react-bootstrap";
-import { userRef } from "./firebase";
+import { Image, Dropdown } from "react-bootstrap";
+import { auth, userRef } from "./firebase";
+import { signOut } from "firebase/auth";
 import { get, child } from "firebase/database";
 import { useNavigate, useParams } from "react-router-dom";
-import FeedPostCard from "./FeedPostCard"
+import FeedPostCard from "./FeedPostCard";
 
 function Profile() {
 	// user can edit posts? if uid == auth.currentUser.uid
@@ -34,6 +35,15 @@ function Profile() {
 
 	const navigate = useNavigate();
 
+	const logout = async() =>{
+		try{
+			await signOut(auth);
+			navigate("/welcome")
+		}catch(err){
+			console.log(err)
+		}
+	}
+
 	return (
 		<div className="block flex-center-col">
 			<header className="profile-page-header">
@@ -53,6 +63,17 @@ function Profile() {
 				<h1 className="profile-page-user blue">{profile.username}</h1>
 				<p className="bio profile-page-bio blue">{profile.bio}</p>
 			</header>
+		<Dropdown>
+		<Dropdown.Toggle variant="success" id="dropdown-basic">
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu>
+        <Dropdown.Item onClick={logout}>Sign Out</Dropdown.Item>
+        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+      </Dropdown.Menu>
+		</Dropdown>
+
 			<hr />
 			<div className="profile-body app-body">
 				<div className="feed-btns-col">
@@ -60,11 +81,12 @@ function Profile() {
 					<button className="btn-base feed-btn">Filters</button>
 				</div>
 				<div className="profile-feed feed flex-center-col">
-				<FeedPostCard/>
-				<FeedPostCard/>
-				<FeedPostCard/>
-				<FeedPostCard/>
-				<FeedPostCard/>
+		{/*placeholder posts. will map posts here soon*/}
+					<FeedPostCard />
+					<FeedPostCard />
+					<FeedPostCard />
+					<FeedPostCard />
+					<FeedPostCard />
 				</div>
 				<img
 					className="feed-image-deco"

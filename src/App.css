@@ -13,8 +13,8 @@
   --border-radius-round: 24px;
   /* box-shadow */
   --box-shadow: 4px 4px 0px black;
-  /* box-outline */
-  --box-outline: 2px solid black;
+  /* box-border */
+  --box-border: 2px solid black;
 }
 
 /* Fonts */
@@ -116,8 +116,8 @@ p{
   width: 50rem;
   background-color: var(--color-white);
   border-radius: var(--border-radius-box);
-  outline: 1px solid black;
   transition: box-shadow 0.35s;
+	border: var(--box-border);
 }
 
 .feed-post:hover{
@@ -166,7 +166,8 @@ p{
 
 .btn-base{
   outline: none;
-  border: 2px solid black;
+  /* border: 2px solid black; */
+	border: var(--box-border);
   color: var(--color-white);
   border-radius: var(--border-radius-round);
   width: 9rem;
