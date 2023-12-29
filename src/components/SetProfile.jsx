@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Form, Image } from "react-bootstrap";
-import { auth, storage, db, DB_STORAGE_PFP_KEY,DB_USER_KEY } from "./firebase";
+import { auth, storage, db, DB_STORAGE_PFP_KEY, DB_USER_KEY } from "./firebase";
 import { onAuthStateChanged, updateProfile } from "firebase/auth";
 import {
   ref as storageRef,
@@ -32,8 +32,7 @@ export default function SetProfile(props) {
         "https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/profile-img%2Fdefault-pfp.png?alt=media&token=bdbbf587-5f3e-43a5-a4c6-e7bf44d983a7"
       );
       return;
-    }
-    else{
+    } else {
       const localUrl = URL.createObjectURL(selectedImage);
       setPreview(localUrl);
     }
@@ -52,7 +51,7 @@ export default function SetProfile(props) {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        if(user.photoURL){
+        if (user.photoURL) {
           setPreview(user.photoURL);
         }
         setUsername(user.displayName);
@@ -67,7 +66,7 @@ export default function SetProfile(props) {
         console.log("loading user");
       }
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const saveProfile = (e) => {

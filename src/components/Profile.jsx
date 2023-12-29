@@ -1,38 +1,37 @@
 import { useEffect, useState } from "react";
 import { Image } from "react-bootstrap";
 import { userRef } from "./firebase";
-import { get, child, } from "firebase/database";
+import { get, child } from "firebase/database";
 import { useNavigate, useParams } from "react-router-dom";
 
 function Profile() {
   // user can edit posts? if uid == auth.currentUser.uid
-  const [profile, setProfile] = useState({})
+  const [profile, setProfile] = useState({});
 
-  const {uid} = useParams();
+  const { uid } = useParams();
 
-  useEffect(()=>{
-    if(uid){
-      console.log(uid)
+  useEffect(() => {
+    if (uid) {
+      console.log(uid);
     }
-  },[uid])
+  }, [uid]);
 
-  useEffect(()=>{
+  useEffect(() => {
     get(child(userRef, `/${uid}`))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        console.log(snapshot.val());
-        setProfile(snapshot.val())
-      } else {
-        console.log("No data available");
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-  },[uid])
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          console.log(snapshot.val());
+          setProfile(snapshot.val());
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [uid]);
 
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
 
   return (
     <div className="block">
@@ -42,7 +41,7 @@ function Profile() {
           src="https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/assets%2Fstumble-logo.webp?alt=media&token=72a22d6a-4de1-4a2c-b0bc-08fe0f660c8f"
           className="stumble-logo"
           alt=""
-          onClick={() =>navigate("/")}
+          onClick={() => navigate("/")}
         />
         <Image
           className="pfp pfp-profile-page"
@@ -58,10 +57,3 @@ function Profile() {
 }
 
 export default Profile;
-
-        // <Image
-        //   className="pfp pfp-profile-page"
-        //   src={profile.displayPic}
-        //   roundedCircle
-        //   fluid
-        // />;

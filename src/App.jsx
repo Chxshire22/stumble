@@ -49,18 +49,23 @@ function App() {
       children: [
         {
           path: ":uid",
-          element: (
-            <Profile
-              username={username}
-              bio={bio}
-            />
-          ),
+          element: <Profile username={username} bio={bio} />,
         },
       ],
     },
     {
       path: "/set-profile",
-      element: <SetProfile setProfileUid={setProfileUid} username={username} setUsername={setUsername} bio={bio} setBio={setBio} selectedImage={selectedImage} setSelectedImage={setSelectedImage} />,
+      element: (
+        <SetProfile
+          setProfileUid={setProfileUid}
+          username={username}
+          setUsername={setUsername}
+          bio={bio}
+          setBio={setBio}
+          selectedImage={selectedImage}
+          setSelectedImage={setSelectedImage}
+        />
+      ),
     },
     {
       path: "/playground",
