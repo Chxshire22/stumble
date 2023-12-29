@@ -8,6 +8,7 @@
   --color-offwhite: #F3E1C8;
   --color-burgundy: #9B6A6C;
   --color-grey-blue: #6D7993;
+  --color-grey-blue-hover: #4b5466;
   /* Border Radius */
   --border-radius-box: 15px;
   --border-radius-round: 24px;
@@ -206,6 +207,28 @@ p{
 	outline: none;
 	border-color: black;
 }
+
+.btn-create-post{
+  background-color: var(--color-grey-blue);
+  width: 100%;
+  position: relative;
+}
+.btn-create-post:hover{
+  background-color: var(--color-grey-blue-hover);
+}
+
+.pfp-badge{
+  background-color: black;
+  border-radius: 100%;
+  width: 43px;
+  height: 43px;
+  position: absolute;
+  bottom: 2.5px;
+  left: 3px;
+  overflow: none;
+  border: var(--box-border);
+}
+
 /* logo */
 .logo-container{
   cursor: pointer;
