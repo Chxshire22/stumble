@@ -5,7 +5,7 @@ import { auth, db } from "./firebase";
 import { ref as databaseRef, onValue } from "firebase/database";
 import { signOut } from "firebase/auth";
 // import Button from "react-bootstrap/Button";
-import { Image, Dropdown } from "react-bootstrap";
+import { Dropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 const POSTS_FOLDER_NAME = "posts";
@@ -36,7 +36,7 @@ function Home() {
 
   return (
     <div className="block flex-center-col">
-      <header className="flex-center-row">
+      <header className="home-page-header flex-center-row">
         {/* decided to upload the image to firebase */}
         <img
           src="https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/assets%2Fstumble-logo.webp?alt=media&token=72a22d6a-4de1-4a2c-b0bc-08fe0f660c8f"
@@ -44,12 +44,14 @@ function Home() {
           alt=""
           onClick={() => navigate("/")}
         />
-        <Image
-          className="pfp pfp-profile-page"
-          src={auth.currentUser.photoURL}
-          roundedCircle
-          fluid
-        />
+        <button className="btn-base btn-search">Search</button>
+        <button
+          className="btn-base btn-profile"
+          onClick={() => navigate(`/profile/${auth.currentUser.uid}`)}
+        >
+          <p>Profile</p>
+          <img className="pfp-badge badge-right" src={auth.currentUser.photoURL} />
+        </button>
       </header>
       <div className="dropdown-container"></div>
       <hr />
@@ -73,8 +75,12 @@ function Home() {
           </Dropdown>
         </div>
         <div className="home-content">
-          <button className="btn-base btn-create-post" onClick={() => setModalShow(true)}>
-              <img className="pfp-badge" src={auth.currentUser.photoURL}  />
+          <h1 className="home-feed-header">Home</h1>
+          <button
+            className="btn-base btn-create-post"
+            onClick={() => setModalShow(true)}
+          >
+            <img className="pfp-badge badge-left" src={auth.currentUser.photoURL} />
             <p>What&apos;s on your mind?</p>
           </button>
           <ModalCreatePost
