@@ -1,18 +1,24 @@
 import ModalCreatePost from "./ModalCreatePost";
 import FeedPostCard from "./FeedPostCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { db } from "./firebase";
+import { ref as databaseRef, onValue } from "firebase/database";
 import Button from "react-bootstrap/Button";
+
+const POSTS_FOLDER_NAME = "posts";
 
 function Home() {
   const [modalShow, setModalShow] = useState(false);
+  const [posts, setPosts] = useState([]);
 
-  // const handleClickOpen = () => {
-  //   setOpenModal(true);
-  // };
-
-  // const handleClose = () => {
-  //   setOpenModal(false);
-  // };
+  useEffect(() => {
+    const postsRef = databaseRef(db, POSTS_FOLDER_NAME);
+    onValue(postsRef, (snapshot) => {
+      const post = snapshot.val();
+      const postsArray = Object.values(post);
+      setPosts(postsArray);
+    });
+  }, []);
 
   return (
     <div>
@@ -28,7 +34,18 @@ function Home() {
 
         <ModalCreatePost show={modalShow} onHide={() => setModalShow(false)} />
       </div>
-      <FeedPostCard />
+      <div>
+        {posts.map((post, index) => (
+          <FeedPostCard
+            key={index}
+            username={post.username}
+            location={post.location}
+            text={post.text}
+            date={post.date}
+            image={post.imageLink}
+          />
+        ))}
+      </div>
     </div>
   );
 }

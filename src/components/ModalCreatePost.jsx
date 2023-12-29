@@ -10,7 +10,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { getAuth } from "firebase/auth";
 
-const IMAGES_FOLDER_NAME = "images";
+const IMAGES_FOLDER_NAME = "post-img";
 const POSTS_FOLDER_NAME = "posts";
 const auth = getAuth();
 

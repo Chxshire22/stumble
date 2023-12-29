@@ -64,8 +64,8 @@ export default function SetProfile() {
 
   const saveProfile = (e) => {
     e.preventDefault();
-    //why doesnt input validation required={true} not work? 
-    if (username && username.length>=4) {
+    //why doesnt input validation required={true} not work?
+    if (username && username.length >= 4) {
       if (selectedImage) {
         //comment only for my learning btw
         // this function is to make a reference/link to the image in storage. takes in 2 args, storage from firebase and the key+image.name to make it unique
@@ -92,7 +92,9 @@ export default function SetProfile() {
         });
       } else {
         updateProfile(auth.currentUser, {
-          photoURL: auth.currentUser.photoURL? auth.currentUser.photoURL:"https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/profile-img%2Fdefault-pfp.png?alt=media&token=bdbbf587-5f3e-43a5-a4c6-e7bf44d983a7",
+          photoURL: auth.currentUser.photoURL
+            ? auth.currentUser.photoURL
+            : "https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/profile-img%2Fdefault-pfp.png?alt=media&token=bdbbf587-5f3e-43a5-a4c6-e7bf44d983a7",
           displayName: username,
         }).then(() => {
           set(ref(db, DB_USER_KEY + auth.currentUser.uid), {

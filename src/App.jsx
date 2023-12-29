@@ -26,7 +26,7 @@ function App() {
       element: <ModalCreatePost />,
     },
     {
-      path: "/post",
+      path: "",
       //will need the unique ID of post
       element: <FullPost />,
     },

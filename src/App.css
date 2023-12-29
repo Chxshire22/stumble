@@ -1,13 +1,13 @@
-:root{
+:root {
   /* Color Scheme */
-  --color-white:#F4EAE6;
-  --color-teal: #4297A0;
-  --color-pink: #E57F84;
-  --color-dark-blue: #2F5061;
+  --color-white: #f4eae6;
+  --color-teal: #4297a0;
+  --color-pink: #e57f84;
+  --color-dark-blue: #2f5061;
   --color-dark-blue-hover: #213844;
-  --color-offwhite: #F3E1C8;
-  --color-burgundy: #9B6A6C;
-  --color-grey-blue: #6D7993;
+  --color-offwhite: #f3e1c8;
+  --color-burgundy: #9b6a6c;
+  --color-grey-blue: #6d7993;
   /* Border Radius */
   --border-radius-box: 15px;
   --border-radius-round: 24px;
@@ -20,83 +20,84 @@
 /* Fonts */
 
 @font-face {
-    font-family: 'nunito-italic';
-    src: url('src/assets/fonts/Nunito-Italic.woff') format('woff');
-         /* url('src/assets/fonts/nunito-italic-variablefont_wght-webfont.woff') format('woff2'); */
-    font-weight: normal;
-    font-style: normal;
+  font-family: "nunito-italic";
+  src: url("src/assets/fonts/Nunito-Italic.woff") format("woff");
+  /* url('src/assets/fonts/nunito-italic-variablefont_wght-webfont.woff') format('woff2'); */
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'nunito-bold';
-    src: url('src/assets/fonts/Nunito-Bold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "nunito-bold";
+  src: url("src/assets/fonts/Nunito-Bold.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'nunito-italic';
-    src: url('src/assets/fonts/Nunito-BoldItalic.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "nunito-italic";
+  src: url("src/assets/fonts/Nunito-BoldItalic.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'nunito-medium';
-    src: url('src/assets/fonts/Nunito-Medium.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "nunito-medium";
+  src: url("src/assets/fonts/Nunito-Medium.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'nunito-medium-italic';
-    src: url('src/assets/fonts/Nunito-MediumItalic.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "nunito-medium-italic";
+  src: url("src/assets/fonts/Nunito-MediumItalic.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'nunito-regular';
-    src: url('src/assets/fonts/Nunito-Regular.woff') format('woff');
-         /* url('src/assets/fonts/nunito-variablefont_wght-webfont.woff') format('woff'); */
-    font-weight: normal;
-    font-style: normal;
-
+  font-family: "nunito-regular";
+  src: url("src/assets/fonts/Nunito-Regular.woff") format("woff");
+  /* url('src/assets/fonts/nunito-variablefont_wght-webfont.woff') format('woff'); */
+  font-weight: normal;
+  font-style: normal;
 }
 
-body{
-  font-family: 'nunito-regular',Arial, Helvetica, sans-serif;
+body {
+  font-family: "nunito-regular", Arial, Helvetica, sans-serif;
 }
 
-h1,h2,h3,h4{
-  font-family: "nunito-bold",Arial, Helvetica, sans-serif;
+h1,
+h2,
+h3,
+h4 {
+  font-family: "nunito-bold", Arial, Helvetica, sans-serif;
 }
 
 /* bg color for all pages */
-body{
+body {
   background-color: var(--color-offwhite);
 }
 
-p{
+p {
   margin: 0;
 }
 
 /* formatting */
 
-.block{
+.block {
   margin-inline: 8rem;
 }
 
-
-.flex-center-col{
+.flex-center-col {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.flex-center-row{
-	width: 100%;
+.flex-center-row {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -106,41 +107,43 @@ p{
 
 /* TODO: font responsiveness. do breakpoints for 768px (tablets) and 350px (mobiles) */
 
-.card{
+.card {
   overflow: hidden;
 }
 
-.card-header{
+.card-header {
   padding: 1rem;
   outline: none;
   border: none;
   background-color: var(--color-white);
 }
 
-.card-header>.row{
+.card-header > .row {
   align-items: center;
 }
 
-.username, .comment-username{
+.username,
+.comment-username {
   font-family: "nunito-bold";
   margin-block: auto;
 }
 
-.comment-username{
+.comment-username {
   font-size: 0.9rem;
 }
 
-.comment-content{
+.comment-content {
   font-size: 0.85rem;
-  font-family: 'nunito-medium';
+  font-family: "nunito-medium";
 }
 
-.feed-post__date, .feed-post__location{
+.feed-post__date,
+.feed-post__location {
   text-align: end;
-  font-family: 'nunito-bold';
+  font-family: "nunito-bold";
 }
 
-.feed-post{
+.feed-post {
   width: 50rem;
   background-color: var(--color-white);
   border-radius: var(--border-radius-box);
@@ -148,80 +151,80 @@ p{
   transition: box-shadow 0.35s;
 }
 
-.feed-post:hover{
+.feed-post:hover {
   box-shadow: var(--box-shadow);
   cursor: pointer;
 }
-.post-img{
+.post-img {
   width: 100%;
   box-sizing: border-box;
   outline: 2px solid black;
 }
 
-.post-interactions>.row{
+.post-interactions > .row {
   align-items: center;
 }
 
-.post-interactions{
+.post-interactions {
   padding: 1rem;
 }
 
-.likes{
+.likes {
   margin-left: auto;
 }
-.likes-count{
-  font-family: 'nunito-bold';
+.likes-count {
+  font-family: "nunito-bold";
   font-size: 0.85rem;
   margin-left: 1rem;
   display: inline-block;
 }
 
-.map-pin{
+.map-pin {
   fill: var(--color-pink);
   margin-bottom: 8px;
 }
-.chat-icon{
+.chat-icon {
   fill: var(--color-pink);
   transform: scale(1.5);
 }
 
-.heart-like{
-  fill:var(--color-pink);
+.heart-like {
+  fill: var(--color-pink);
 }
 
 /* Buttons */
 
-.btn-base{
+.btn-base {
   outline: none;
   border: 1px solid black;
   color: var(--color-white);
   border-radius: var(--border-radius-round);
   width: 9rem;
   height: 3.2rem;
-  font-family: 'nunito-bold';
+  font-family: "nunito-bold";
   background-color: var(--color-dark-blue);
   transition: background-color 0.35s box-shadow 0.35s;
 }
-.btn-base:hover{
+.btn-base:hover {
   box-shadow: var(--box-shadow);
   background-color: var(--color-dark-blue-hover);
 }
 
-.auth-page-btns{
+.auth-page-btns {
   width: 100%;
   justify-content: space-between;
 }
 
 /* logo */
-.logo-container{
+.logo-container {
   cursor: pointer;
   display: flex;
   width: 100%;
 }
 
 /* form input */
-.form-input{
-  font-family: 'nunito-bold';
+.form-input {
+  font-family: "nunito-bold";
   width: 20rem;
   color: var(--color-white);
   text-align: center;
@@ -232,75 +235,71 @@ p{
   border: none;
   text-decoration: none;
 }
-.form-input::placeholder{
+.form-input::placeholder {
   opacity: 1;
   color: var(--color-white);
 }
-.form-input:focus{
+.form-input:focus {
   outline: none;
 }
 
-
-textarea{
-	resize: none;
+textarea {
+  resize: none;
 }
 
-label{
-	width: 50%;
-	font-family: 'nunito-bold';
+label {
+  width: 50%;
+  font-family: "nunito-bold";
 }
-
-
 
 /* Auth Page */
 
 /* TODO: resize header for tablet and mobile */
 
-.authentication{
+.authentication {
   gap: 8rem;
   height: 100vh;
 }
 
-.auth-header{
+.auth-header {
   display: flex;
   gap: 2rem;
 }
 
-.auth-page-header{
+.auth-page-header {
   margin-bottom: 1rem;
   font-size: 5rem;
   color: var(--color-dark-blue);
 }
 
-.auth-form{
+.auth-form {
   gap: 1rem;
 }
 
-
-.tagline{
+.tagline {
   text-align: center;
-  font-family: 'nunito-bold';
+  font-family: "nunito-bold";
   color: var(--color-dark-blue);
   font-size: 1.3rem;
 }
 
-.logo-earth{
-  width:15rem;
+.logo-earth {
+  width: 15rem;
 }
 
 /* pfp */
 
-.pfp-container{
-	height: 20vw;
-	width: 20vw;
-	background-color: var(--color-offwhite); /*temporary*/
-	object-position: center;
-	object-fit: cover;
+.pfp-container {
+  height: 20vw;
+  width: 20vw;
+  background-color: var(--color-offwhite); /*temporary*/
+  object-position: center;
+  object-fit: cover;
   margin-block: 2rem;
 }
 
 /* set profile page */
-.set-profile-page{
+.set-profile-page {
   height: 100vh;
   justify-content: space-around;
 }
