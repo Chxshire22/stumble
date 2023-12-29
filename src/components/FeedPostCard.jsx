@@ -1,19 +1,19 @@
 import { Container, Row, Col } from "react-bootstrap";
 
-function FeedPostCard() {
+function FeedPostCard({ username, location, text, date, image }) {
   return (
     <article className="card feed-post">
       <Container className="card-header">
         <Row>
           <Col>
-            <p className="username">@mariotey</p>
+            <p className="username">{username}</p>
           </Col>
           <Col xs={6}>
-            <p className="feed-post__content">Cappadocia was AMAZING</p>
+            <p className="feed-post__content">{text}</p>
           </Col>
           <Col>
             <Row>
-              <p className="feed-post__date">12 Dec 2023</p>
+              <p className="feed-post__date">{date}</p>
             </Row>
             <Row>
               <p className="feed-post__location">
@@ -27,18 +27,14 @@ function FeedPostCard() {
                 >
                   <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
                 </svg>
-                Cappadocia, Turkey
+                {location}
               </p>
             </Row>
           </Col>
         </Row>
       </Container>
       <div className="post-img-container">
-        <img
-          className="post-img"
-          src="https://images.unsplash.com/photo-1631152282084-b8f1b380ccab?q=80&w=2573&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="hot air balloons"
-        />
+        <img className="post-img" src={image} alt="hot air balloons" />
       </div>
       <Container className="post-interactions">
         <Row>
