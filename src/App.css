@@ -77,6 +77,7 @@ p{
 
 .card{
   overflow: hidden;
+	width: 100%;
 }
 
 .card-header{
@@ -165,7 +166,7 @@ p{
 
 .btn-base{
   outline: none;
-  border: 1px solid black;
+  border: 2px solid black;
   color: var(--color-white);
   border-radius: var(--border-radius-round);
   width: 9rem;
@@ -175,6 +176,14 @@ p{
   background-color: var(--color-dark-blue);
   transition: background-color 0.35s box-shadow 0.35s;
 }
+
+.feed-btn{
+	display: block;
+	margin-bottom: 2rem;
+	border-radius: var(--border-radius-box);
+	height: 2.5rem;
+}
+
 .btn-base:hover{
   box-shadow: var(--box-shadow);
   background-color: var(--color-dark-blue-hover);
@@ -295,6 +304,10 @@ label{
   grid-row-gap: 0px;
 }
 
+.profile-body{
+	justify-content: space-between;
+}
+
 .pfp-profile-page{
   margin-left: 3rem;
   height: 10rem;
@@ -316,4 +329,17 @@ label{
   margin-top: 4rem;
   cursor: pointer;
   grid-area: 1 / 1 / 7 / 2;
+}
+
+
+/* feed */
+.feed{
+	gap: 2rem;
+}
+.feed-image-deco{
+	height: 10rem;
+}
+.app-body{
+	display: flex;
+	gap: 3rem;
 }
