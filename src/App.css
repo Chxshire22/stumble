@@ -116,7 +116,7 @@ p{
   width: 50rem;
   background-color: var(--color-white);
   border-radius: var(--border-radius-box);
-  transition: box-shadow 0.35s;
+  transition: box-shadow 0.3s;
 	border: var(--box-border);
 }
 
@@ -195,6 +195,17 @@ p{
   justify-content: space-between;
 }
 
+#dropdown-basic{
+  background-color: var(--color-dark-blue);
+}
+#dropdown-basic:focus{
+	outline: none;
+	border-color: black;
+}
+#dropdown-basic:active{
+	outline: none;
+	border-color: black;
+}
 /* logo */
 .logo-container{
   cursor: pointer;

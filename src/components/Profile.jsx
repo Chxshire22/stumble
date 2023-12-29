@@ -63,22 +63,24 @@ function Profile() {
 				<h1 className="profile-page-user blue">{profile.username}</h1>
 				<p className="bio profile-page-bio blue">{profile.bio}</p>
 			</header>
-		<Dropdown>
-		<Dropdown.Toggle variant="success" id="dropdown-basic">
-      </Dropdown.Toggle>
-
-      <Dropdown.Menu>
-        <Dropdown.Item onClick={logout}>Sign Out</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-      </Dropdown.Menu>
-		</Dropdown>
-
+		<div className="dropdown-container">
+		</div>
 			<hr />
 			<div className="profile-body app-body">
 				<div className="feed-btns-col">
 					<button className="btn-base feed-btn">Saved Posts</button>
 					<button className="btn-base feed-btn">Filters</button>
+		<Dropdown>
+		<Dropdown.Toggle className="btn-base feed-btn" id="dropdown-basic">
+		Settings
+		</Dropdown.Toggle>
+
+		<Dropdown.Menu>
+		<Dropdown.Item onClick={logout}>Sign Out</Dropdown.Item>
+		<Dropdown.Item onClick={()=>navigate("/set-profile")}>Edit Profile</Dropdown.Item>
+		<Dropdown.Item href="#/action-3">Toggle Theme (dark mode maybe?)</Dropdown.Item>
+		</Dropdown.Menu>
+		</Dropdown>
 				</div>
 				<div className="profile-feed feed flex-center-col">
 		{/*placeholder posts. will map posts here soon*/}
