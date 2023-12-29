@@ -13,8 +13,8 @@
   --border-radius-round: 24px;
   /* box-shadow */
   --box-shadow: 4px 4px 0px black;
-  /* box-outline */
-  --box-outline: 2px solid black;
+  /* box-border */
+  --box-border: 2px solid black;
 }
 
 /* Fonts */
@@ -79,6 +79,7 @@ p {
 
 .card {
   overflow: hidden;
+	width: 100%;
 }
 
 .card-header {
@@ -119,8 +120,8 @@ p {
   width: 50rem;
   background-color: var(--color-white);
   border-radius: var(--border-radius-box);
-  outline: 1px solid black;
-  transition: box-shadow 0.35s;
+  transition: box-shadow 0.3s;
+	border: var(--box-border);
 }
 
 .feed-post:hover {
@@ -169,7 +170,8 @@ p {
 
 .btn-base {
   outline: none;
-  border: 1px solid black;
+  /* border: 2px solid black; */
+	border: var(--box-border);
   color: var(--color-white);
   border-radius: var(--border-radius-round);
   width: 9rem;
@@ -179,6 +181,14 @@ p {
   background-color: var(--color-dark-blue);
   transition: background-color 0.35s box-shadow 0.35s;
 }
+
+.feed-btn{
+	display: block;
+	margin-bottom: 2rem;
+	border-radius: var(--border-radius-box);
+	height: 2.5rem;
+}
+
 .btn-base:hover {
   box-shadow: var(--box-shadow);
   background-color: var(--color-dark-blue-hover);
@@ -189,6 +199,17 @@ p {
   justify-content: space-between;
 }
 
+#dropdown-basic{
+  background-color: var(--color-dark-blue);
+}
+#dropdown-basic:focus{
+	outline: none;
+	border-color: black;
+}
+#dropdown-basic:active{
+	outline: none;
+	border-color: black;
+}
 /* logo */
 .logo-container {
   cursor: pointer;
@@ -294,6 +315,10 @@ label {
   grid-template-rows: repeat(6, 1fr);
   grid-column-gap: 0px;
   grid-row-gap: 0px;
+}
+
+.profile-body{
+	justify-content: space-between;
 }
 
 .pfp-profile-page {
