@@ -47,10 +47,10 @@ function Home() {
         <button className="btn-base btn-search">Search</button>
         <button
           className="btn-base btn-profile"
-          onClick={() => navigate(`/profile/${auth.currentUser.uid}`)}
+          onClick={() => navigate(`/profile/${auth.currentUser?.uid}`)}
         >
           <p>Profile</p>
-          <img className="pfp-badge badge-right" src={auth.currentUser.photoURL} />
+          <img className="pfp-badge badge-right" src={auth.currentUser?.photoURL} />
         </button>
       </header>
       <div className="dropdown-container"></div>
@@ -80,7 +80,7 @@ function Home() {
             className="btn-base btn-create-post"
             onClick={() => setModalShow(true)}
           >
-            <img className="pfp-badge badge-left" src={auth.currentUser.photoURL} />
+            <img className="pfp-badge badge-left" src={auth.currentUser?.photoURL} />
             <p>What&apos;s on your mind?</p>
           </button>
           <ModalCreatePost
