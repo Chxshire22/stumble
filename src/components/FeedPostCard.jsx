@@ -23,20 +23,6 @@ function FeedPostCard({ username, location, text, date, image, uid }) {
     updateRelativeTime()
   }, 1000*61);
 
-  // useEffect(()=>{
-  //   const storageRefInstance = storageRef(storage, DB_STORAGE_PFP_KEY+uid)
-  //   console.log(storageRefInstance)
-  //   try{
-  //     getDownloadURL(storageRefInstance).then((url) => {
-  //       setPfp(url)
-  //     })
-  //   }catch(err){
-  //     console.log(err)
-  //     setPfp(
-  //       `https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/profile-img%2Fdefault-pfp.png?alt=media&token=bdbbf587-5f3e-43a5-a4c6-e7bf44d983a7 `
-  //     );
-  //   }
-  // },[uid])
 
   useEffect(()=>{
     try{
