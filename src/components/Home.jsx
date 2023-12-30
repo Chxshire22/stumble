@@ -82,7 +82,7 @@ function Home(props) {
             onHide={() => setModalShow(false)}
           />
           <div className="profile-feed feed flex-center-col">
-            {posts.map((post, index) => (
+            {posts.slice().reverse().map((post, index) => (
               <FeedPostCard
                 key={index}
                 username={post.username}
