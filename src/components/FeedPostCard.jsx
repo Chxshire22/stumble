@@ -1,12 +1,15 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime"
+import { ref, onValue } from "firebase/database";
 import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import { DB_USER_KEY, db } from "./firebase";
 
 
-function FeedPostCard({ username, location, text, date, image }) {
+function FeedPostCard({ username, location, text, date, image, uid }) {
 
   const [postRelativeTime, setPostRelativeTime] = useState("")
+  const [pfp, setPfp] = useState(null)
   
   const updateRelativeTime = () =>{
     dayjs.extend(relativeTime);
@@ -20,12 +23,42 @@ function FeedPostCard({ username, location, text, date, image }) {
     updateRelativeTime()
   }, 1000*61);
 
+  // useEffect(()=>{
+  //   const storageRefInstance = storageRef(storage, DB_STORAGE_PFP_KEY+uid)
+  //   console.log(storageRefInstance)
+  //   try{
+  //     getDownloadURL(storageRefInstance).then((url) => {
+  //       setPfp(url)
+  //     })
+  //   }catch(err){
+  //     console.log(err)
+  //     setPfp(
+  //       `https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/profile-img%2Fdefault-pfp.png?alt=media&token=bdbbf587-5f3e-43a5-a4c6-e7bf44d983a7 `
+  //     );
+  //   }
+  // },[uid])
+
+  useEffect(()=>{
+    try{
+      onValue((ref(db, DB_USER_KEY+uid)), (snapshot)=>{
+        setPfp(snapshot.val().displayPic)
+        console.log(snapshot.val().displayPic)
+      })
+
+    }catch(err){
+      console.error(err)
+    }
+  },[uid])
+
   return (
     <article className="card feed-post">
       <Container className="card-header">
         <Row>
           <Col>
-            <p className="username">{username}</p>
+            <div className="original-poster-badge">
+              <img className="pfp-badge pfp-badge-card" src={pfp} />
+              <span className="username">{username}</span>
+            </div>
           </Col>
           <Col xs={6}>
             <p className="feed-post__content">{text}</p>
@@ -53,7 +86,7 @@ function FeedPostCard({ username, location, text, date, image }) {
         </Row>
       </Container>
       <div className="post-img-container">
-        <img className="post-img" src={image} alt="hot air balloons" />
+        <img className="post-img" src={image} alt={image} />
       </div>
       <Container className="post-interactions">
         <Row>

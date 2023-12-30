@@ -90,6 +90,7 @@ function Home(props) {
                 text={post.text}
                 date={post.date}
                 image={post.imageLink}
+                uid={post.uid}
               />
             ))}
           </div>

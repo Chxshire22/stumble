@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getDatabase, ref } from "firebase/database";
 import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";
+import { ref as storageRef } from "firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -29,5 +30,5 @@ export const DB_STORAGE_PFP_KEY = "profile-img/";
 export const DB_USER_KEY = "users/";
 
 // Database refs
-export const pfpRef = ref(db, DB_STORAGE_PFP_KEY)
-export const userRef = ref(db, DB_USER_KEY)
+export const pfpRef = storageRef(storage, DB_STORAGE_PFP_KEY);
+export const userRef = ref(db, DB_USER_KEY);
