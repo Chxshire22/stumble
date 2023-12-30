@@ -4,6 +4,7 @@ import { ref, onValue } from "firebase/database";
 import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { DB_USER_KEY, db } from "./firebase";
+import { useNavigate } from "react-router-dom";
 
 
 function FeedPostCard({ username, location, text, date, image, uid }) {
@@ -36,12 +37,14 @@ function FeedPostCard({ username, location, text, date, image, uid }) {
     }
   },[uid])
 
+  const navigate = useNavigate()
+
   return (
     <article className="card feed-post">
       <Container className="card-header">
         <Row>
           <Col>
-            <div className="original-poster-badge">
+            <div onClick={()=>{navigate(`/profile/${uid}`)}} className="original-poster-badge">
               <img className="pfp-badge pfp-badge-card" src={pfp} />
               <span className="username">{username}</span>
             </div>
