@@ -10,8 +10,9 @@ import { useNavigate } from "react-router-dom";
 
 const POSTS_FOLDER_NAME = "posts";
 
-function Home() {
-  const [modalShow, setModalShow] = useState(false);
+function Home(props) {
+  let {modalShow, setModalShow} = props; 
+  
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {

@@ -10,6 +10,8 @@ import "./App.css";
 import { useEffect, useState } from "react";
 
 function App() {
+  //for popup 
+  const [modalShow, setModalShow] = useState(false);
   const [user, setUser] = useState({});
   const [profileUid, setProfileUid] = useState("");
 
@@ -28,7 +30,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Home />,
+      element: <Home modalShow={modalShow} setModalShow={setModalShow} />,
     },
     {
       path: "/welcome",
@@ -49,7 +51,7 @@ function App() {
       children: [
         {
           path: ":uid",
-          element: <Profile username={username} bio={bio} />,
+          element: <Profile modalShow={modalShow} setModalShow={setModalShow} username={username} bio={bio} />,
         },
       ],
     },
