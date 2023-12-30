@@ -36,10 +36,7 @@ function ModalCreatePost(props) {
           location: location,
           uid: auth.currentUser.uid,
           username: auth.currentUser.displayName,
-          date: new Date().toLocaleTimeString(navigator.language, {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
+          date: new Date().toISOString(),
         });
         setFileInput(null);
         setTextInput("");

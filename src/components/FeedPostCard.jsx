@@ -1,6 +1,25 @@
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime"
+import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
+
 function FeedPostCard({ username, location, text, date, image }) {
+
+  const [postRelativeTime, setPostRelativeTime] = useState("")
+  
+  const updateRelativeTime = () =>{
+    dayjs.extend(relativeTime);
+    setPostRelativeTime(dayjs(date).fromNow())
+  }
+  useEffect(()=>{
+    updateRelativeTime()
+  },[date])
+  
+  setInterval(() => {
+    updateRelativeTime()
+  }, 1000*61);
+
   return (
     <article className="card feed-post">
       <Container className="card-header">
@@ -13,7 +32,7 @@ function FeedPostCard({ username, location, text, date, image }) {
           </Col>
           <Col>
             <Row>
-              <p className="feed-post__date">{date}</p>
+              <p className="feed-post__date">{postRelativeTime}</p>
             </Row>
             <Row>
               <p className="feed-post__location">
