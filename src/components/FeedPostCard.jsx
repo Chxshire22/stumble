@@ -1,19 +1,57 @@
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime"
+import { ref, onValue } from "firebase/database";
+import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import { DB_USER_KEY, db } from "./firebase";
 
-function FeedPostCard({ username, location, text, date, image }) {
+
+function FeedPostCard({ username, location, text, date, image, uid }) {
+
+  const [postRelativeTime, setPostRelativeTime] = useState("")
+  const [pfp, setPfp] = useState(null)
+  
+  const updateRelativeTime = () =>{
+    dayjs.extend(relativeTime);
+    setPostRelativeTime(dayjs(date).fromNow())
+  }
+  useEffect(()=>{
+    updateRelativeTime()
+  },[date])
+  
+  setInterval(() => {
+    updateRelativeTime()
+  }, 1000*61);
+
+
+  useEffect(()=>{
+    try{
+      onValue((ref(db, DB_USER_KEY+uid)), (snapshot)=>{
+        setPfp(snapshot.val().displayPic)
+        console.log(snapshot.val().displayPic)
+      })
+
+    }catch(err){
+      console.error(err)
+    }
+  },[uid])
+
   return (
     <article className="card feed-post">
       <Container className="card-header">
         <Row>
           <Col>
-            <p className="username">{username}</p>
+            <div className="original-poster-badge">
+              <img className="pfp-badge pfp-badge-card" src={pfp} />
+              <span className="username">{username}</span>
+            </div>
           </Col>
           <Col xs={6}>
             <p className="feed-post__content">{text}</p>
           </Col>
           <Col>
             <Row>
-              <p className="feed-post__date">{date}</p>
+              <p className="feed-post__date">{postRelativeTime}</p>
             </Row>
             <Row>
               <p className="feed-post__location">
@@ -34,7 +72,7 @@ function FeedPostCard({ username, location, text, date, image }) {
         </Row>
       </Container>
       <div className="post-img-container">
-        <img className="post-img" src={image} alt="hot air balloons" />
+        <img className="post-img" src={image} alt={image} />
       </div>
       <Container className="post-interactions">
         <Row>
