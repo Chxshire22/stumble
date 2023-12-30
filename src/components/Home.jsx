@@ -36,27 +36,16 @@ function Home() {
 
   return (
     <div className="block flex-center-col">
-      <header className="home-page-header flex-center-row">
-        {/* decided to upload the image to firebase */}
-        <img
-          src="https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/assets%2Fstumble-logo.webp?alt=media&token=72a22d6a-4de1-4a2c-b0bc-08fe0f660c8f"
-          className="stumble-logo"
-          alt=""
-          onClick={() => navigate("/")}
-        />
-        <button className="btn-base btn-search">Search</button>
-        <button
-          className="btn-base btn-profile"
-          onClick={() => navigate(`/profile/${auth.currentUser?.uid}`)}
-        >
-          <p>Profile</p>
-          <img className="pfp-badge badge-right" src={auth.currentUser?.photoURL} />
-        </button>
-      </header>
       <div className="dropdown-container"></div>
       <hr />
       <div className="profile-body app-body">
         <div className="feed-btns-col">
+          <img
+            src="https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/assets%2Fstumble-logo.webp?alt=media&token=72a22d6a-4de1-4a2c-b0bc-08fe0f660c8f"
+            className="stumble-logo"
+            alt=""
+            onClick={() => navigate("/")}
+          />
           <button className="btn-base feed-btn">Filters</button>
           <Dropdown>
             <Dropdown.Toggle className="btn-base feed-btn" id="dropdown-basic">
@@ -75,12 +64,16 @@ function Home() {
           </Dropdown>
         </div>
         <div className="home-content">
+          <button className="btn-base btn-search">Search</button>
           <h1 className="home-feed-header">Home</h1>
           <button
             className="btn-base btn-create-post"
             onClick={() => setModalShow(true)}
           >
-            <img className="pfp-badge badge-left" src={auth.currentUser?.photoURL} />
+            <img
+              className="pfp-badge badge-left"
+              src={auth.currentUser?.photoURL}
+            />
             <p>What&apos;s on your mind?</p>
           </button>
           <ModalCreatePost
@@ -100,10 +93,22 @@ function Home() {
             ))}
           </div>
         </div>
-        <img
-          className="feed-image-deco"
-          src="https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/assets%2Fflamenco-excited-for-a-flight.webp?alt=media&token=56ea81fb-9bf9-48bd-bfd5-ea3413d800bb"
-        />
+        <div className="profile-container">
+          <button
+            className="btn-base btn-profile"
+            onClick={() => navigate(`/profile/${auth.currentUser?.uid}`)}
+          >
+            <p>Profile</p>
+            <img
+              className="pfp-badge badge-right"
+              src={auth.currentUser?.photoURL}
+            />
+          </button>
+          <img
+            className="feed-image-deco"
+            src="https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/assets%2Fflamenco-excited-for-a-flight.webp?alt=media&token=56ea81fb-9bf9-48bd-bfd5-ea3413d800bb"
+          />
+        </div>
       </div>
     </div>
   );}

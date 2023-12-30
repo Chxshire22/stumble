@@ -213,6 +213,7 @@ p{
   background-color: var(--color-grey-blue);
   width: 100%;
   position: relative;
+  margin-bottom: 2rem ;
 }
 .btn-create-post:hover{
   background-color: var(--color-grey-blue-hover);
@@ -232,6 +233,10 @@ p{
 .btn-profile{
   position: relative;
   width: 183px;
+}
+
+.feed-btn{
+  margin-top: 5rem;
 }
 
 /* logo */
@@ -365,10 +370,6 @@ label{
   grid-row-gap: 0px;
 }
 
-.profile-body{
-	justify-content: space-between;
-}
-
 .pfp-profile-page{
   margin-left: 3rem;
   height: 10rem;
@@ -397,20 +398,20 @@ label{
 .feed{
 	gap: 2rem;
 }
+
+
 .feed-image-deco{
+  display: block;
 	height: 10rem;
 }
 .app-body{
 	display: flex;
 	gap: 3rem;
+  justify-content: space-between;
+  /* width: 100%; */
 }
 
 /* home */
-.home-page-header{
-  display: flex;
-  width: 100%;
-  gap: 3rem;
-}
 
 .home-feed-header{
   color: var(--color-dark-blue);
