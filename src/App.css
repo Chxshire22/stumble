@@ -2,12 +2,14 @@
   /* Color Scheme */
   --color-white:#F4EAE6;
   --color-teal: #4297A0;
+  --color-teal-hover: #2f6d74;
   --color-pink: #E57F84;
   --color-dark-blue: #2F5061;
   --color-dark-blue-hover: #213844;
   --color-offwhite: #F3E1C8;
   --color-burgundy: #9B6A6C;
   --color-grey-blue: #6D7993;
+  --color-grey-blue-hover: #4b5466;
   /* Border Radius */
   --border-radius-box: 15px;
   --border-radius-round: 24px;
@@ -206,6 +208,32 @@ p{
 	outline: none;
 	border-color: black;
 }
+
+.btn-create-post{
+  background-color: var(--color-grey-blue);
+  width: 100%;
+  position: relative;
+}
+.btn-create-post:hover{
+  background-color: var(--color-grey-blue-hover);
+}
+
+.btn-search{
+  border-radius: var(--border-radius-box);
+  background-color: var(--color-teal);
+  height: 48px;
+  width: 784px;
+  margin-right: 1rem  ;
+}
+.btn-search:hover{
+  background-color: var(--color-teal-hover);
+}
+
+.btn-profile{
+  position: relative;
+  width: 183px;
+}
+
 /* logo */
 .logo-container{
   cursor: pointer;
@@ -299,6 +327,27 @@ label{
 	width: 20vw;
 }
 
+.pfp-badge{
+  background-color: black;
+  border-radius: 100%;
+  width: 43px;
+  height: 43px;
+  position: absolute;
+  bottom: 2.5px;
+  overflow: none;
+  border: var(--box-border);
+}
+
+.badge-left{
+  left: 3px;
+}
+.badge-right{
+  right: 0;
+  bottom: 0;
+  width: 48px;
+  height: 48px;
+}
+
 
 /* set profile page */
 .set-profile-page{
@@ -338,7 +387,7 @@ label{
 }
 
 .stumble-logo{
-  margin-top: 4rem;
+  /* margin-top: 4rem; */
   cursor: pointer;
   grid-area: 1 / 1 / 7 / 2;
 }
@@ -354,4 +403,16 @@ label{
 .app-body{
 	display: flex;
 	gap: 3rem;
+}
+
+/* home */
+.home-page-header{
+  display: flex;
+  width: 100%;
+  gap: 3rem;
+}
+
+.home-feed-header{
+  color: var(--color-dark-blue);
+  text-align: center;
 }
