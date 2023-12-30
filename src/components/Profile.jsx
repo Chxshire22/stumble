@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { Image, Dropdown } from "react-bootstrap";
-import { auth, userRef } from "./firebase";
+import { auth, db, userRef } from "./firebase";
 import { signOut } from "firebase/auth";
-import { get, child } from "firebase/database";
+import { get, child, onValue, ref, query, orderByChild, equalTo } from "firebase/database";
 import { useNavigate, useParams } from "react-router-dom";
 import FeedPostCard from "./FeedPostCard";
 import ModalCreatePost from "./ModalCreatePost";
 
 function Profile(props) {
+
 
 	let {modalShow, setModalShow} =props;
 
@@ -36,6 +37,19 @@ function Profile(props) {
 				console.error(error);
 			});
 	}, [uid]);
+
+	const POSTS_FOLDER_NAME = "posts";
+	const [posts, setPosts] = useState([]);
+
+	useEffect(() => {
+		const postsRef = query(ref(db, POSTS_FOLDER_NAME), orderByChild(`uid`), equalTo(uid));
+		onValue(postsRef, (snapshot) => {
+			const post = snapshot.val();
+			const postsArray = Object.values(post);
+			setPosts(postsArray);
+		});
+	}, []);
+
 
 	const navigate = useNavigate();
 
@@ -105,11 +119,20 @@ function Profile(props) {
             onHide={() => setModalShow(false)}
           />
           {/*placeholder posts. will map posts here soon*/}
-          <FeedPostCard />
-          <FeedPostCard />
-          <FeedPostCard />
-          <FeedPostCard />
-          <FeedPostCard />
+          {posts
+            .slice()
+            .reverse()
+            .map((post, index) => (
+              <FeedPostCard
+                key={index}
+                username={post.username}
+                location={post.location}
+                text={post.text}
+                date={post.date}
+                image={post.imageLink}
+                uid={post.uid}
+              />
+            ))}
         </div>
         <img
           className="feed-image-deco"
