@@ -10,7 +10,7 @@ import "./App.css";
 import { useEffect, useState } from "react";
 
 function App() {
-  //for popup 
+  //for popup
   const [modalShow, setModalShow] = useState(false);
   const [user, setUser] = useState({});
   const [profileUid, setProfileUid] = useState("");
@@ -41,9 +41,14 @@ function App() {
       element: <ModalCreatePost />,
     },
     {
-      path: "/post/:postUid",
+      path: "/post/",
       //will need the unique ID of post
-      element: <FullPost />,
+      children: [
+        {
+          path: ":postId",
+          element: <FullPost />,
+        },
+      ],
     },
     {
       path: `/profile/`,
@@ -51,7 +56,14 @@ function App() {
       children: [
         {
           path: ":uid",
-          element: <Profile modalShow={modalShow} setModalShow={setModalShow} username={username} bio={bio} />,
+          element: (
+            <Profile
+              modalShow={modalShow}
+              setModalShow={setModalShow}
+              username={username}
+              bio={bio}
+            />
+          ),
         },
       ],
     },

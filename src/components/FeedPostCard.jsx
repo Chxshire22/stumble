@@ -1,50 +1,51 @@
 import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime"
+import relativeTime from "dayjs/plugin/relativeTime";
 import { ref, onValue } from "firebase/database";
 import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { DB_USER_KEY, db } from "./firebase";
 import { useNavigate } from "react-router-dom";
 
+function FeedPostCard({ username, location, text, date, image, uid, postId }) {
+  const [postRelativeTime, setPostRelativeTime] = useState("");
+  const [pfp, setPfp] = useState(null);
 
-function FeedPostCard({ username, location, text, date, image, uid }) {
-
-  const [postRelativeTime, setPostRelativeTime] = useState("")
-  const [pfp, setPfp] = useState(null)
-  
-  const updateRelativeTime = () =>{
+  const updateRelativeTime = () => {
     dayjs.extend(relativeTime);
-    setPostRelativeTime(dayjs(date).fromNow())
-  }
-  useEffect(()=>{
-    updateRelativeTime()
-  },[date])
-  
+    setPostRelativeTime(dayjs(date).fromNow());
+  };
+  useEffect(() => {
+    updateRelativeTime();
+  }, [date]);
+
   setInterval(() => {
-    updateRelativeTime()
-  }, 1000*61);
+    updateRelativeTime();
+  }, 1000 * 61);
 
-
-  useEffect(()=>{
-    try{
-      onValue((ref(db, DB_USER_KEY+uid)), (snapshot)=>{
-        setPfp(snapshot.val().displayPic)
-        console.log(snapshot.val().displayPic)
-      })
-
-    }catch(err){
-      console.error(err)
+  useEffect(() => {
+    try {
+      onValue(ref(db, DB_USER_KEY + uid), (snapshot) => {
+        setPfp(snapshot.val().displayPic);
+        console.log(snapshot.val().displayPic);
+      });
+    } catch (err) {
+      console.error(err);
     }
-  },[uid])
+  }, [uid]);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <article className="card feed-post">
       <Container className="card-header">
         <Row>
           <Col>
-            <div onClick={()=>{navigate(`/profile/${uid}`)}} className="original-poster-badge">
+            <div
+              onClick={() => {
+                navigate(`/profile/${uid}`);
+              }}
+              className="original-poster-badge"
+            >
               <img className="pfp-badge pfp-badge-card" src={pfp} />
               <span className="username">{username}</span>
             </div>
@@ -75,7 +76,12 @@ function FeedPostCard({ username, location, text, date, image, uid }) {
         </Row>
       </Container>
       <div className="post-img-container">
-        <img className="post-img" src={image} alt={image} />
+        <img
+          className="post-img"
+          src={image}
+          alt={image}
+          onClick={() => navigate(`/post/${postId}`)}
+        />
       </div>
       <Container className="post-interactions">
         <Row>
