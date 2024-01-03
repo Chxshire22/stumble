@@ -48,7 +48,7 @@ function Profile(props) {
 			const postsArray = Object.values(post);
 			setPosts(postsArray);
 		});
-	}, []);
+	}, [uid]);
 
 
 	const navigate = useNavigate();
