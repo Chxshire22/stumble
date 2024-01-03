@@ -30,7 +30,8 @@ function ModalCreatePost(props) {
         const postListRef = databaseRef(db, POSTS_FOLDER_NAME);
         // const postListRef = databaseRef(database, POSTS_FOLDER_NAME);
         const newPostRef = push(postListRef);
-        console.log(newPostRef._path.pieces_[1])
+        console.log(newPostRef._path.pieces_[1]);
+        const pathToPostId = newPostRef._path.pieces_[1];
         set(newPostRef, {
           imageLink: url,
           text: textInput,
@@ -38,6 +39,7 @@ function ModalCreatePost(props) {
           uid: auth.currentUser.uid,
           username: auth.currentUser.displayName,
           date: new Date().toISOString(),
+          postId: pathToPostId,
         });
         setFileInput(null);
         setTextInput("");

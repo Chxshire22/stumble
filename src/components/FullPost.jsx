@@ -1,36 +1,64 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { db } from "./firebase";
+import { getAuth } from "firebase/auth";
 import { onChildAdded, push, ref as databaseRef, set } from "firebase/database";
-
-const COMMENTS_FOLDER_NAME = "comments";
+import { useParams } from "react-router-dom";
 
 function FullPost() {
+  let { postId } = useParams();
+  const auth = getAuth();
   const [commentInput, setCommentInput] = useState("");
-  const [comments, setComments] = useState("");
+  const [comments, setComments] = useState([]);
 
+  // Fetch comments when component mounts and postId changes
   useEffect(() => {
-    const commentRef = databaseRef(db, COMMENTS_FOLDER_NAME);
+    const commentRef = databaseRef(db, `posts/${postId}/comments`);
     onChildAdded(commentRef, (data) => {
+      const commentData = data.val();
       setComments((prevState) => [
         ...prevState,
-        { username: data.username, val: data.val(), key: data.key },
+        {
+          username: commentData.username,
+          text: commentData.text,
+          date: commentData.date,
+          key: data.key,
+        },
       ]);
     });
-  });
+    // return () => {
+    //   commentRef.off("child_added");
+    // };
+  }, [db, postId]);
 
+  // Function to submit a new comment
   const writeData = (e) => {
     e.preventDefault();
-    const commentListRef = databaseRef(db, COMMENTS_FOLDER_NAME);
+    const user = auth.currentUser;
+    if (!user) {
+      console.error("No user signed in!");
+      return;
+    }
+
+    const commentListRef = databaseRef(db, `posts/${postId}/comments`);
     const newCommentRef = push(commentListRef);
-    set(newCommentRef, commentInput);
-    setCommentInput("");
+    set(newCommentRef, {
+      username: user.displayName,
+      text: commentInput,
+      date: new Date().toISOString(),
+    })
+      .then(() => {
+        setCommentInput("");
+      })
+      .catch((error) => {
+        console.error("Error writing comment: ", error);
+      });
   };
 
+  //render list of comments
   let commentListItems = comments.map((comment) => (
     <div key={comment.key}>
-      <Row>{comment.username}</Row>
-      <Row>{comment.val}</Row>
+      <strong>{comment.username}</strong>: {comment.text}
     </div>
   ));
 
@@ -87,10 +115,11 @@ function FullPost() {
             placeholder="Leave a Commment..."
             onChange={(e) => setCommentInput(e.target.value)}
           />
-          <button type="submit" disabled={!commentInput}></button>
+          <button type="submit" disabled={!commentInput}>
+            Submit
+          </button>
         </form>
       </div>
-      <p className="username">@mariotey</p>
       <div>{commentListItems}</div>
     </div>
   );

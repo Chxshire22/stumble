@@ -11,8 +11,8 @@ import { useNavigate } from "react-router-dom";
 const POSTS_FOLDER_NAME = "posts";
 
 function Home(props) {
-  let {modalShow, setModalShow} = props; 
-  
+  let { modalShow, setModalShow } = props;
+
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ function Home(props) {
     }
   };
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <div className="block flex-center-col">
@@ -82,17 +82,21 @@ function Home(props) {
             onHide={() => setModalShow(false)}
           />
           <div className="profile-feed feed flex-center-col">
-            {posts.slice().reverse().map((post, index) => (
-              <FeedPostCard
-                key={index}
-                username={post.username}
-                location={post.location}
-                text={post.text}
-                date={post.date}
-                image={post.imageLink}
-                uid={post.uid}
-              />
-            ))}
+            {posts
+              .slice()
+              .reverse()
+              .map((post, index) => (
+                <FeedPostCard
+                  key={index}
+                  username={post.username}
+                  location={post.location}
+                  text={post.text}
+                  date={post.date}
+                  image={post.imageLink}
+                  uid={post.uid}
+                  postId={post.postId}
+                />
+              ))}
           </div>
         </div>
         <div className="profile-container">
@@ -113,7 +117,7 @@ function Home(props) {
         </div>
       </div>
     </div>
-  );}
+  );
+}
 
 export default Home;
-
