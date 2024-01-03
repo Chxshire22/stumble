@@ -77,6 +77,7 @@ function ModalCreatePost(props) {
           <input
             type="file"
             onChange={(e) => setFileInput(e.target.files[0])}
+						accept="image/*"
           />
           <button type="submit" disabled={!textInput}>
             Post
