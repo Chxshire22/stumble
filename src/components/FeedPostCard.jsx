@@ -26,7 +26,6 @@ function FeedPostCard({ username, location, text, date, image, uid, postId }) {
     try {
       onValue(ref(db, DB_USER_KEY + uid), (snapshot) => {
         setPfp(snapshot.val().displayPic);
-        console.log(snapshot.val().displayPic);
       });
     } catch (err) {
       console.error(err);
