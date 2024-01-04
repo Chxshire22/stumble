@@ -19,19 +19,6 @@ function FullPost() {
   const [comments, setComments] = useState([]);
   const [post, setPost] = useState({});
 
-  //Fetch the post data
-
-  // useEffect(() => {
-  //   const postRef = databaseRef(db, `posts/${postId}`);
-  //   onValue(postRef, (snapshot) => {
-  //     const postData = snapshot.val();
-  //     if (postData) {
-  //       setPost(postData);
-  //       console.log(postData);
-  //     }
-  //   });
-  // }, [postId]);
-
   useEffect(() => {
     console.log(postId);
     const postRef = databaseRef(db, `posts`);
@@ -64,10 +51,7 @@ function FullPost() {
         },
       ]);
     });
-    // return () => {
-    //   commentRef.off("child_added");
-    // };
-  }, [db, postId]);
+  }, [postId]);
 
   // Function to submit a new comment
   const writeData = (e) => {
@@ -100,7 +84,6 @@ function FullPost() {
     </div>
   ));
 
-  // {{post.username} !== null ? (
 
   return (
     <div>
@@ -134,8 +117,8 @@ function FullPost() {
           </Row>
         </Row>
       </Container>
-      <div className="post-img-container">
-        <img className="post-img" src={post.imageLink} alt="hot air balloons" />
+      <div className="full-post-img-container">
+        <img className="full-post-img" src={post.imageLink} alt={post.imageLink} />
       </div>
       <div className="comment-container">
         <form onSubmit={writeData}>
