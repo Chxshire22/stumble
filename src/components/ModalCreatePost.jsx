@@ -20,8 +20,13 @@ const auth = getAuth();
 
 function ModalCreatePost(props) {
 	const [textInput, setTextInput] = useState("");
-	const [location, setLocation] = useState("");
+	// const [location, setLocation] = useState("");
 	const [fileInput, setFileInput] = useState(null);
+	const [address, setAddress] = useState("");
+	const [coordinates, setCoordinates] = useState({
+		lat: null,
+		lng: null,
+	});
 
 	const writeData = (e) => {
 		e.preventDefault();
@@ -32,32 +37,30 @@ function ModalCreatePost(props) {
 		uploadBytes(imageRef, fileInput).then(() => {
 			getDownloadURL(imageRef).then((url) => {
 				const postListRef = databaseRef(db, POSTS_FOLDER_NAME);
-				// const postListRef = databaseRef(database, POSTS_FOLDER_NAME);
 				const newPostRef = push(postListRef);
 				console.log(newPostRef._path.pieces_[1]);
 				const pathToPostId = newPostRef._path.pieces_[1];
 				set(newPostRef, {
 					imageLink: url,
 					text: textInput,
-					location: location,
 					uid: auth.currentUser.uid,
 					username: auth.currentUser.displayName,
 					date: new Date().toISOString(),
 					postId: pathToPostId,
+					location: address,
+					latlng: coordinates,
 				});
 				setFileInput(null);
 				setTextInput("");
-				setLocation("");
+				setAddress("");
 			});
 		});
 	};
 
+
+
+	//TODO: implementations for autocomplete. 1. save country as post property 2. save address as post property 3. create country in filter if country is valid country && if country is not included in list of countries 
 	// AUTOCOMPLETE PLAYGROUND
-	const [address, setAddress] = useState("");
-	const [coordinates, setCoordinates] = useState({
-		lat: null,
-		lng: null,
-	});
 	const handleSelect = async (value) => {
 		const results = await geocodeByAddress(value);
 		const ll = await getLatLng(results[0]);
@@ -65,6 +68,14 @@ function ModalCreatePost(props) {
 		setAddress(value);
 		setCoordinates(ll);
 	};
+
+	useEffect(() =>
+			{
+				console.log(address)
+				if(address){
+					console.log(address.split(",").slice(-1)[0].trim())
+				}
+				},[address]);
 
 	return (
 		<Modal
