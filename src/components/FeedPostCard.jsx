@@ -1,14 +1,16 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { ref, onValue } from "firebase/database";
+import { ref, onValue, query, limitToFirst } from "firebase/database";
 import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { DB_USER_KEY, db } from "./firebase";
 import { useNavigate } from "react-router-dom";
 
 function FeedPostCard({ username, location, text, date, image, uid, postId }) {
+  const navigate = useNavigate();
   const [postRelativeTime, setPostRelativeTime] = useState("");
   const [pfp, setPfp] = useState(null);
+  const [firstComment, setFirstComment] = useState(null);
 
   const updateRelativeTime = () => {
     dayjs.extend(relativeTime);
@@ -32,7 +34,20 @@ function FeedPostCard({ username, location, text, date, image, uid, postId }) {
     }
   }, [uid]);
 
-  const navigate = useNavigate();
+  //to fetch the first comment of the post
+  useEffect(() => {
+    const commentRef = ref(db, `posts/${postId}/comments`);
+    const firstCommentQuery = query(commentRef, limitToFirst(1));
+
+    onValue(firstCommentQuery, (snapshot) => {
+      const commentSnapshot = snapshot.val();
+      if (commentSnapshot) {
+        const firstCommentKey = Object.keys(commentSnapshot)[0];
+        const firstCommentData = commentSnapshot[firstCommentKey];
+        setFirstComment(firstCommentData);
+      }
+    });
+  }, [postId, db]);
 
   return (
     <article className="card feed-post">
@@ -96,12 +111,17 @@ function FeedPostCard({ username, location, text, date, image, uid, postId }) {
               <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15" />
             </svg>
           </Col>
-          <Col xs={7} className="post-details comments">
-            <p className="comment-username">@chxshire22</p>
-            <p className="comment-content">
-              wow can&apos;t wait to go there end of this month!
-            </p>
-          </Col>
+          {firstComment ? (
+            <Col xs={7} className="post-details comments">
+              <p className="comment-username">@{firstComment.username}</p>
+              <p className="comment-content">{firstComment.text}</p>
+            </Col>
+          ) : (
+            <Col xs={7} className="no-comments">
+              <p>--Be the first one to comment--</p>
+            </Col>
+          )}
+
           <Col>
             <div className="likes">
               <svg

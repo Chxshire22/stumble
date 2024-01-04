@@ -28,6 +28,7 @@ function ModalCreatePost(props) {
 		lng: null,
 	});
 
+
 	const writeData = (e) => {
 		e.preventDefault();
 		const imageRef = storageRef(
