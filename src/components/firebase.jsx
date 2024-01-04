@@ -28,7 +28,8 @@ export const storage = getStorage(app);
 // Database keys
 export const DB_STORAGE_PFP_KEY = "profile-img/";
 export const DB_USER_KEY = "users/";
-
+export const DB_COUNTRY_KEY = "country-list/"
 // Database refs
 export const pfpRef = storageRef(storage, DB_STORAGE_PFP_KEY);
 export const userRef = ref(db, DB_USER_KEY);
+export const countryRef = ref(db, DB_COUNTRY_KEY);

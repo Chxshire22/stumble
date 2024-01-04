@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { auth, db } from "./firebase";
 import { ref as databaseRef, onValue } from "firebase/database";
 import { signOut } from "firebase/auth";
-// import Button from "react-bootstrap/Button";
 import { Dropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
@@ -14,11 +13,9 @@ function Home(props) {
 	let {
 		modalShow,
 		setModalShow,
-		geocodeByAddress,
-		geocodeByPlaceId,
-		getLatLng,
 	} = props;
 
+	const navigate = useNavigate();
 	const [posts, setPosts] = useState([]);
 
 	useEffect(() => {
@@ -26,9 +23,11 @@ function Home(props) {
 		onValue(postsRef, (snapshot) => {
 			const post = snapshot.val();
 			const postsArray = Object.values(post);
+			console.log(postsArray)
 			setPosts(postsArray);
 		});
 	}, []);
+
 
 	const logout = async () => {
 		try {
@@ -38,8 +37,6 @@ function Home(props) {
 			console.log(err);
 		}
 	};
-
-	const navigate = useNavigate();
 
 	return (
 		<div className="block flex-center-col">
