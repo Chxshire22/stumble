@@ -2,7 +2,14 @@ import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { db } from "./firebase";
 import { getAuth } from "firebase/auth";
-import { onChildAdded, push, ref as databaseRef, set } from "firebase/database";
+import {
+  onChildAdded,
+  push,
+  ref as databaseRef,
+  set,
+  get,
+  child,
+} from "firebase/database";
 import { useParams } from "react-router-dom";
 
 function FullPost() {
@@ -10,6 +17,37 @@ function FullPost() {
   const auth = getAuth();
   const [commentInput, setCommentInput] = useState("");
   const [comments, setComments] = useState([]);
+  const [post, setPost] = useState({});
+
+  //Fetch the post data
+
+  // useEffect(() => {
+  //   const postRef = databaseRef(db, `posts/${postId}`);
+  //   onValue(postRef, (snapshot) => {
+  //     const postData = snapshot.val();
+  //     if (postData) {
+  //       setPost(postData);
+  //       console.log(postData);
+  //     }
+  //   });
+  // }, [postId]);
+
+  useEffect(() => {
+    console.log(postId);
+    const postRef = databaseRef(db, `posts`);
+    get(child(postRef, `/${postId}`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          console.log(snapshot.val());
+          setPost(snapshot.val());
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [postId]);
 
   // Fetch comments when component mounts and postId changes
   useEffect(() => {
@@ -62,16 +100,18 @@ function FullPost() {
     </div>
   ));
 
+  // {{post.username} !== null ? (
+
   return (
     <div>
       <Container className="post-header">
         <Row>
           <Col>
-            <p className="username">@mariotey</p>
+            <p className="username">{post?.username}</p>
           </Col>
           <Col>
             <Row>
-              <p className="feed-post__date">12 Dec 2023</p>
+              <p className="feed-post__date">{post.date}</p>
             </Row>
             <Row>
               <p className="feed-post__location">
@@ -85,27 +125,17 @@ function FullPost() {
                 >
                   <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
                 </svg>
-                Cappadocia, Turkey
+                {post.location}
               </p>
             </Row>
           </Col>
           <Row>
-            <p className="feed-post__content">
-              XYZ Restaurant in Hakone is a hidden gem. The Sushi Platter and
-              Black Cod Miso are culinary masterpieces, and the minimalist
-              ambiance overlooking gardens adds a touch of tranquility. The Hot
-              Springs Sake is a must-try, making XYZ an unforgettable dining
-              experience in the heart of Hakone.
-            </p>
+            <p className="feed-post__content">{post.text}</p>
           </Row>
         </Row>
       </Container>
       <div className="post-img-container">
-        <img
-          className="post-img"
-          src="https://images.unsplash.com/photo-1631152282084-b8f1b380ccab?q=80&w=2573&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="hot air balloons"
-        />
+        <img className="post-img" src={post.imageLink} alt="hot air balloons" />
       </div>
       <div className="comment-container">
         <form onSubmit={writeData}>
