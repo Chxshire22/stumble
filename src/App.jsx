@@ -24,12 +24,7 @@ function App() {
 	const router = createBrowserRouter([
 		{
 			path: "/",
-			element: (
-				<Home
-					modalShow={modalShow}
-					setModalShow={setModalShow}
-				/>
-			),
+			element: <Home modalShow={modalShow} setModalShow={setModalShow} />,
 		},
 		{
 			path: "/welcome",
@@ -79,6 +74,10 @@ function App() {
 					setSelectedImage={setSelectedImage}
 				/>
 			),
+		},
+		{
+			path: `:country`,
+			element: <Home modalShow={modalShow} setModalShow={setModalShow} />,
 		},
 		{
 			path: "/playground",
