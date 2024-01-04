@@ -20,10 +20,11 @@ function ModalCreatePost(props) {
   const [fileInput, setFileInput] = useState(null);
 
   const writeData = (e) => {
+    const uid = auth.currentUser.uid;
     e.preventDefault();
     const imageRef = storageRef(
       storage,
-      `${IMAGES_FOLDER_NAME}/${fileInput.name}`
+      `${IMAGES_FOLDER_NAME}/${uid}_${fileInput?.name}`
     );
     uploadBytes(imageRef, fileInput).then(() => {
       getDownloadURL(imageRef).then((url) => {
