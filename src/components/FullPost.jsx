@@ -19,7 +19,6 @@ function FullPost() {
 	const auth = getAuth();
 	const [commentInput, setCommentInput] = useState("");
 	const [comments, setComments] = useState([]);
-	const [commentRelativeTime, setCommentRelativeTime] = useState(null);
 	const [post, setPost] = useState({});
 	const [postRelativeTime, setPostRelativeTime] = useState(null);
 
