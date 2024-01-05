@@ -11,7 +11,6 @@ const POSTS_FOLDER_NAME = "posts";
 
 function Home(props) {
 	let { modalShow, setModalShow } = props;
-
 	const navigate = useNavigate();
 	const [posts, setPosts] = useState([]);
 	const [countriesList, setCountriesList] = useState([]);
@@ -99,10 +98,13 @@ function Home(props) {
 		}
 	);
 
+	
+
+
 	const changeCurrCountry = (country) =>{
 		setCurrCountry(country)
 		console.log(country)
-		navigate(`/${country}`)
+		navigate(`/country/${country}`)
 	}
 
 	const resetCurrCountry = () =>{
