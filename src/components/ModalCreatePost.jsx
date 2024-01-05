@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { db, storage } from "./firebase";
-import { push, ref as databaseRef, set } from "firebase/database";
+import { db, storage, countryRef } from "./firebase";
+import { push, ref as databaseRef, set, child, get } from "firebase/database";
 import {
 	getDownloadURL,
 	ref as storageRef,
@@ -20,20 +20,26 @@ const auth = getAuth();
 
 function ModalCreatePost(props) {
 	const [textInput, setTextInput] = useState("");
-	// const [location, setLocation] = useState("");
 	const [fileInput, setFileInput] = useState(null);
 	const [address, setAddress] = useState("");
 	const [coordinates, setCoordinates] = useState({
 		lat: null,
 		lng: null,
 	});
+	const [country, setCountry] = useState("")
+
 
 
 	const writeData = (e) => {
 		e.preventDefault();
+		
+		set(databaseRef(db, `country-list/` + country),{
+			placeholder: "basically nothing"
+		})
+		
 		const imageRef = storageRef(
 			storage,
-			`${IMAGES_FOLDER_NAME}/${fileInput.name}`
+			`${IMAGES_FOLDER_NAME}/${auth.currentUser.displayName}/${fileInput.name}`
 		);
 		uploadBytes(imageRef, fileInput).then(() => {
 			getDownloadURL(imageRef).then((url) => {
@@ -49,6 +55,7 @@ function ModalCreatePost(props) {
 					date: new Date().toISOString(),
 					postId: pathToPostId,
 					location: address,
+					country: country,
 					latlng: coordinates,
 				});
 				setFileInput(null);
@@ -57,17 +64,18 @@ function ModalCreatePost(props) {
 			});
 		});
 	};
+	
 
 
 
 	//TODO: implementations for autocomplete. 1. save country as post property 2. save address as post property 3. create country in filter if country is valid country && if country is not included in list of countries 
-	// AUTOCOMPLETE PLAYGROUND
 	const handleSelect = async (value) => {
 		const results = await geocodeByAddress(value);
 		const ll = await getLatLng(results[0]);
 		console.log(ll);
 		setAddress(value);
 		setCoordinates(ll);
+		setCountry(value.split(",").slice(-1)[0].trim());
 	};
 
 	useEffect(() =>

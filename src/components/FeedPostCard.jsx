@@ -47,7 +47,7 @@ function FeedPostCard({ username, location, text, date, image, uid, postId }) {
         setFirstComment(firstCommentData);
       }
     });
-  }, [postId, db]);
+  }, [postId]);
 
   return (
     <article className="card feed-post">
