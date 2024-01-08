@@ -6,6 +6,7 @@ import FullPost from "./components/FullPost";
 import Profile from "./components/Profile";
 import Playground from "./components/Playground";
 import SetProfile from "./components/SetProfile";
+import Country from "./components/Country"
 import "./App.css";
 import { useState } from "react";
 
@@ -76,8 +77,13 @@ function App() {
 			),
 		},
 		{
-			path: `:country`,
-			element: <Home modalShow={modalShow} setModalShow={setModalShow} />,
+			path: `/country/`,
+			children: [
+				{
+					path: `:changedCountry`,
+					element: <Country modalShow={modalShow} setModalShow={setModalShow} />,
+				}
+			]
 		},
 		{
 			path: "/playground",

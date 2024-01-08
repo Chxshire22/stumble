@@ -16,12 +16,13 @@ import { useNavigate, useParams } from "react-router-dom";
 const POSTS_FOLDER_NAME = "posts";
 
 function Home(props) {
-  let { modalShow, setModalShow } = props;
 
-  const navigate = useNavigate();
-  const [posts, setPosts] = useState([]);
-  const [countriesList, setCountriesList] = useState([]);
-  const [currCountry, setCurrCountry] = useState(null);
+	let { modalShow, setModalShow } = props;
+	const navigate = useNavigate();
+	const [posts, setPosts] = useState([]);
+	const [countriesList, setCountriesList] = useState([]);
+	const [currCountry, setCurrCountry] = useState(null)
+
 
   useEffect(() => {
     const postsRef = databaseRef(db, POSTS_FOLDER_NAME);
@@ -117,6 +118,7 @@ function Home(props) {
     setCurrCountry(null);
     navigate("/");
   };
+
 
   return (
     <div className="block flex-center-col">
