@@ -10,7 +10,7 @@ import {
   get,
   child,
 } from "firebase/database";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
@@ -21,7 +21,9 @@ function FullPost() {
   const [comments, setComments] = useState([]);
   const [post, setPost] = useState({});
   const [postRelativeTime, setPostRelativeTime] = useState(null);
+  const navigate = useNavigate();
 
+  //Fetch post data to pass in props
   useEffect(() => {
     console.log(postId);
     const postRef = databaseRef(db, `posts`);
@@ -92,10 +94,33 @@ function FullPost() {
     updateRelativeTime();
   }, 1000 * 61);
 
+  //for google map
+  useEffect(() => {
+    async function initMap() {
+      const position = { lat: -25.344, lng: 131.031 };
+      const { Map } = await google.maps.importLibrary("maps");
+      const { AdvancedMarkerElement } = await google.maps.importLibrary(
+        "marker"
+      );
+
+      const map = new Map(document.getElementById("map"), {
+        zoom: 4,
+        center: position,
+      });
+
+      const marker = new AdvancedMarkerElement({
+        map: map,
+        position: position,
+        title: "Uluru",
+      });
+    }
+    initMap();
+  }, []);
+
   //render list of comments
   let commentListItems = comments.map((comment) => {
     return (
-      <div key={comment.key}>
+      <div key={comment.key} className="comment-item">
         <strong>{comment.username}</strong>: <span>{comment.text}</span>
         <p>
           <small>{dayjs(comment.date).fromNow()}</small>
@@ -106,6 +131,14 @@ function FullPost() {
 
   return (
     <div>
+      <div className="feed-btns-col">
+        <img
+          src="https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/assets%2Fstumble-logo.webp?alt=media&token=72a22d6a-4de1-4a2c-b0bc-08fe0f660c8f"
+          className="stumble-logo"
+          alt=""
+          onClick={() => navigate("/")}
+        />
+      </div>
       <Container className="post-header">
         <Row>
           <Col>
@@ -143,15 +176,19 @@ function FullPost() {
           alt={post.imageLink}
         />
       </div>
+      <div className="google-map-container">
+        <div id="map" style={{ height: "400px", width: "100%" }}></div>
+      </div>
       <div className="comment-container">
         <form onSubmit={writeData}>
           <input
             type="text"
             value={commentInput}
-            placeholder="Leave a Commment..."
+            placeholder="Leave a Comment..."
             onChange={(e) => setCommentInput(e.target.value)}
+            className="comment-input"
           />
-          <button type="submit" disabled={!commentInput}>
+          <button type="submit" disabled={!commentInput} className="btn-base">
             Submit
           </button>
         </form>

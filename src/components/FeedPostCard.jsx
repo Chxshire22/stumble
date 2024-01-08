@@ -1,12 +1,27 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { ref, onValue, query, limitToFirst } from "firebase/database";
+import {
+  ref,
+  onValue,
+  query,
+  limitToFirst,
+  runTransaction,
+} from "firebase/database";
 import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { DB_USER_KEY, db } from "./firebase";
+import { auth, DB_USER_KEY, db } from "./firebase";
 import { useNavigate } from "react-router-dom";
 
-function FeedPostCard({ username, location, text, date, image, uid, postId }) {
+function FeedPostCard({
+  username,
+  location,
+  text,
+  date,
+  image,
+  uid,
+  postId,
+  likes,
+}) {
   const navigate = useNavigate();
   const [postRelativeTime, setPostRelativeTime] = useState("");
   const [pfp, setPfp] = useState(null);
@@ -23,6 +38,26 @@ function FeedPostCard({ username, location, text, date, image, uid, postId }) {
   setInterval(() => {
     updateRelativeTime();
   }, 1000 * 61);
+
+  //write number of likes in database, don't increase the number if user has liked the same post
+  const writeData = (e) => {
+    e.preventDefault();
+
+    const postRef = ref(db, `posts/${postId}`);
+    runTransaction(postRef, (post) => {
+      if (!post.userWhoLiked) {
+        post.userWhoLiked = {};
+      }
+      const currentUser = auth.currentUser?.uid;
+      if (!post.userWhoLiked[currentUser]) {
+        post.userWhoLiked[currentUser] = true;
+        post.likes = (post.likes || 0) + 1;
+      }
+      return post;
+    }).catch((error) => {
+      console.error("Error writing comment: ", error);
+    });
+  };
 
   useEffect(() => {
     try {
@@ -121,23 +156,28 @@ function FeedPostCard({ username, location, text, date, image, uid, postId }) {
               <p>--Be the first one to comment--</p>
             </Col>
           )}
-
           <Col>
             <div className="likes">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-heart-fill heart-like"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"
-                />
-              </svg>
-              <p className="likes-count">102 likes</p>
+              <button onClick={writeData}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-heart-fill heart-like"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"
+                  />
+                </svg>
+              </button>
+              {likes ? (
+                <p className="likes-count">{likes} likes</p>
+              ) : (
+                <p className="likes-count">0 likes</p>
+              )}
             </div>
           </Col>
         </Row>
