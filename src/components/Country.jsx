@@ -52,10 +52,17 @@ export default function Country(props) {
 			equalTo(changedCountry)
 		);
 			onValue(currCountryRef, (snapshot) => {
-				const filteredPost = snapshot.val();
-				const filteredPostsArr = Object.values(filteredPost);
-				console.log(filteredPostsArr);
-				setPosts(filteredPostsArr); })
+				if (snapshot.exists()){
+					const filteredPost = snapshot.val();
+					const filteredPostsArr = Object.values(filteredPost);
+					console.log(filteredPostsArr);
+					setPosts(filteredPostsArr); 
+				}
+				else { 
+					console.log("no data")
+					setPosts([])
+				}
+			})
 
 		}},[changedCountry]);
 

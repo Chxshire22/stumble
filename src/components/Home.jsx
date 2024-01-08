@@ -38,21 +38,7 @@ function Home(props) {
       const post = snapshot.val();
       const postsArray = Object.values(post);
       // console.log(postsArray);
-      if (currCountry) {
-        const currCountryRef = query(
-          postsRef,
-          orderByChild("country"),
-          equalTo(currCountry)
-        );
-        onValue(currCountryRef, (snapshot) => {
-          const filteredPost = snapshot.val();
-          const filteredPostsArr = Object.values(filteredPost);
-          console.log(filteredPostsArr);
-          setPosts(filteredPostsArr);
-        });
-      } else {
-        setPosts(postsArray);
-      }
+			setPosts(postsArray);
     });
   }, [currCountry]);
 
@@ -111,7 +97,7 @@ function Home(props) {
   const changeCurrCountry = (country) => {
     setCurrCountry(country);
     console.log(country);
-    navigate(`/${country}`);
+    navigate(`/country/${country}`);
   };
 
   const resetCurrCountry = () => {
