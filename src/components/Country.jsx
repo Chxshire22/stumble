@@ -15,6 +15,8 @@ import { useNavigate, useParams } from "react-router-dom";
 
 export default function Country(props) {
 	const POSTS_FOLDER_NAME = "posts";
+
+	//useParams to grab the country 
 	const { changedCountry } = useParams();
 	useEffect(() => {
 		if (changedCountry) {
@@ -26,8 +28,9 @@ export default function Country(props) {
 	const navigate = useNavigate();
 	const [posts, setPosts] = useState([]);
 	const [countriesList, setCountriesList] = useState([]);
-	const [currCountry, setCurrCountry] = useState(null);
-
+	const [currCountry, setCurrCountry] = useState("");
+	
+	//list of registered countries
 	const countryRef = databaseRef(db, "country-list/");
 	useEffect(() => {
 		onValue(countryRef, (snapshot) => {
@@ -39,14 +42,14 @@ export default function Country(props) {
 	}, [posts]);
 
 	const postsRef = databaseRef(db, POSTS_FOLDER_NAME);
-
+	//render feed based on country 
 	useEffect(() =>{
-		if(currCountry){ 
-			console.log("currCountry",currCountry)
+		if(changedCountry){ 
+			console.log("changedCountry",changedCountry)
 			const currCountryRef = query(
 			postsRef,
 			orderByChild("country"),
-			equalTo(currCountry)
+			equalTo(changedCountry)
 		);
 			onValue(currCountryRef, (snapshot) => {
 				const filteredPost = snapshot.val();
@@ -54,7 +57,7 @@ export default function Country(props) {
 				console.log(filteredPostsArr);
 				setPosts(filteredPostsArr); })
 
-		}},[currCountry]);
+		}},[changedCountry]);
 
 	const logout = async () => {
 		try {
@@ -109,10 +112,9 @@ export default function Country(props) {
 	);
 
 	const changeCurrCountry = (country) => {
-		setCurrCountry(country).then(()=>{
+		console.log("changing: ",country);
+		setCurrCountry(country)
 		navigate(`/country/${country}`);
-		})
-		console.log(country);
 	};
 
 	const resetCurrCountry = () => {
@@ -162,7 +164,7 @@ export default function Country(props) {
 				<div className="home-content">
 					<button className="btn-base btn-search">Search</button>
 					<h1 className="home-feed-header">
-						{currCountry ? currCountry : `Home`}
+						{changedCountry ? changedCountry : `Home`}
 					</h1>
 					<button
 						className="btn-base btn-create-post"
