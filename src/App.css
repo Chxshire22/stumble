@@ -75,6 +75,13 @@ p {
   align-items: center;
 }
 
+.feed-btns-col{
+	width: 10rem;
+}
+.profile-container{
+	width: 10rem;
+}
+
 /* card-style post in feed  */
 
 /* TODO: font responsiveness. do breakpoints for 768px (tablets) and 350px (mobiles) */
@@ -279,6 +286,10 @@ p {
   outline: none;
   border-color: black;
 }
+#dropdown-basic:hover {
+  outline: none;
+  border-color: black;
+}
 #dropdown-basic:active {
   outline: none;
   border-color: black;
@@ -471,7 +482,6 @@ label {
 
 .feed-image-deco {
   display: block;
-  height: 10rem;
 	width: 100%;
 }
 .app-body {
