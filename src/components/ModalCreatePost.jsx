@@ -99,9 +99,9 @@ function ModalCreatePost(props) {
 				</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				<form onSubmit={writeData}>
-					<input
-						type="text"
+				<form>
+					<textarea
+						// type="text"
 						value={textInput}
 						placeholder="share what's new in your life"
 						onChange={(e) => setTextInput(e.target.value)}
@@ -154,13 +154,12 @@ function ModalCreatePost(props) {
 						onChange={(e) => setFileInput(e.target.files[0])}
 						accept="image/*"
 					/>
-					<button type="submit" disabled={!textInput}>
-						Post
-					</button>
 				</form>
 			</Modal.Body>
 			<Modal.Footer>
-				<Button onClick={props.onHide}>Close</Button>
+					<button type="submit" onClick={writeData} disabled={!textInput}>
+						Post
+					</button>
 			</Modal.Footer>
 		</Modal>
 	);

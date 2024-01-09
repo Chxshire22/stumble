@@ -4,14 +4,11 @@ import React, { useState, useEffect } from "react";
 import { auth, db } from "./firebase";
 import {
   ref as databaseRef,
-  equalTo,
   onValue,
-  orderByChild,
-  query,
 } from "firebase/database";
 import { signOut } from "firebase/auth";
 import { Dropdown, Form } from "react-bootstrap";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const POSTS_FOLDER_NAME = "posts";
 
@@ -146,7 +143,6 @@ function Home(props) {
           </Dropdown>
         </div>
         <div className="home-content">
-          <button className="btn-base btn-search">Search</button>
           <h1 className="home-feed-header">
             {currCountry ? currCountry : `Home`}
           </h1>

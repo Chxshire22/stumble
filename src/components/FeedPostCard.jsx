@@ -83,6 +83,8 @@ function FeedPostCard({
       }
     });
   }, [postId]);
+	
+
 
   return (
     <article className="card feed-post">
@@ -106,6 +108,8 @@ function FeedPostCard({
             <Row>
               <p className="feed-post__date">{postRelativeTime}</p>
             </Row>
+          </Col>
+        </Row>
             <Row>
               <p className="feed-post__location">
                 <svg
@@ -121,8 +125,6 @@ function FeedPostCard({
                 {location}
               </p>
             </Row>
-          </Col>
-        </Row>
       </Container>
       <div className="post-img-container">
         <img
