@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import { db, storage, countryRef } from "./firebase";
-import { push, ref as databaseRef, set, child, get } from "firebase/database";
+import { db, storage } from "./firebase";
+import { push, ref as databaseRef, set } from "firebase/database";
 import {
 	getDownloadURL,
 	ref as storageRef,
 	uploadBytes,
 } from "firebase/storage";
-import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { getAuth } from "firebase/auth";
 import PlacesAutocomplete, {
 	geocodeByAddress,
 	getLatLng,
 } from "react-places-autocomplete";
+import { Dropdown } from "react-bootstrap";
 
 const IMAGES_FOLDER_NAME = "post-img";
 const POSTS_FOLDER_NAME = "posts";
@@ -26,17 +26,16 @@ function ModalCreatePost(props) {
 		lat: null,
 		lng: null,
 	});
-	const [country, setCountry] = useState("")
-
-
+	const [country, setCountry] = useState("");
+	const [filter, setFilter] = useState("");
 
 	const writeData = (e) => {
 		e.preventDefault();
-		
-		set(databaseRef(db, `country-list/` + country),{
-			placeholder: "basically nothing"
-		})
-		
+
+		set(databaseRef(db, `country-list/` + country), {
+			placeholder: "basically nothing",
+		});
+
 		const imageRef = storageRef(
 			storage,
 			`${IMAGES_FOLDER_NAME}/${auth.currentUser.displayName}/${fileInput.name}`
@@ -57,6 +56,7 @@ function ModalCreatePost(props) {
 					location: address,
 					country: country,
 					latlng: coordinates,
+					filter: filter,
 				});
 				setFileInput(null);
 				setTextInput("");
@@ -64,11 +64,8 @@ function ModalCreatePost(props) {
 			});
 		});
 	};
-	
 
 
-
-	//TODO: implementations for autocomplete. 1. save country as post property 2. save address as post property 3. create country in filter if country is valid country && if country is not included in list of countries 
 	const handleSelect = async (value) => {
 		const results = await geocodeByAddress(value);
 		const ll = await getLatLng(results[0]);
@@ -78,13 +75,12 @@ function ModalCreatePost(props) {
 		setCountry(value.split(",").slice(-1)[0].trim());
 	};
 
-	useEffect(() =>
-			{
-				console.log(address)
-				if(address){
-					console.log(address.split(",").slice(-1)[0].trim())
-				}
-				},[address]);
+	useEffect(() => {
+		console.log(address);
+		if (address) {
+			console.log(address.split(",").slice(-1)[0].trim());
+		}
+	}, [address]);
 
 	return (
 		<Modal
@@ -100,10 +96,38 @@ function ModalCreatePost(props) {
 			</Modal.Header>
 			<Modal.Body>
 				<form>
+					<Dropdown>
+						<Dropdown.Toggle className="btn-base btn-create-post-filter" id="dropdown-basic">
+							Filter
+						</Dropdown.Toggle>
+
+						<Dropdown.Menu>
+							<Dropdown.Item
+								onClick={() => setFilter("Tips")}
+							>Tips</Dropdown.Item>
+							<Dropdown.Item
+								onClick={() => setFilter("Event")}
+							>Event</Dropdown.Item>
+							<Dropdown.Item onClick={()=>setFilter("Scam Alert")}>Scam Alert</Dropdown.Item>
+							<Dropdown.Item
+								onClick={() => setFilter("Hostel Recommendation")}
+							>Hostel Recommendation</Dropdown.Item>
+							<Dropdown.Item
+								onClick={() => setFilter("Tour Recommendation")}
+							>Tour Recommendation</Dropdown.Item>
+							<Dropdown.Item onClick={()=>setFilter("Food Recommendation")}>
+								Food Recommendation
+							</Dropdown.Item>
+							<Dropdown.Item onClick={()=>setFilter("")}>
+								None
+							</Dropdown.Item>
+						</Dropdown.Menu>
+<span>{filter}</span>
+					</Dropdown>
 					<textarea
 						// type="text"
 						value={textInput}
-						placeholder="share what's new in your life"
+						placeholder="What's new?"
 						onChange={(e) => setTextInput(e.target.value)}
 					/>
 					<PlacesAutocomplete
@@ -157,9 +181,9 @@ function ModalCreatePost(props) {
 				</form>
 			</Modal.Body>
 			<Modal.Footer>
-					<button type="submit" onClick={writeData} disabled={!textInput}>
-						Post
-					</button>
+				<button type="submit" onClick={writeData} disabled={!textInput}>
+					Post
+				</button>
 			</Modal.Footer>
 		</Modal>
 	);

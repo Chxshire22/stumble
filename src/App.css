@@ -268,12 +268,17 @@ p {
 
 .btn-create-post {
   background-color: var(--color-grey-blue);
-  width: 100%;
+  width: 784px;
   position: relative;
   margin-bottom: 2rem;
 }
 .btn-create-post:hover {
   background-color: var(--color-grey-blue-hover);
+}
+
+.btn-create-post-filter{
+	border-radius: var(--border-radius-box);
+	height: 2.5rem;
 }
 
 .btn-search {

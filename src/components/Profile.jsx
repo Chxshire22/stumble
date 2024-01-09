@@ -140,6 +140,8 @@ function Profile(props) {
 								date={post.date}
 								image={post.imageLink}
 								uid={post.uid}
+								postId={post.postId}
+								likes={post.likes}
 							/>
 						))}
 				</div>
