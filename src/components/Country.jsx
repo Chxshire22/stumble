@@ -16,20 +16,16 @@ import { useNavigate, useParams } from "react-router-dom";
 export default function Country(props) {
 	const POSTS_FOLDER_NAME = "posts";
 
-	//useParams to grab the country 
+	//useParams to grab the country
 	const { changedCountry } = useParams();
-	useEffect(() => {
-		if (changedCountry) {
-			console.log(changedCountry);
-		}
-	}, [changedCountry]);
 
 	let { modalShow, setModalShow } = props;
 	const navigate = useNavigate();
 	const [posts, setPosts] = useState([]);
 	const [countriesList, setCountriesList] = useState([]);
 	const [currCountry, setCurrCountry] = useState("");
-	
+	const [postsFilter, setPostsFilter] = useState("");
+
 	//list of registered countries
 	const countryRef = databaseRef(db, "country-list/");
 	useEffect(() => {
@@ -38,26 +34,34 @@ export default function Country(props) {
 			const countriesArr = Object.keys(countriesObj);
 			setCountriesList(countriesArr);
 		});
-		
 	}, [posts]);
 
 	const postsRef = databaseRef(db, POSTS_FOLDER_NAME);
-	//render feed based on country 
-	useEffect(() =>{
-		if(changedCountry){ 
-			console.log("changedCountry",changedCountry)
+	//render feed based on country
+	useEffect(() => {
+		if (changedCountry) {
 			const currCountryRef = query(
-			postsRef,
-			orderByChild("country"),
-			equalTo(changedCountry)
-		);
+				postsRef,
+				orderByChild("country"),
+				equalTo(changedCountry)
+			);
 			onValue(currCountryRef, (snapshot) => {
-				const filteredPost = snapshot.val();
-				const filteredPostsArr = Object.values(filteredPost);
-				console.log(filteredPostsArr);
-				setPosts(filteredPostsArr); })
-
-		}},[changedCountry]);
+				if (snapshot.exists()) {
+					const countryPost = snapshot.val();
+					const countryPostsArr = Object.values(countryPost);
+					if (postsFilter) {
+						setPosts(
+							countryPostsArr.filter((post) => post.filter == postsFilter)
+						);
+					} else {
+						setPosts(countryPostsArr);
+					}
+				} else {
+					setPosts([]);
+				}
+			});
+		}
+	}, [changedCountry, postsFilter]);
 
 	const logout = async () => {
 		try {
@@ -112,8 +116,7 @@ export default function Country(props) {
 	);
 
 	const changeCurrCountry = (country) => {
-		console.log("changing: ",country);
-		setCurrCountry(country)
+		setCurrCountry(country);
 		navigate(`/country/${country}`);
 	};
 
@@ -148,6 +151,45 @@ export default function Country(props) {
 						</Dropdown.Menu>
 					</Dropdown>
 					<Dropdown>
+						<Dropdown.Toggle
+							className="btn-base btn-create-post-filter"
+							id="dropdown-basic"
+						>
+							Filter
+						</Dropdown.Toggle>
+
+						<Dropdown.Menu>
+							<Dropdown.Item onClick={() => setPostsFilter("Tips")}>
+								Tips
+							</Dropdown.Item>
+							<Dropdown.Item onClick={() => setPostsFilter("Event")}>
+								Event
+							</Dropdown.Item>
+							<Dropdown.Item onClick={() => setPostsFilter("Scam Alert")}>
+								Scam Alert
+							</Dropdown.Item>
+							<Dropdown.Item
+								onClick={() => setPostsFilter("Hostel Recommendation")}
+							>
+								Hostel Recommendation
+							</Dropdown.Item>
+							<Dropdown.Item
+								onClick={() => setPostsFilter("Tour Recommendation")}
+							>
+								Tour Recommendation
+							</Dropdown.Item>
+							<Dropdown.Item
+								onClick={() => setPostsFilter("Food Recommendation")}
+							>
+								Food Recommendation
+							</Dropdown.Item>
+							<Dropdown.Item onClick={() => setPostsFilter("")}>
+								None
+							</Dropdown.Item>
+						</Dropdown.Menu>
+					</Dropdown>
+
+					<Dropdown>
 						<Dropdown.Toggle className="btn-base feed-btn" id="dropdown-basic">
 							Settings
 						</Dropdown.Toggle>
@@ -162,7 +204,6 @@ export default function Country(props) {
 					</Dropdown>
 				</div>
 				<div className="home-content">
-					<button className="btn-base btn-search">Search</button>
 					<h1 className="home-feed-header">
 						{changedCountry ? changedCountry : `Home`}
 					</h1>
