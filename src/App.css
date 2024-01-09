@@ -118,6 +118,14 @@ p {
   font-weight: 700;
 }
 
+.feed-post-options{
+	fill: var(--color-grey-blue);
+}
+.feed-post__date>.dropdown{
+	display: inline;
+}
+
+
 .feed-post {
   width: 50rem;
   background-color: var(--color-white);
@@ -251,6 +259,7 @@ p {
 .btn-like{
 	outline: none;
 	border: none;
+	background-color: var(--color-white);
 }
 
 .btn-base:hover {

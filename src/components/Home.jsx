@@ -36,9 +36,6 @@ function Home(props) {
 		});
 	}, [currCountry, postsFilter]);
 
-	useEffect(() => {
-		console.log(postsFilter);
-	}, [postsFilter]);
 
 	const logout = async () => {
 		try {

@@ -29,6 +29,8 @@ function ModalCreatePost(props) {
 	const [country, setCountry] = useState("");
 	const [filter, setFilter] = useState("");
 
+	
+
 	const writeData = (e) => {
 		e.preventDefault();
 
@@ -38,7 +40,7 @@ function ModalCreatePost(props) {
 
 		const imageRef = storageRef(
 			storage,
-			`${IMAGES_FOLDER_NAME}/${auth.currentUser.displayName}/${fileInput.name}`
+			`${IMAGES_FOLDER_NAME}/${auth.currentUser.displayName}-${auth.currentUser.uid}/${fileInput.name}`
 		);
 		uploadBytes(imageRef, fileInput).then(() => {
 			getDownloadURL(imageRef).then((url) => {
