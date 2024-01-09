@@ -13,6 +13,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 
 function FullPost() {
   let { postId } = useParams();
@@ -94,28 +95,27 @@ function FullPost() {
     updateRelativeTime();
   }, 1000 * 61);
 
-  //for google map
-  useEffect(() => {
-    async function initMap() {
-      const position = { lat: -25.344, lng: 131.031 };
-      const { Map } = await google.maps.importLibrary("maps");
-      const { AdvancedMarkerElement } = await google.maps.importLibrary(
-        "marker"
-      );
+  //For google map
+  const GOOGLE_MAPS_API_KEY = import.meta.env
+    .VITE_GOOGLE_PLACES_AUTOCOMPLETE_API_KEY;
 
-      const map = new Map(document.getElementById("map"), {
-        zoom: 4,
-        center: position,
-      });
+  const latitude = post.latlng?.lat;
+  const longtitude = post.latlng?.lng;
 
-      const marker = new AdvancedMarkerElement({
-        map: map,
-        position: position,
-        title: "Uluru",
-      });
-    }
-    initMap();
-  }, []);
+  const containerStyle = {
+    width: "400px",
+    height: "400px",
+  };
+
+  const center = {
+    lat: latitude,
+    lng: longtitude,
+  };
+
+  const { isLoaded } = useJsApiLoader({
+    id: GOOGLE_MAPS_API_KEY,
+    googleMapsApiKey: GOOGLE_MAPS_API_KEY,
+  });
 
   //render list of comments
   let commentListItems = comments.map((comment) => {
@@ -177,7 +177,15 @@ function FullPost() {
         />
       </div>
       <div className="google-map-container">
-        <div id="map" style={{ height: "400px", width: "100%" }}></div>
+        {isLoaded && (
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={center}
+            zoom={12}
+          >
+            <Marker position={center} />
+          </GoogleMap>
+        )}
       </div>
       <div className="comment-container">
         <form onSubmit={writeData}>
