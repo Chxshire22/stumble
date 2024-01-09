@@ -171,6 +171,10 @@ p {
   fill: var(--color-pink);
 }
 
+.heart-empty{
+	fill: var(--color-pink)
+}
+
 /* full post */
 
 .full-post-img-container {
@@ -268,7 +272,7 @@ p {
 
 .btn-create-post {
   background-color: var(--color-grey-blue);
-  width: 784px;
+  width: 50rem;
   position: relative;
   margin-bottom: 2rem;
 }
@@ -425,45 +429,36 @@ label {
 }
 
 /* profile page */
-.profile-page-header {
-  display: grid;
-  height: 20vh;
-  grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(6, 1fr);
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
-}
 
 .pfp-profile-page {
-  margin-left: 3rem;
   height: 10rem;
   width: 10rem;
-  grid-area: 1 / 6 / 7 / 8;
 }
 .profile-page-bio {
   text-align: right;
-  grid-area: 4 / 2 / 7 / 6;
 }
 
 .profile-page-user {
   text-align: right;
-  grid-area: 1 / 2 / 4 / 6;
+	width: 100%;
+	margin: 0;
 }
 
 .stumble-logo {
-  /* margin-top: 4rem; */
   cursor: pointer;
-  grid-area: 1 / 1 / 7 / 2;
 }
 
 /* feed */
 .feed {
   gap: 2rem;
+	width: 50rem;
+	margin-bottom: 3rem;
 }
 
 .feed-image-deco {
   display: block;
   height: 10rem;
+	width: 100%;
 }
 .app-body {
   display: flex;

@@ -18,11 +18,6 @@ export default function Country(props) {
 
 	//useParams to grab the country
 	const { changedCountry } = useParams();
-	useEffect(() => {
-		if (changedCountry) {
-			console.log(changedCountry);
-		}
-	}, [changedCountry]);
 
 	let { modalShow, setModalShow } = props;
 	const navigate = useNavigate();
@@ -45,7 +40,6 @@ export default function Country(props) {
 	//render feed based on country
 	useEffect(() => {
 		if (changedCountry) {
-			console.log("changedCountry", changedCountry);
 			const currCountryRef = query(
 				postsRef,
 				orderByChild("country"),
@@ -55,7 +49,6 @@ export default function Country(props) {
 				if (snapshot.exists()) {
 					const countryPost = snapshot.val();
 					const countryPostsArr = Object.values(countryPost);
-					console.log(countryPostsArr);
 					if (postsFilter) {
 						setPosts(
 							countryPostsArr.filter((post) => post.filter == postsFilter)
@@ -64,7 +57,6 @@ export default function Country(props) {
 						setPosts(countryPostsArr);
 					}
 				} else {
-					console.log("no data");
 					setPosts([]);
 				}
 			});
@@ -124,7 +116,6 @@ export default function Country(props) {
 	);
 
 	const changeCurrCountry = (country) => {
-		console.log("changing: ", country);
 		setCurrCountry(country);
 		navigate(`/country/${country}`);
 	};

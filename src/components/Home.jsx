@@ -29,18 +29,16 @@ function Home(props) {
 			const post = snapshot.val();
 			const postsArray = Object.values(post);
 			if (postsFilter) {
-				setPosts(postsArray.filter((post)=> post.filter==postsFilter))
+				setPosts(postsArray.filter((post) => post.filter == postsFilter));
 			} else {
 				setPosts(postsArray);
 			}
 		});
-	}, [currCountry,postsFilter]);
+	}, [currCountry, postsFilter]);
 
-	useEffect(() =>
-			{
-				console.log(postsFilter)
-			},[postsFilter]);
-
+	useEffect(() => {
+		console.log(postsFilter);
+	}, [postsFilter]);
 
 	const logout = async () => {
 		try {

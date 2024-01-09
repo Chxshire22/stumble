@@ -27,6 +27,7 @@ function FeedPostCard({
   const [pfp, setPfp] = useState(null);
   const [firstComment, setFirstComment] = useState(null);
 
+	//using day.js to update the time
   const updateRelativeTime = () => {
     dayjs.extend(relativeTime);
     setPostRelativeTime(dayjs(date).fromNow());
@@ -44,7 +45,6 @@ function FeedPostCard({
   const [hasLiked, setHasLiked] = useState(false);
   const writeData = (e) => {
     e.preventDefault();
-
     const postRef = ref(db, `posts/${postId}`);
     runTransaction(postRef, (post) => {
       if (!post.userWhoLiked) {
@@ -187,7 +187,7 @@ function FeedPostCard({
                     width="16"
                     height="16"
                     fill="currentColor"
-                    className="bi bi-heart"
+                    className="bi bi-heart heart-empty"
                     viewBox="0 0 16 16"
                   >
                     <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
