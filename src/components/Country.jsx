@@ -26,6 +26,13 @@ export default function Country(props) {
 	const [currCountry, setCurrCountry] = useState("");
 	const [postsFilter, setPostsFilter] = useState("");
 
+	useEffect(() =>
+			{
+				if (!auth.currentUser){
+					navigate('/welcome')
+				}
+			},[]);
+
 	//list of registered countries
 	const countryRef = databaseRef(db, "country-list/");
 	useEffect(() => {

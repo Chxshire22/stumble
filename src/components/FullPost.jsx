@@ -23,6 +23,13 @@ function FullPost() {
   const [post, setPost] = useState({});
   const [postRelativeTime, setPostRelativeTime] = useState(null);
   const navigate = useNavigate();
+	useEffect(() =>
+			{
+				if (!auth.currentUser){
+					navigate('/welcome')
+				}
+			},[]);
+
 
   //Fetch post data to pass in props
   useEffect(() => {

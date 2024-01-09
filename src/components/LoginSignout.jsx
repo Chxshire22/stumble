@@ -20,6 +20,14 @@ function LoginSignout(props) {
 
   const navigate = useNavigate();
 
+	useEffect(() =>
+		{
+			if (auth.currentUser){
+				navigate('/')
+			}
+		},[auth.currentUser]);
+
+
   const register = async (e) => {
     e.preventDefault();
     try {

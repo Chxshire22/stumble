@@ -17,6 +17,14 @@ function Home(props) {
 	const [currCountry, setCurrCountry] = useState(null);
 	const [postsFilter, setPostsFilter] = useState("");
 
+
+	useEffect(() =>
+			{
+				if (!auth.currentUser){
+					navigate('/welcome')
+				}
+			},[]);
+
 	useEffect(() => {
 		const postsRef = databaseRef(db, POSTS_FOLDER_NAME);
 		const countryRef = databaseRef(db, "country-list/");
