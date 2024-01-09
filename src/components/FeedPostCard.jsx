@@ -98,6 +98,16 @@ function FeedPostCard({
 		deleteObject(imageRef);
 	};
 
+	// const TextDisplay = () => {
+	// 	let textDisplay =text.split(" ").slice(0, 10).join(" ");
+	// 	textDisplay = textDisplay.toString()
+	// 	return { textDisplay };
+	// };
+
+	useEffect(() => {
+		console.log(text.split(" ").slice(0, 8).join(" "));
+	}, [text]);
+
 	const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
 		<a
 			href=""
@@ -127,34 +137,42 @@ function FeedPostCard({
 						</div>
 					</Col>
 					<Col xs={6}>
-						<p className="feed-post__content">{text}</p>
+						<p
+							onClick={() => navigate(`/post/${postId}`)}
+							className="feed-post__content"
+						>
+							{text.split(" ").length >= 8
+								? text.split(" ").slice(0, 5).join(" ") + ", read full post..."
+								: text}
+						</p>
 					</Col>
 					<Col>
 						<Row>
-							<p className="feed-post__date">{postRelativeTime}
-									<Dropdown>
-								<Dropdown.Toggle
-									as={CustomToggle}
-									className="feed-post-dropdown"
-									id="dropdown-custom-components"
-								>
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										width="16"
-										height="16"
-										fill="currentColor"
-										className="bi bi-three-dots-vertical feed-post-options"
-										viewBox="0 0 16 16"
+							<p className="feed-post__date">
+								{postRelativeTime}
+								<Dropdown>
+									<Dropdown.Toggle
+										as={CustomToggle}
+										className="feed-post-dropdown"
+										id="dropdown-custom-components"
 									>
-										<path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
-									</svg>
-								</Dropdown.Toggle>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="16"
+											height="16"
+											fill="currentColor"
+											className="bi bi-three-dots-vertical feed-post-options"
+											viewBox="0 0 16 16"
+										>
+											<path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+										</svg>
+									</Dropdown.Toggle>
 
-								<Dropdown.Menu>
-									<Dropdown.Item onClick={deletePost}>Delete</Dropdown.Item>
-								</Dropdown.Menu>
-							</Dropdown>
-</p>
+									<Dropdown.Menu>
+										<Dropdown.Item onClick={deletePost}>Delete</Dropdown.Item>
+									</Dropdown.Menu>
+								</Dropdown>
+							</p>
 						</Row>
 					</Col>
 				</Row>
