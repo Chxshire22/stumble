@@ -71,10 +71,14 @@ function Profile(props) {
 		}
 	};
 
+	useEffect(() => {
+		if (!auth.currentUser) {
+			navigate("/welcome");
+		}
+	}, []);
+
 	return (
 		<div className="block flex-center-col">
-			<div className="dropdown-container"></div>
-			<hr />
 			<div className="profile-body app-body">
 				<div className="feed-btns-col">
 					<img
@@ -100,7 +104,6 @@ function Profile(props) {
 					</Dropdown>
 				</div>
 				<div className="profile-feed feed flex-center-col">
-		
 					<h1 className="profile-page-user blue">{profile.username}</h1>
 					<p className="bio profile-page-bio blue">{profile.bio}</p>
 					<button
@@ -135,18 +138,18 @@ function Profile(props) {
 							/>
 						))}
 				</div>
-		<div className="profile-container">
-		<Image
-		className="pfp pfp-profile-page"
-		src={profile.displayPic}
-		roundedCircle
-		fluid
-		/>
-		<img
-		className="feed-image-deco"
-		src="https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/assets%2Fbermuda-79.png?alt=media&token=e4cc1f34-a389-4e38-9232-0f4b53c0d8f0"
-		/>
-		</div>
+				<div className="profile-container">
+					<Image
+						className="pfp pfp-profile-page"
+						src={profile.displayPic}
+						roundedCircle
+						fluid
+					/>
+					<img
+						className="feed-image-deco"
+						src="https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/assets%2Fbermuda-79.png?alt=media&token=e4cc1f34-a389-4e38-9232-0f4b53c0d8f0"
+					/>
+				</div>
 			</div>
 		</div>
 	);
