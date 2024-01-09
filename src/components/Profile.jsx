@@ -73,8 +73,6 @@ function Profile(props) {
 
 	return (
 		<div className="block flex-center-col">
-			<div className="dropdown-container"></div>
-			<hr />
 			<div className="profile-body app-body">
 				<div className="feed-btns-col">
 					<img

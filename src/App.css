@@ -58,7 +58,7 @@ p {
 /* formatting */
 
 .block {
-  margin-inline: 8rem;
+	margin-block: 2.5rem;
 }
 
 .flex-center-col {
@@ -477,7 +477,6 @@ label {
 .feed {
   gap: 2rem;
 	width: 50rem;
-	margin-bottom: 3rem;
 }
 
 .feed-image-deco {
