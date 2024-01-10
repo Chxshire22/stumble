@@ -12,12 +12,13 @@ import {
 import { signOut } from "firebase/auth";
 import { Dropdown, Form } from "react-bootstrap";
 import { redirect, useNavigate, useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Country(props) {
 	const POSTS_FOLDER_NAME = "posts";
 
 	//useParams to grab the country
-	const { changedCountry } = useParams();
+	const { changedCountry, toastConfig} = useParams();
 
 	let { modalShow, setModalShow } = props;
 	const navigate = useNavigate();
@@ -25,13 +26,20 @@ export default function Country(props) {
 	const [countriesList, setCountriesList] = useState([]);
 	const [currCountry, setCurrCountry] = useState("");
 	const [postsFilter, setPostsFilter] = useState("");
+	const [newPostCreated, setNewPostCreated] = useState(false);
 
-	useEffect(() =>
-			{
-				if (!auth.currentUser){
-					redirect('/welcome')
-				}
-			},[]);
+	useEffect(() => {
+		if (!auth.currentUser) {
+			redirect("/welcome");
+		}
+	}, []);
+
+	useEffect(() => {
+		if (newPostCreated) {
+			setModalShow(false);
+			toast.success("New post created!", toastConfig);
+		}
+	}, [newPostCreated]);
 
 	//list of registered countries
 	const countryRef = databaseRef(db, "country-list/");
@@ -132,8 +140,26 @@ export default function Country(props) {
 		navigate("/");
 	};
 
+	const handleOpenModal = () => {
+		setModalShow(true);
+		setNewPostCreated(false);
+	};
+
 	return (
 		<div className="block flex-center-col">
+			<ToastContainer
+				position="top-right"
+				autoClose={2500}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme="colored"
+			/>
+
 			<div className="profile-body app-body">
 				<div className="feed-btns-col">
 					<img
@@ -214,7 +240,7 @@ export default function Country(props) {
 					</h1>
 					<button
 						className="btn-base btn-create-post"
-						onClick={() => setModalShow(true)}
+						onClick={handleOpenModal}
 					>
 						<img
 							className="pfp-badge badge-left"
@@ -225,6 +251,8 @@ export default function Country(props) {
 					<ModalCreatePost
 						show={modalShow}
 						onHide={() => setModalShow(false)}
+						newPostCreated={newPostCreated}
+						setNewPostCreated={setNewPostCreated}
 					/>
 					<div className="profile-feed feed flex-center-col">
 						{posts

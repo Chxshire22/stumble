@@ -88,6 +88,7 @@ function App() {
 					path: ":uid",
 					element: (
 						<Profile
+							toastConfig={toastConfig}
 							modalShow={modalShow}
 							setModalShow={setModalShow}
 							username={username}
@@ -118,7 +119,7 @@ function App() {
 				{
 					path: `:changedCountry`,
 					element: (
-						<Country modalShow={modalShow} setModalShow={setModalShow} />
+						<Country toastConfig={toastConfig} modalShow={modalShow} setModalShow={setModalShow} />
 					),
 				},
 			],
