@@ -6,36 +6,32 @@ import { ref as databaseRef, onValue } from "firebase/database";
 import { signOut } from "firebase/auth";
 import { Dropdown, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 
 const POSTS_FOLDER_NAME = "posts";
 
 function Home(props) {
-	let { modalShow, setModalShow, toastConfig} = props;
+	let { modalShow, setModalShow, toastConfig } = props;
 	const navigate = useNavigate();
 	const [posts, setPosts] = useState([]);
 	const [countriesList, setCountriesList] = useState([]);
 	const [currCountry, setCurrCountry] = useState(null);
 	const [postsFilter, setPostsFilter] = useState("");
-	const [newPostCreated, setNewPostCreated] = useState(false)
+	const [newPostCreated, setNewPostCreated] = useState(false);
 
-
-	useEffect(() =>
-			{
-				if (!auth.currentUser){
-					navigate('/welcome')
-				}
-				else if (!auth.currentUser.displayName){
-					navigate('/set-profile')
-				}
-			},[]);
-	useEffect(() =>
-			{
-				if(newPostCreated){
-					setModalShow(false)
-					toast.success("New post created!", toastConfig)
-				}
-			},[newPostCreated]);
+	useEffect(() => {
+		if (!auth.currentUser) {
+			navigate("/welcome");
+		} else if (!auth.currentUser.displayName) {
+			navigate("/set-profile");
+		}
+	}, []);
+	useEffect(() => {
+		if (newPostCreated) {
+			setModalShow(false);
+			toast.success("New post created!", toastConfig);
+		}
+	}, [newPostCreated]);
 
 	useEffect(() => {
 		const postsRef = databaseRef(db, POSTS_FOLDER_NAME);
@@ -55,7 +51,6 @@ function Home(props) {
 			}
 		});
 	}, [currCountry, postsFilter]);
-
 
 	const logout = async () => {
 		try {
@@ -120,25 +115,25 @@ function Home(props) {
 		navigate("/");
 	};
 
-	const handleOpenModal = () =>{
-setModalShow(true)
-		setNewPostCreated(false)
-	}
+	const handleOpenModal = () => {
+		setModalShow(true);
+		setNewPostCreated(false);
+	};
 
 	return (
 		<div className="block flex-center-col">
-		<ToastContainer
-	position="top-right"
-autoClose={2500}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="colored"
-		/>
+			<ToastContainer
+				position="top-right"
+				autoClose={2500}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme="colored"
+			/>
 			<div className="profile-body app-body">
 				<div className="feed-btns-col">
 					<img
