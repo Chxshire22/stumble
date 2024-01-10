@@ -90,110 +90,140 @@ function ModalCreatePost(props) {
 	}, [address]);
 
 	return (
-		<Modal
-			{...props}
-			size="lg"
-			aria-labelledby="contained-modal-title-vcenter"
-			centered
-		>
-			<Modal.Header closeButton>
-				<Modal.Title id="contained-modal-title-vcenter">
-					Create a Post
-				</Modal.Title>
-			</Modal.Header>
-			<Modal.Body>
-				<form>
-					<Dropdown>
-						<Dropdown.Toggle className="btn-base btn-create-post-filter" id="dropdown-basic">
-							Filter
-						</Dropdown.Toggle>
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter" className="modal-title">
+          Create a Post
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <form>
+          <Dropdown>
+            <Dropdown.Toggle
+              className="btn-base btn-create-post-filter"
+              id="dropdown-basic"
+            >
+              Filter
+            </Dropdown.Toggle>
 
-						<Dropdown.Menu>
-							<Dropdown.Item
-								onClick={() => setFilter("Tips")}
-							>Tips</Dropdown.Item>
-							<Dropdown.Item
-								onClick={() => setFilter("Event")}
-							>Event</Dropdown.Item>
-							<Dropdown.Item onClick={()=>setFilter("Scam Alert")}>Scam Alert</Dropdown.Item>
-							<Dropdown.Item
-								onClick={() => setFilter("Hostel Recommendation")}
-							>Hostel Recommendation</Dropdown.Item>
-							<Dropdown.Item
-								onClick={() => setFilter("Tour Recommendation")}
-							>Tour Recommendation</Dropdown.Item>
-							<Dropdown.Item onClick={()=>setFilter("Food Recommendation")}>
-								Food Recommendation
-							</Dropdown.Item>
-							<Dropdown.Item onClick={()=>setFilter("")}>
-								None
-							</Dropdown.Item>
-						</Dropdown.Menu>
-<span>{filter}</span>
-					</Dropdown>
-					<textarea
-						// type="text"
-						value={textInput}
-						placeholder="What's new?"
-						onChange={(e) => setTextInput(e.target.value)}
-					/>
-					<PlacesAutocomplete
-						value={address}
-						onChange={setAddress}
-						onSelect={handleSelect}
-					>
-						{({
-							getInputProps,
-							suggestions,
-							getSuggestionItemProps,
-							loading,
-						}) => (
-							<div>
-								<input
-									{...getInputProps({
-										placeholder: "Search Places ...",
-										className: "location-search-input",
-									})}
-								/>
-								<div className="autocomplete-dropdown-container">
-									{loading && <div>Loading...</div>}
-									{suggestions.map((suggestion) => {
-										const className = suggestion.active
-											? "suggestion-item--active"
-											: "suggestion-item";
-										// inline style for demonstration purpose
-										const style = suggestion.active
-											? { backgroundColor: "#fafafa", cursor: "pointer" }
-											: { backgroundColor: "#ffffff", cursor: "pointer" };
-										return (
-											<div
-												{...getSuggestionItemProps(suggestion, {
-													className,
-													style,
-												})}
-											>
-												<span>{suggestion.description}</span>
-											</div>
-										);
-									})}
-								</div>
-							</div>
-						)}
-					</PlacesAutocomplete>
-					<input
-						type="file"
-						onChange={(e) => setFileInput(e.target.files[0])}
-						accept="image/*"
-					/>
-				</form>
-			</Modal.Body>
-			<Modal.Footer>
-				<button type="submit" onClick={writeData} disabled={!textInput}>
-					Post
-				</button>
-			</Modal.Footer>
-		</Modal>
-	);
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => setFilter("Tips")}>
+                Tips
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => setFilter("Event")}>
+                Event
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => setFilter("Scam Alert")}>
+                Scam Alert
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => setFilter("Hostel Recommendation")}>
+                Hostel Recommendation
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => setFilter("Tour Recommendation")}>
+                Tour Recommendation
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => setFilter("Food Recommendation")}>
+                Food Recommendation
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => setFilter("")}>None</Dropdown.Item>
+            </Dropdown.Menu>
+            <span>{filter}</span>
+          </Dropdown>
+          <textarea
+            // type="text"
+            value={textInput}
+            className="modal-text"
+            placeholder="What's new?"
+            onChange={(e) => setTextInput(e.target.value)}
+          />
+          <div className="input-place-and-file-row">
+            <PlacesAutocomplete
+              value={address}
+              onChange={setAddress}
+              onSelect={handleSelect}
+            >
+              {({
+                getInputProps,
+                suggestions,
+                getSuggestionItemProps,
+                loading,
+              }) => (
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="17"
+                    height="17"
+                    fill="currentColor"
+                    className="bi bi-geo-alt-fill map-pin"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
+                  </svg>
+                  <input
+                    {...getInputProps({
+                      placeholder: "Search Places ...",
+                      className: "location-search-input",
+                    })}
+                  />
+                  <div className="autocomplete-dropdown-container">
+                    {loading && <div>Loading...</div>}
+                    {suggestions.map((suggestion) => {
+                      const className = suggestion.active
+                        ? "suggestion-item--active"
+                        : "suggestion-item";
+                      // inline style for demonstration purpose
+                      const style = suggestion.active
+                        ? { backgroundColor: "#fafafa", cursor: "pointer" }
+                        : { backgroundColor: "#ffffff", cursor: "pointer" };
+                      return (
+                        <div
+                          {...getSuggestionItemProps(suggestion, {
+                            className,
+                            style,
+                          })}
+                        >
+                          <span>{suggestion.description}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </PlacesAutocomplete>
+            <label htmlFor="file-input" className="custom-file-input">
+              <img
+                src="https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/assets%2Finsert-picture-icon.png?alt=media&token=2b80813d-7207-42dd-9eef-4df82a7c29c3"
+                alt="Icon"
+                className="input-icon"
+              />
+            </label>
+            <input
+              type="file"
+              id="file-input"
+              onChange={(e) => setFileInput(e.target.files[0])}
+              accept="image/*"
+              style={{ display: "none" }}
+            />
+          </div>
+        </form>
+      </Modal.Body>
+      <Modal.Footer>
+        <button
+          type="submit"
+          className="post-btn"
+          onClick={writeData}
+          disabled={!textInput}
+        >
+          Post
+        </button>
+      </Modal.Footer>
+    </Modal>
+  );
 }
 
 export default ModalCreatePost;
