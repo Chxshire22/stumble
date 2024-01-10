@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import { db, storage } from "./firebase";
 import { push, ref as databaseRef, set } from "firebase/database";
 import {
-	getDownloadURL,
-	ref as storageRef,
-	uploadBytes,
+  getDownloadURL,
+  ref as storageRef,
+  uploadBytes,
 } from "firebase/storage";
 import Modal from "react-bootstrap/Modal";
 import { getAuth } from "firebase/auth";
 import PlacesAutocomplete, {
-	geocodeByAddress,
-	getLatLng,
+  geocodeByAddress,
+  getLatLng,
 } from "react-places-autocomplete";
 import { Dropdown, Image } from "react-bootstrap";
 
@@ -151,6 +151,7 @@ function ModalCreatePost(props) {
             value={textInput}
             className="modal-text"
             placeholder="What's new?"
+
             onChange={(e) => setTextInput(e.target.value)}
           />
           <div className="input-place-and-file-row">
@@ -242,6 +243,7 @@ function ModalCreatePost(props) {
           Post
         </button>
       </Modal.Footer>
+
     </Modal>
   );
 }

@@ -217,6 +217,22 @@ p {
   margin-block: 80px;
 }
 
+.fullpost-container {
+  display: grid;
+  grid-template-columns: 15% 55% 20%;
+  grid-gap: 5%;
+}
+
+.feed-btns-col {
+  text-align: center;
+  padding-top: 80px;
+}
+.fullpost-main-col {
+  display: grid;
+  gap: 30px;
+  margin-top: 80px;
+}
+
 .full-post-img-container {
   width: 100%;
   height: 100%;
