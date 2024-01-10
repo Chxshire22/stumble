@@ -11,16 +11,17 @@ import {
 	orderByChild,
 	equalTo,
 } from "firebase/database";
-import { useNavigate, useParams } from "react-router-dom";
+import { redirect, useNavigate, useParams } from "react-router-dom";
 import FeedPostCard from "./FeedPostCard";
 import ModalCreatePost from "./ModalCreatePost";
+import { ToastContainer, toast } from "react-toastify";
 
 function Profile(props) {
-	let { modalShow, setModalShow } = props;
+	let { modalShow, setModalShow, toastConfig } = props;
 
-	// user can edit posts? if uid == auth.currentUser.uid
 	const [profile, setProfile] = useState({});
 
+	const [newPostCreated, setNewPostCreated] = useState(false);
 	const { uid } = useParams();
 
 	useEffect(() => {
@@ -28,6 +29,13 @@ function Profile(props) {
 			console.log(uid);
 		}
 	}, [uid]);
+
+	useEffect(() => {
+		if (newPostCreated) {
+			setModalShow(false);
+			toast.success("New post created!", toastConfig);
+		}
+	}, [newPostCreated]);
 
 	useEffect(() => {
 		get(child(userRef, `/${uid}`))
@@ -71,14 +79,36 @@ function Profile(props) {
 		}
 	};
 
+	//not logged in nor registration complete // does this work...? idk TODO: does not work - find a better fix than navigate('/welcome') or redirect
 	useEffect(() => {
 		if (!auth.currentUser) {
-			navigate("/welcome");
+			redirect("/welcome");
+		} else if (!auth.currentUser.displayName) {
+			redirect("/set-profile");
 		}
 	}, []);
 
+	//change states for having created posts or not if you open modal create post
+	const handleOpenModal = () => {
+		setModalShow(true);
+		setNewPostCreated(false);
+	};
+
 	return (
 		<div className="block flex-center-col">
+			<ToastContainer
+				position="top-right"
+				autoClose={2500}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme="colored"
+			/>
+
 			<div className="profile-body app-body">
 				<div className="feed-btns-col">
 					<img
@@ -108,7 +138,7 @@ function Profile(props) {
 					<p className="bio profile-page-bio blue">{profile.bio}</p>
 					<button
 						className="btn-base btn-create-post"
-						onClick={() => setModalShow(true)}
+						onClick={handleOpenModal}
 					>
 						<img
 							className="pfp-badge badge-left"
@@ -119,6 +149,8 @@ function Profile(props) {
 					<ModalCreatePost
 						show={modalShow}
 						onHide={() => setModalShow(false)}
+						newPostCreated={newPostCreated}
+						setNewPostCreated={setNewPostCreated}
 					/>
 					{/*placeholder posts. will map posts here soon*/}
 					{posts

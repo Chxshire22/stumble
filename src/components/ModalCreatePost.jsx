@@ -28,13 +28,8 @@ function ModalCreatePost(props) {
   });
   const [country, setCountry] = useState("");
   const [filter, setFilter] = useState("");
-
-  const writeData = (e) => {
-    e.preventDefault();
-
-    set(databaseRef(db, `country-list/` + country), {
-      placeholder: "basically nothing",
-    });
+  
+  let {setNewPostCreated} = props;
 
     const imageRef = storageRef(
       storage,
@@ -64,6 +59,46 @@ function ModalCreatePost(props) {
       });
     });
   };
+
+
+    const writeData = (e) => {
+    e.preventDefault();
+    set(databaseRef(db, `country-list/` + country), {
+      placeholder: "basically nothing",
+    });
+		const imageRef = storageRef(
+			storage,
+			`${IMAGES_FOLDER_NAME}/${auth.currentUser.displayName}-${auth.currentUser.uid}/${fileInput.name}`
+		);
+		uploadBytes(imageRef, fileInput).then(() => {
+			getDownloadURL(imageRef).then((url) => {
+				const postListRef = databaseRef(db, POSTS_FOLDER_NAME);
+				const newPostRef = push(postListRef);
+				console.log(newPostRef._path.pieces_[1]);
+				const pathToPostId = newPostRef._path.pieces_[1];
+				set(newPostRef, {
+					imageLink: url,
+					text: textInput,
+					uid: auth.currentUser.uid,
+					username: auth.currentUser.displayName,
+					date: new Date().toISOString(),
+					postId: pathToPostId,
+					location: address,
+					country: country,
+					latlng: coordinates,
+					filter: filter,
+				}).then(()=>{
+				setFileInput(null);
+				setTextInput("");
+				setAddress("");
+				setNewPostCreated(true)
+				}).then(()=>{
+
+				})
+			});
+		});
+	};
+
 
   const handleSelect = async (value) => {
     const results = await geocodeByAddress(value);

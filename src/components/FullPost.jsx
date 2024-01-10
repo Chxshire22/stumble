@@ -23,12 +23,16 @@ function FullPost() {
   const [post, setPost] = useState({});
   const [postRelativeTime, setPostRelativeTime] = useState(null);
   const navigate = useNavigate();
-	useEffect(() =>
-			{
-				if (!auth.currentUser){
-					navigate('/welcome')
-				}
-			},[]);
+
+	//not logged in nor completed registration
+	useEffect(() => {
+		if (!auth.currentUser) {
+			navigate("/welcome");
+		}
+		else if (!auth.currentUser.displayName){
+			navigate("/set-profile")
+		}
+	}, []);
 
 
   //Fetch post data to pass in props
