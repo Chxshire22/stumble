@@ -11,7 +11,7 @@ import {
 } from "firebase/database";
 import { signOut } from "firebase/auth";
 import { Dropdown, Form } from "react-bootstrap";
-import { useNavigate, useParams } from "react-router-dom";
+import { redirect, useNavigate, useParams } from "react-router-dom";
 
 export default function Country(props) {
 	const POSTS_FOLDER_NAME = "posts";
@@ -29,7 +29,7 @@ export default function Country(props) {
 	useEffect(() =>
 			{
 				if (!auth.currentUser){
-					navigate('/welcome')
+					redirect('/welcome')
 				}
 			},[]);
 

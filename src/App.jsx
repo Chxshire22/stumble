@@ -6,9 +6,11 @@ import FullPost from "./components/FullPost";
 import Profile from "./components/Profile";
 import Playground from "./components/Playground";
 import SetProfile from "./components/SetProfile";
-import Country from "./components/Country"
+import Country from "./components/Country";
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
 	//for popup
@@ -22,14 +24,47 @@ function App() {
 	const [username, setUsername] = useState("");
 	const [bio, setBio] = useState("");
 
+	const toastConfig = {
+		position: "top-right",
+		autoClose: 2500,
+		hideProgressBar: false,
+		closeOnClick: true,
+		pauseOnHover: true,
+		draggable: true,
+		progress: undefined,
+		theme: "colored",
+	};
+
+	const referrer = document.referrer;
+	const currentUrl = window.location.href;
+
+	const welcomeRegex = /\/welcome$/;
+	const setProfileRegex = /\/set-profile$/;
+
+	useEffect(() => {
+		console.log(currentUrl);
+		console.log(referrer);
+	}, []);
+
+	useEffect(() => {
+		if (welcomeRegex.test(referrer) && setProfileRegex.test(currentUrl)) {
+			toast.success("Successfully signed up", toastConfig);
+		}
+		if (welcomeRegex.test(referrer)) {
+			toast.success("Successfully logged in", toastConfig);
+		}
+	}, [referrer, currentUrl]);
+
 	const router = createBrowserRouter([
 		{
 			path: "/",
-			element: <Home modalShow={modalShow} setModalShow={setModalShow} />,
+			element: <Home modalShow={modalShow} setModalShow={setModalShow} toastConfig={toastConfig}/>,
 		},
 		{
 			path: "/welcome",
-			element: <LoginSignout setUser={setUser} user={user} />,
+			element: (
+				<LoginSignout setUser={setUser} user={user} toastConfig={toastConfig} />
+			),
 		},
 		{
 			path: "/create-post",
@@ -73,6 +108,7 @@ function App() {
 					setBio={setBio}
 					selectedImage={selectedImage}
 					setSelectedImage={setSelectedImage}
+					toastConfig={toastConfig}
 				/>
 			),
 		},
@@ -81,9 +117,11 @@ function App() {
 			children: [
 				{
 					path: `:changedCountry`,
-					element: <Country modalShow={modalShow} setModalShow={setModalShow} />,
-				}
-			]
+					element: (
+						<Country modalShow={modalShow} setModalShow={setModalShow} />
+					),
+				},
+			],
 		},
 		{
 			path: "/playground",
@@ -95,6 +133,18 @@ function App() {
 	]);
 	return (
 		<>
+			<ToastContainer
+				position="top-right"
+				autoClose={2500}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme="colored"
+			/>
 			<RouterProvider router={router} />
 		</>
 	);
