@@ -103,8 +103,8 @@ function FullPost() {
   const longtitude = post.latlng?.lng;
 
   const containerStyle = {
-    width: "400px",
-    height: "400px",
+    width: "100%",
+    height: "200px",
   };
 
   const center = {
@@ -121,7 +121,10 @@ function FullPost() {
   let commentListItems = comments.map((comment) => {
     return (
       <div key={comment.key} className="comment-item">
-        <strong>{comment.username}</strong>: <span>{comment.text}</span>
+        <div className="comment-username">
+          <strong>@{comment.username}:</strong>
+        </div>
+        <span>{comment.text}</span>
         <p>
           <small>{dayjs(comment.date).fromNow()}</small>
         </p>
@@ -130,7 +133,7 @@ function FullPost() {
   });
 
   return (
-    <div>
+    <div className="fullpost-container">
       <div className="feed-btns-col">
         <img
           src="https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/assets%2Fstumble-logo.webp?alt=media&token=72a22d6a-4de1-4a2c-b0bc-08fe0f660c8f"
@@ -139,69 +142,81 @@ function FullPost() {
           onClick={() => navigate("/")}
         />
       </div>
-      <Container className="post-header">
-        <Row>
-          <Col>
-            <p className="username">{post.username}</p>
-          </Col>
-          <Col>
-            <Row>
-              <p className="feed-post__date">{postRelativeTime}</p>
-            </Row>
-            <Row>
-              <p className="feed-post__location">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-geo-alt-fill map-pin"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
-                </svg>
-                {post.location}
-              </p>
-            </Row>
-          </Col>
+      <div className="fullpost-main-col">
+        <Container className="post-header">
           <Row>
-            <p className="feed-post__content">{post.text}</p>
+            <Col>
+              <p className="username">@{post.username}</p>
+            </Col>
+            <Col>
+              <Row>
+                <p className="feed-post__date">{postRelativeTime}</p>
+              </Row>
+              <Row>
+                <p className="feed-post__location">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-geo-alt-fill map-pin"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
+                  </svg>
+                  {post.location}
+                </p>
+              </Row>
+            </Col>
+            <Row>
+              <p className="feed-post__content">{post.text}</p>
+            </Row>
           </Row>
-        </Row>
-      </Container>
-      <div className="full-post-img-container">
+        </Container>
+        <div className="full-post-img-container">
+          <img
+            className="full-post-img"
+            src={post.imageLink}
+            alt={post.imageLink}
+          />
+        </div>
+        <div className="google-map-container">
+          {isLoaded && (
+            <GoogleMap
+              mapContainerStyle={containerStyle}
+              center={center}
+              zoom={12}
+            >
+              <Marker position={center} />
+            </GoogleMap>
+          )}
+        </div>
+        <div className="comment-container">
+          <form onSubmit={writeData}>
+            <input
+              type="text"
+              value={commentInput}
+              placeholder="Leave a Comment..."
+              onChange={(e) => setCommentInput(e.target.value)}
+              className="comment-input"
+            />
+            <button
+              type="submit"
+              disabled={!commentInput}
+              className="comment-btn"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+        <div>{commentListItems}</div>
+      </div>
+      <div className="image-col">
         <img
-          className="full-post-img"
-          src={post.imageLink}
-          alt={post.imageLink}
+          className="feed-image-deco"
+          src="https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/assets%2Fflamenco-a-cartoon-character-holding-a-magnifying-glass.png?alt=media&token=f5de55fc-4b6a-4222-acc3-a7aa4863e761"
         />
       </div>
-      <div className="google-map-container">
-        {isLoaded && (
-          <GoogleMap
-            mapContainerStyle={containerStyle}
-            center={center}
-            zoom={12}
-          >
-            <Marker position={center} />
-          </GoogleMap>
-        )}
-      </div>
-      <div className="comment-container">
-        <form onSubmit={writeData}>
-          <input
-            type="text"
-            value={commentInput}
-            placeholder="Leave a Comment..."
-            onChange={(e) => setCommentInput(e.target.value)}
-            className="comment-input"
-          />
-          <button type="submit" disabled={!commentInput} className="btn-base">
-            Submit
-          </button>
-        </form>
-      </div>
-      <div>{commentListItems}</div>
     </div>
   );
 }
