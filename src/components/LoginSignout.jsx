@@ -62,7 +62,7 @@ function LoginSignout(props) {
         <div className="auth-header-logo">
           <img
             className="logo-earth"
-            src="src/assets/images/flamenco-134.webp"
+            src="https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/assets%2Fflamenco-134.webp?alt=media&token=8d349e22-4beb-4bb2-996e-f93aece0c6b9"
             alt=""
           />
         </div>
@@ -71,7 +71,6 @@ function LoginSignout(props) {
           <p className="tagline">
             {user?.email ? user?.email : `explore with us!`}
           </p>
-          {/*<p className="tagline">{user?.email}</p>*/}
         </div>
       </header>
       <form className="auth-form flex-center-col">
@@ -104,7 +103,7 @@ function LoginSignout(props) {
         </div>
       </form>
       <div className="login-image">
-        <img src="src/assets/images/flamenco-camping.webp" alt="" />
+        <img src="https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/assets%2Fflamenco-camping.webp?alt=media&token=f6527dd8-bd29-4e8f-a49c-40630c29eb3c" alt="" />
       </div>
     </div>
   );
