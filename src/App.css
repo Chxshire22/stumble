@@ -496,3 +496,21 @@ label {
   color: var(--color-dark-blue);
   text-align: center;
 }
+
+/* for tablet and mobile */ 
+/* TODO: Create HTML elements for tablets and mobile */
+
+@media screen and (max-width: 768px) {
+	.profile-container, .feed-btns-col{
+		display: none;
+	}
+	.app-body, .home-content, .btn-create-post, .feed, .card{
+		width: 100%;
+	}
+	.home-content{
+		padding-inline: 2rem;
+	}
+	.feed{
+		padding-inline: 2rem ;
+	}
+}
