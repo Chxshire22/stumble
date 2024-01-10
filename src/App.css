@@ -76,9 +76,6 @@ p {
   align-items: center;
 }
 
-.feed-btns-col{
-	width: 10rem;
-}
 .btns-set-profile{
 	display: flex;
 	width: 100%;
@@ -223,10 +220,6 @@ p {
   grid-gap: 5%;
 }
 
-.feed-btns-col {
-  text-align: center;
-  padding-top: 80px;
-}
 .fullpost-main-col {
   display: grid;
   gap: 30px;
