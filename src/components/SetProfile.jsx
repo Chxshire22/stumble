@@ -9,6 +9,7 @@ import {
 } from "firebase/storage";
 import { ref, set, onValue } from "firebase/database";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function SetProfile(props) {
   let {
@@ -19,6 +20,7 @@ export default function SetProfile(props) {
     setBio,
     selectedImage,
     setSelectedImage,
+		toastConfig,
   } = props;
 
   const [preview, setPreview] = useState(null);
@@ -108,7 +110,7 @@ export default function SetProfile(props) {
               });
             })
             .then(() => setProfileUid(auth.currentUser.uid))
-            .then(() => navigate(`/profile/${auth.currentUser.uid}`));
+            // .then(() => navigate(`/profile/${auth.currentUser.uid}`));
         });
       } else {
         updateProfile(auth.currentUser, {
@@ -130,13 +132,15 @@ export default function SetProfile(props) {
             });
           })
           .then(() => setProfileUid(auth.currentUser.uid))
-          .then(() => navigate(`/profile/${auth.currentUser.uid}`));
+					.then(()=> toast.success("updated profile", toastConfig) )
+          // .then(() => navigate(`/profile/${auth.currentUser.uid}`));
       }
     }
   };
 
   return (
     <div className="flex-center-col block set-profile-page">
+		<ToastContainer/>
       <div className="logo-container">
         <Image
           className="stumble-logo"
@@ -191,9 +195,14 @@ export default function SetProfile(props) {
             maxLength={140}
           />
         </Form.Group>
-        <button type="submit" onClick={saveProfile} className="btn-base">
-          Save & Exit
-        </button>
+		<div className="btns-set-profile">
+		<button onClick={saveProfile} className="btn-base">
+		Save
+		</button>
+		<button onClick={()=>navigate(`/profile/${auth.currentUser.uid}`)} className="btn-base">
+		Exit
+		</button>
+		</div>
       </Form>
     </div>
   );

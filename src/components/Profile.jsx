@@ -11,14 +11,13 @@ import {
 	orderByChild,
 	equalTo,
 } from "firebase/database";
-import { useNavigate, useParams } from "react-router-dom";
+import { redirect, useNavigate, useParams } from "react-router-dom";
 import FeedPostCard from "./FeedPostCard";
 import ModalCreatePost from "./ModalCreatePost";
 
 function Profile(props) {
 	let { modalShow, setModalShow } = props;
 
-	// user can edit posts? if uid == auth.currentUser.uid
 	const [profile, setProfile] = useState({});
 
 	const { uid } = useParams();
@@ -71,11 +70,16 @@ function Profile(props) {
 		}
 	};
 
-	useEffect(() => {
-		if (!auth.currentUser) {
-			navigate("/welcome");
-		}
-	}, []);
+	//not logged in nor registration complete // does this work...? idk
+	useEffect(() =>
+			{
+				if (!auth.currentUser){
+					redirect('/welcome')
+				}
+				else if (!auth.currentUser.displayName){
+					redirect('/set-profile')
+				}
+			},[]);
 
 	return (
 		<div className="block flex-center-col">

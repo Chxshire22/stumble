@@ -29,6 +29,7 @@ function ModalCreatePost(props) {
 	const [country, setCountry] = useState("");
 	const [filter, setFilter] = useState("");
 
+	let {setNewPostCreated} = props;
 	
 
 	const writeData = (e) => {
@@ -59,10 +60,14 @@ function ModalCreatePost(props) {
 					country: country,
 					latlng: coordinates,
 					filter: filter,
-				});
+				}).then(()=>{
 				setFileInput(null);
 				setTextInput("");
 				setAddress("");
+				setNewPostCreated(true)
+				}).then(()=>{
+
+				})
 			});
 		});
 	};

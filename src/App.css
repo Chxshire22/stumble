@@ -45,6 +45,7 @@ p {
 .bio {
   font-weight: 700;
   font-size: 18px;
+	width: 100%;
 }
 
 .profile-page-user {
@@ -78,9 +79,15 @@ p {
 .feed-btns-col{
 	width: 10rem;
 }
+.btns-set-profile{
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+}
 .profile-container{
 	width: 10rem;
 }
+
 
 /* card-style post in feed  */
 
