@@ -12,84 +12,96 @@ import PlacesAutocomplete, {
 	geocodeByAddress,
 	getLatLng,
 } from "react-places-autocomplete";
-import { Dropdown } from "react-bootstrap";
+import { Dropdown, Image } from "react-bootstrap";
 
 const IMAGES_FOLDER_NAME = "post-img";
 const POSTS_FOLDER_NAME = "posts";
 const auth = getAuth();
 
 function ModalCreatePost(props) {
-	const [textInput, setTextInput] = useState("");
-	const [fileInput, setFileInput] = useState(null);
-	const [address, setAddress] = useState("");
-	const [coordinates, setCoordinates] = useState({
-		lat: null,
-		lng: null,
-	});
-	const [country, setCountry] = useState("");
-	const [filter, setFilter] = useState("");
+  const [textInput, setTextInput] = useState("");
+  const [fileInput, setFileInput] = useState(null);
+  const [address, setAddress] = useState("");
+  const [coordinates, setCoordinates] = useState({
+    lat: null,
+    lng: null,
+  });
+  const [country, setCountry] = useState("");
+  const [filter, setFilter] = useState("");
+  const [preview, setPreview] = useState(null);
 
-	let {setNewPostCreated} = props;
-	
+  let { setNewPostCreated } = props;
 
-	const writeData = (e) => {
-		e.preventDefault();
+  // change image container when selected image is changed
+  useEffect(() => {
+    if (!fileInput) {
+      setPreview(
+        null
+      );
+      return;
+    } else {
+      const localUrl = URL.createObjectURL(fileInput);
+      setPreview(localUrl);
+    }
+  }, [fileInput]);
 
-		set(databaseRef(db, `country-list/` + country), {
-			placeholder: "basically nothing",
-		});
+  const writeData = (e) => {
+    e.preventDefault();
 
-		const imageRef = storageRef(
-			storage,
-			`${IMAGES_FOLDER_NAME}/${auth.currentUser.displayName}-${auth.currentUser.uid}/${fileInput.name}`
-		);
-		uploadBytes(imageRef, fileInput).then(() => {
-			getDownloadURL(imageRef).then((url) => {
-				const postListRef = databaseRef(db, POSTS_FOLDER_NAME);
-				const newPostRef = push(postListRef);
-				console.log(newPostRef._path.pieces_[1]);
-				const pathToPostId = newPostRef._path.pieces_[1];
-				set(newPostRef, {
-					imageLink: url,
-					text: textInput,
-					uid: auth.currentUser.uid,
-					username: auth.currentUser.displayName,
-					date: new Date().toISOString(),
-					postId: pathToPostId,
-					location: address,
-					country: country,
-					latlng: coordinates,
-					filter: filter,
-				}).then(()=>{
-				setFileInput(null);
-				setTextInput("");
-				setAddress("");
-				setNewPostCreated(true)
-				}).then(()=>{
+    set(databaseRef(db, `country-list/` + country), {
+      placeholder: "basically nothing",
+    });
 
-				})
-			});
-		});
-	};
+    const imageRef = storageRef(
+      storage,
+      `${IMAGES_FOLDER_NAME}/${auth.currentUser.displayName}-${auth.currentUser.uid}/${fileInput.name}`
+    );
+    uploadBytes(imageRef, fileInput).then(() => {
+      getDownloadURL(imageRef).then((url) => {
+        const postListRef = databaseRef(db, POSTS_FOLDER_NAME);
+        const newPostRef = push(postListRef);
+        console.log(newPostRef._path.pieces_[1]);
+        const pathToPostId = newPostRef._path.pieces_[1];
+        set(newPostRef, {
+          imageLink: url,
+          text: textInput,
+          uid: auth.currentUser.uid,
+          username: auth.currentUser.displayName,
+          date: new Date().toISOString(),
+          postId: pathToPostId,
+          location: address,
+          country: country,
+          latlng: coordinates,
+          filter: filter,
+        })
+          .then(() => {
+            setFileInput(null);
+            setTextInput("");
+            setAddress("");
+            setNewPostCreated(true);
+          })
+          .then(() => {});
+      });
+    });
+  };
 
+  const handleSelect = async (value) => {
+    const results = await geocodeByAddress(value);
+    const ll = await getLatLng(results[0]);
+    console.log(ll);
+    setAddress(value);
+    setCoordinates(ll);
+    setCountry(value.split(",").slice(-1)[0].trim());
+  };
 
-	const handleSelect = async (value) => {
-		const results = await geocodeByAddress(value);
-		const ll = await getLatLng(results[0]);
-		console.log(ll);
-		setAddress(value);
-		setCoordinates(ll);
-		setCountry(value.split(",").slice(-1)[0].trim());
-	};
+  useEffect(() => {
+    console.log(address);
+    if (address) {
+      console.log(address.split(",").slice(-1)[0].trim());
+    }
+  }, [address]);
 
-	useEffect(() => {
-		console.log(address);
-		if (address) {
-			console.log(address.split(",").slice(-1)[0].trim());
-		}
-	}, [address]);
-
-	return (
+  return (
     <Modal
       {...props}
       size="lg"
@@ -212,6 +224,14 @@ function ModalCreatePost(props) {
           </div>
         </form>
       </Modal.Body>
+      <div className="flex-center-row" >
+				<Image
+					className="post-img-preview"
+					src={preview? preview: null}
+					rounded
+					fluid
+				/>
+			</div>
       <Modal.Footer>
         <button
           type="submit"

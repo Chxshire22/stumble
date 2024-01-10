@@ -431,6 +431,7 @@ p {
   margin-bottom: 1.5rem;
 }
 
+
 .btn-search {
   border-radius: var(--border-radius-box);
   background-color: var(--color-teal);
@@ -616,6 +617,12 @@ label {
 .home-feed-header {
   color: var(--color-dark-blue);
   text-align: center;
+}
+
+/* images */
+
+.post-img-preview{
+  max-height: 30vh;
 }
 
 /* for tablet and mobile */ 
