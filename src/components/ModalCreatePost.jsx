@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import { db, storage, countryRef } from "./firebase";
-import { push, ref as databaseRef, set, child, get } from "firebase/database";
+import { db, storage } from "./firebase";
+import { push, ref as databaseRef, set } from "firebase/database";
 import {
   getDownloadURL,
   ref as storageRef,
   uploadBytes,
 } from "firebase/storage";
-import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { getAuth } from "firebase/auth";
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
+import { Dropdown } from "react-bootstrap";
 
 const IMAGES_FOLDER_NAME = "post-img";
 const POSTS_FOLDER_NAME = "posts";
@@ -27,6 +27,7 @@ function ModalCreatePost(props) {
     lng: null,
   });
   const [country, setCountry] = useState("");
+  const [filter, setFilter] = useState("");
 
   const writeData = (e) => {
     e.preventDefault();
@@ -37,7 +38,7 @@ function ModalCreatePost(props) {
 
     const imageRef = storageRef(
       storage,
-      `${IMAGES_FOLDER_NAME}/${auth.currentUser.displayName}/${fileInput.name}`
+      `${IMAGES_FOLDER_NAME}/${auth.currentUser.displayName}-${auth.currentUser.uid}/${fileInput.name}`
     );
     uploadBytes(imageRef, fileInput).then(() => {
       getDownloadURL(imageRef).then((url) => {
@@ -55,6 +56,7 @@ function ModalCreatePost(props) {
           location: address,
           country: country,
           latlng: coordinates,
+          filter: filter,
         });
         setFileInput(null);
         setTextInput("");
@@ -63,7 +65,6 @@ function ModalCreatePost(props) {
     });
   };
 
-  //TODO: implementations for autocomplete. 1. save country as post property 2. save address as post property 3. create country in filter if country is valid country && if country is not included in list of countries
   const handleSelect = async (value) => {
     const results = await geocodeByAddress(value);
     const ll = await getLatLng(results[0]);

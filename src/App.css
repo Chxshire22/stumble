@@ -58,7 +58,7 @@ p {
 /* formatting */
 
 .block {
-  margin-inline: 8rem;
+	margin-block: 2.5rem;
 }
 
 .flex-center-col {
@@ -73,6 +73,13 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.feed-btns-col{
+	width: 10rem;
+}
+.profile-container{
+	width: 10rem;
 }
 
 /* card-style post in feed  */
@@ -117,6 +124,14 @@ p {
   font-family: "Nunito";
   font-weight: 700;
 }
+
+.feed-post-options{
+	fill: var(--color-grey-blue);
+}
+.feed-post__date>.dropdown{
+	display: inline;
+}
+
 
 .feed-post {
   width: 50rem;
@@ -169,6 +184,10 @@ p {
 
 .heart-like {
   fill: var(--color-pink);
+}
+
+.heart-empty{
+	fill: var(--color-pink)
 }
 
 /* full post */
@@ -351,6 +370,12 @@ p {
   height: 2.5rem;
 }
 
+.btn-like{
+	outline: none;
+	border: none;
+	background-color: var(--color-white);
+}
+
 .btn-base:hover {
   box-shadow: var(--box-shadow);
   background-color: var(--color-dark-blue-hover);
@@ -368,6 +393,10 @@ p {
   outline: none;
   border-color: black;
 }
+#dropdown-basic:hover {
+  outline: none;
+  border-color: black;
+}
 #dropdown-basic:active {
   outline: none;
   border-color: black;
@@ -375,12 +404,17 @@ p {
 
 .btn-create-post {
   background-color: var(--color-grey-blue);
-  width: 100%;
+  width: 50rem;
   position: relative;
   margin-bottom: 2rem;
 }
 .btn-create-post:hover {
   background-color: var(--color-grey-blue-hover);
+}
+
+.btn-create-post-filter{
+	border-radius: var(--border-radius-box);
+	height: 2.5rem;
 }
 
 .btn-search {
@@ -527,45 +561,34 @@ label {
 }
 
 /* profile page */
-.profile-page-header {
-  display: grid;
-  height: 20vh;
-  grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(6, 1fr);
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
-}
 
 .pfp-profile-page {
-  margin-left: 3rem;
   height: 10rem;
   width: 10rem;
-  grid-area: 1 / 6 / 7 / 8;
 }
 .profile-page-bio {
   text-align: right;
-  grid-area: 4 / 2 / 7 / 6;
 }
 
 .profile-page-user {
   text-align: right;
-  grid-area: 1 / 2 / 4 / 6;
+	width: 100%;
+	margin: 0;
 }
 
 .stumble-logo {
-  /* margin-top: 4rem; */
   cursor: pointer;
-  grid-area: 1 / 1 / 7 / 2;
 }
 
 /* feed */
 .feed {
   gap: 2rem;
+	width: 50rem;
 }
 
 .feed-image-deco {
   display: block;
-  height: 10rem;
+	width: 100%;
 }
 .app-body {
   display: flex;
@@ -579,4 +602,22 @@ label {
 .home-feed-header {
   color: var(--color-dark-blue);
   text-align: center;
+}
+
+/* for tablet and mobile */ 
+/* TODO: Create HTML elements for tablets and mobile */
+
+@media screen and (max-width: 768px) {
+	.profile-container, .feed-btns-col{
+		display: none;
+	}
+	.app-body, .home-content, .btn-create-post, .feed, .card{
+		width: 100%;
+	}
+	.home-content{
+		padding-inline: 2rem;
+	}
+	.feed{
+		padding-inline: 2rem ;
+	}
 }

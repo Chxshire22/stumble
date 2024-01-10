@@ -25,6 +25,13 @@ export default function SetProfile(props) {
 
   const navigate = useNavigate();
 
+	useEffect(() =>
+			{
+				if (!auth.currentUser){
+					navigate('/welcome')
+				}
+			},[]);
+
   // change image container when selected image is changed
   useEffect(() => {
     if (!selectedImage) {
