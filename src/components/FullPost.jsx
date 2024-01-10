@@ -24,17 +24,6 @@ function FullPost() {
   const [postRelativeTime, setPostRelativeTime] = useState(null);
   const navigate = useNavigate();
 
-	//not logged in nor completed registration
-	useEffect(() => {
-		if (!auth.currentUser) {
-			navigate("/welcome");
-		}
-		else if (!auth.currentUser.displayName){
-			navigate("/set-profile")
-		}
-	}, []);
-
-
   //Fetch post data to pass in props
   useEffect(() => {
     console.log(postId);
@@ -145,7 +134,8 @@ function FullPost() {
 
   return (
     <div className="fullpost-container">
-      <div className="feed-btns-col">
+      <div className="fullpost-logo">
+
         <img
           src="https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/assets%2Fstumble-logo.webp?alt=media&token=72a22d6a-4de1-4a2c-b0bc-08fe0f660c8f"
           className="stumble-logo"

@@ -12,7 +12,7 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
-import { Dropdown } from "react-bootstrap";
+import { Dropdown, Image } from "react-bootstrap";
 
 const IMAGES_FOLDER_NAME = "post-img";
 const POSTS_FOLDER_NAME = "posts";
@@ -28,8 +28,29 @@ function ModalCreatePost(props) {
   });
   const [country, setCountry] = useState("");
   const [filter, setFilter] = useState("");
-  
-  let {setNewPostCreated} = props;
+  const [preview, setPreview] = useState(null);
+
+  let { setNewPostCreated } = props;
+
+  // change image container when selected image is changed
+  useEffect(() => {
+    if (!fileInput) {
+      setPreview(
+        null
+      );
+      return;
+    } else {
+      const localUrl = URL.createObjectURL(fileInput);
+      setPreview(localUrl);
+    }
+  }, [fileInput]);
+
+  const writeData = (e) => {
+    e.preventDefault();
+
+    set(databaseRef(db, `country-list/` + country), {
+      placeholder: "basically nothing",
+    });
 
     const imageRef = storageRef(
       storage,
@@ -52,53 +73,17 @@ function ModalCreatePost(props) {
           country: country,
           latlng: coordinates,
           filter: filter,
-        });
-        setFileInput(null);
-        setTextInput("");
-        setAddress("");
+        })
+          .then(() => {
+            setFileInput(null);
+            setTextInput("");
+            setAddress("");
+            setNewPostCreated(true);
+          })
+          .then(() => {});
       });
     });
   };
-
-
-    const writeData = (e) => {
-    e.preventDefault();
-    set(databaseRef(db, `country-list/` + country), {
-      placeholder: "basically nothing",
-    });
-		const imageRef = storageRef(
-			storage,
-			`${IMAGES_FOLDER_NAME}/${auth.currentUser.displayName}-${auth.currentUser.uid}/${fileInput.name}`
-		);
-		uploadBytes(imageRef, fileInput).then(() => {
-			getDownloadURL(imageRef).then((url) => {
-				const postListRef = databaseRef(db, POSTS_FOLDER_NAME);
-				const newPostRef = push(postListRef);
-				console.log(newPostRef._path.pieces_[1]);
-				const pathToPostId = newPostRef._path.pieces_[1];
-				set(newPostRef, {
-					imageLink: url,
-					text: textInput,
-					uid: auth.currentUser.uid,
-					username: auth.currentUser.displayName,
-					date: new Date().toISOString(),
-					postId: pathToPostId,
-					location: address,
-					country: country,
-					latlng: coordinates,
-					filter: filter,
-				}).then(()=>{
-				setFileInput(null);
-				setTextInput("");
-				setAddress("");
-				setNewPostCreated(true)
-				}).then(()=>{
-
-				})
-			});
-		});
-	};
-
 
   const handleSelect = async (value) => {
     const results = await geocodeByAddress(value);
@@ -119,7 +104,7 @@ function ModalCreatePost(props) {
   return (
     <Modal
       {...props}
-      size="md"
+      size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
@@ -129,12 +114,44 @@ function ModalCreatePost(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <form onSubmit={writeData}>
-          <input
-            type="text"
+        <form>
+          <Dropdown>
+            <Dropdown.Toggle
+              className="btn-base btn-create-post-filter"
+              id="dropdown-basic"
+            >
+              Filter
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => setFilter("Tips")}>
+                Tips
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => setFilter("Event")}>
+                Event
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => setFilter("Scam Alert")}>
+                Scam Alert
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => setFilter("Hostel Recommendation")}>
+                Hostel Recommendation
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => setFilter("Tour Recommendation")}>
+                Tour Recommendation
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => setFilter("Food Recommendation")}>
+                Food Recommendation
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => setFilter("")}>None</Dropdown.Item>
+            </Dropdown.Menu>
+            <span>{filter}</span>
+          </Dropdown>
+          <textarea
+            // type="text"
             value={textInput}
             className="modal-text"
-            placeholder="Share what's new in your life"
+            placeholder="What's new?"
+
             onChange={(e) => setTextInput(e.target.value)}
           />
           <div className="input-place-and-file-row">
@@ -206,12 +223,27 @@ function ModalCreatePost(props) {
               style={{ display: "none" }}
             />
           </div>
-
-          <button type="submit" disabled={!textInput} className="post-btn">
-            Post
-          </button>
         </form>
       </Modal.Body>
+      <div className="flex-center-row" >
+				<Image
+					className="post-img-preview"
+					src={preview? preview: null}
+					rounded
+					fluid
+				/>
+			</div>
+      <Modal.Footer>
+        <button
+          type="submit"
+          className="post-btn"
+          onClick={writeData}
+          disabled={!textInput}
+        >
+          Post
+        </button>
+      </Modal.Footer>
+
     </Modal>
   );
 }
