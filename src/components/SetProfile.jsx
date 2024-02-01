@@ -144,7 +144,7 @@ export default function SetProfile(props) {
 			<div className="logo-container">
 				<Image
 					className="stumble-logo"
-					src="src/assets/images/stumble-logo.png"
+					src="https://firebasestorage.googleapis.com/v0/b/stumble-a6ed0.appspot.com/o/assets%2Fstumble-logo.webp?alt=media&token=72a22d6a-4de1-4a2c-b0bc-08fe0f660c8f"
 					// onClick={() => navigate("/")}
 				/>
 			</div>
