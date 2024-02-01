@@ -4,7 +4,6 @@ import Home from "./components/Home";
 import ModalCreatePost from "./components/ModalCreatePost";
 import FullPost from "./components/FullPost";
 import Profile from "./components/Profile";
-import Playground from "./components/Playground";
 import SetProfile from "./components/SetProfile";
 import Country from "./components/Country";
 import "./App.css";
@@ -58,7 +57,13 @@ function App() {
 	const router = createBrowserRouter([
 		{
 			path: "/",
-			element: <Home modalShow={modalShow} setModalShow={setModalShow} toastConfig={toastConfig}/>,
+			element: (
+				<Home
+					modalShow={modalShow}
+					setModalShow={setModalShow}
+					toastConfig={toastConfig}
+				/>
+			),
 		},
 		{
 			path: "/welcome",
@@ -119,17 +124,14 @@ function App() {
 				{
 					path: `:changedCountry`,
 					element: (
-						<Country toastConfig={toastConfig} modalShow={modalShow} setModalShow={setModalShow} />
+						<Country
+							toastConfig={toastConfig}
+							modalShow={modalShow}
+							setModalShow={setModalShow}
+						/>
 					),
 				},
 			],
-		},
-		{
-			path: "/playground",
-			//purely for building and debugging
-			element: (
-				<Playground setProfileUid={setProfileUid} profileUid={profileUid} />
-			),
 		},
 	]);
 	return (
@@ -152,3 +154,6 @@ function App() {
 }
 
 export default App;
+
+
+//TODO: REMOVE DUPLICATE CODE
